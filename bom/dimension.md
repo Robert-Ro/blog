@@ -1,0 +1,2 @@
+- ![clientWidth/clientHeight](https://developer.mozilla.org/@api/deki/files/185/=Dimensions-client.png), clientWidth/clientHeight
+- ![offsetWidth/offsetHeight](https://developer.mozilla.org/@api/deki/files/186/=Dimensions-offset.png), offsetWidth/offsetHeight

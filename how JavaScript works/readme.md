@@ -1,0 +1,41 @@
+- call stack
+- execution context
+- engine
+  - v8
+  - JavaScriptCore
+- browser
+  - engine
+  -
+- memory manament
+  - virtual memory
+  - stack
+  - heap
+- code
+  - source code
+  - bytecode
+  - machine code
+  - object code
+- languages
+  - lower-level language
+    - C
+    - assembly language
+  - high-level language
+    - JavaScript
+- compiler
+- linker
+- computer
+  - cpu
+    - command architecture
+      - x86-64
+      - ARM64
+    - register
+    - cache
+  - RAM
+  - harddisk
+
+## Reference
+
+- [Machine_code](https://en.wikipedia.org/wiki/Machine_code)
+- [Bytecode](https://en.wikipedia.org/wiki/Bytecode)
+- [Assembly_language](https://en.wikipedia.org/wiki/Assembly_language)
+- [Assembly code vs Machine code vs Object code?](https://stackoverflow.com/questions/466790/assembly-code-vs-machine-code-vs-object-code)
