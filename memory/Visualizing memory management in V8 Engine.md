@@ -109,9 +109,36 @@ Click on the slides and move forward/backward using arrow keys to see the proces
 So we saw how minor GC reclaims space from the young generation and keeps it compact. It is a stop-the-world process but *it’s so fast* and *efficient* that *it is negligible* most of the time. Since this process doesn’t scan objects in the “old space” for any reference in the “new space” it uses a register of all pointers from old space to new space. This is recorded to the store buffer by a process called [write barriers](https://www.memorymanagement.org/glossary/w.html#term-write-barrier).
 ### Major GC
 > Mark-Sweep-Compact algorithm
+This type of GC keeps the **old generation space** compact and clean. **This is triggered when V8 decides there is not enough old space, based on a dynamically computed limit, as it gets filled up from minor GC cycles**.
+
+The Scavenger algorithm is perfect for small data size but is impractical for large heap, as the old space, as it has memory overhead and hence major GC is done using the **Mark-Sweep-Compact** algorithm. It uses a **tri-color**(white-grey-black) marking system. Hence major GC is a three-step process and the third step is executed depending on a fragmentation heuristic.
+
+![Mark-Sweep-Compact](../assets/image/rcjSZ0T.gif)
+
+Three Steps:
+- **Marking**: First step, common for both algorithms, where the garbage collector identifies which objects are in use and which ones are not in use. The objects in use or reachable from GC roots(Stack pointers) recursively are marked as alive. It’s technically a depth-first-search of the heap which can be considered as a directed graph
+- **Sweeping**: The garbage collector traverses the heap and makes note of the memory address of any object that is not marked alive. This space is now marked as free in the free list and can be used to store other objects
+- **Compacting**: After sweeping, if required, all the survived objects will be moved to be together. This will decrease fragmentation and increase the performance of allocation of memory to newer objects
+
+This type of GC is also referred to as *stop-the-world GC* as they introduce pause-times in the process while performing GC. **To avoid this V8 uses techniques like**:
+![](../assets/image/09.svg)
+- **Incremental GC**: GC is done in multiple incremental steps instead of one.
+- **Concurrent marking**: Marking is done concurrently using *multiple helper threads* without affecting the main JavaScript thread. Write barriers are used to keep track of new references between objects that JavaScript creates while the helpers are marking concurrently.
+- **Concurrent sweeping/compacting**: Sweeping and compacting are done in helper threads concurrently without affecting the main JavaScript thread.
+- **Lazy sweeping**. Lazy sweeping involves delaying the deletion of garbage in pages until memory is required.
+
+**Let us look at the major GC process**:
+1. Let us assume that many minor GC cycles have passed and the old space is almost full and V8 decides to trigger a “Major GC”
+2. Major GC recursively traverses the object graph starting from stack pointers to mark *objects that are used as alive*(Used memory) and *remaining objects as garbage*(Orphans) in the old space. This is done using *multiple concurrent helper threads* and each helper follows a pointer. This does not affect the main JS thread.
+3. When concurrent marking is done or if the memory limit is reached the GC does a mark finalization step using the main thread. **This introduces a small pause time**.
+4. Major GC now marks all orphan object’s memory as free using *concurrent sweep threads*. Parallel compaction tasks are also triggered to move related blocks of memory to the same page to avoid fragmentation. Pointers are updated during these steps.
 
 ## Conclusion
-This post should give you an overview of the **V8 memory structure** and **memory management**. This is not exhaustive, there are a lot *more advanced concepts* and you can learn about them from [v8.dev](https://v8.dev). But for most `JS/WebAssembly` developers, this level of information would be sufficient and I hope it helps you write better code, considering these in mind, for more performant applications, and keeping these in mind would help you to avoid the next memory leak issue you might encounter otherwise.
+This post should give you an overview of the **V8 memory structure** and **memory management**. This is not exhaustive面面俱到, there are a lot *more advanced concepts* and you can learn about them from [v8.dev](https://v8.dev).
+
+But for most `JS/WebAssembly` developers, this level of information would be sufficient and I hope it
+- helps you write better code, considering these in mind, for more performant applications, and
+- keeping these in mind would help you to avoid the next memory leak issue you might encounter otherwise.
 
 ## References
 - [v8.dev/blog/trash-talk](https://v8.dev/blog/trash-talk)
