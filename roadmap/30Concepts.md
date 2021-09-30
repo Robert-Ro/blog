@@ -1,0 +1,35 @@
+- Call Stack
+- Primitive Types
+- Value Types and Reference Types
+- Implicit, Explicit, Nominal, Structuring and Duck Typing
+- == vs === vs typeof
+- Function Scope, Block Scope and Lexical Scope
+- Expression vs Statement
+- IIFE, Module and Namespaces
+- Message Queue and Event Loop
+- setTimeout, Setinterval and RequestAnimationFrame
+- JavaScript Engines
+- Bitwise Operators, Type Arrays and Array Buffers
+- DOM and Layout Trees
+- Factories and Classes
+- this, call, apply and bind
+- new, Constructor, instanceof and Instances
+- Prototypes Inheritance and Prototype Chain
+- Object.create and Object.assign
+- map, reduce, filter
+- Pure Functions, Side Effects and State Mutaion
+- Closures
+- High Order Functions
+- Recursion
+- Collections and Generators
+- Promises
+- async/await
+- Data Structures
+- Expensive Operation and Big O Notation
+- Algorithms
+- Inheritance, Polymorphism and Code Reuse
+- Parital Applications, Currying, Compose and Pipe
+- Design Patterns
+- Clean Code
+
+[link](https://github.com/leonardomso/33-js-concepts)
