@@ -35,7 +35,7 @@
 - [Unshift](./easy/3060.md)
 - [Parameters](./easy/3312.md)
 ## medium
-- [Get Return Type](./medium/2.md)
+- [Get Return Type](./medium/2.ts)
 ## Reference
 
 - [repo](https://github.com/type-challenges/type-challenges/)
