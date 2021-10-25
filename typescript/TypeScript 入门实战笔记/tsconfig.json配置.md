@@ -64,13 +64,13 @@ TypeScript 兼容 JavaScript 的代码，默认选项允许相当大的灵活性
 
 strict 为 true 时，一般我们会开启以下编译配置。
 
-- alwaysStrict：保证编译出的文件是 ECMAScript 的严格模式，并且每个文件的头部会添加 'use strict'。
-- strictNullChecks：更严格地检查 null 和 undefined 类型，比如数组的 find 方法的返回类型将是更严格的 T | undefined。
-- strictBindCallApply：更严格地检查 call、bind、apply 函数的调用，比如会检查参数的类型与函数类型是否一致。
-- strictFunctionTypes：更严格地检查函数参数类型和类型兼容性。
-- strictPropertyInitialization：更严格地检查类属性初始化，如果类的属性没有初始化，则会提示错误。
-- noImplicitAny：禁止隐式 any 类型，需要显式指定类型。TypeScript 在不能根据上下文推断出类型时，会回退到 any 类型。
-- noImplicitThis：禁止隐式 this 类型，需要显示指定 this 的类型。
+- `alwaysStrict`：保证编译出的文件是 ECMAScript 的严格模式，并且每个文件的头部会添加 'use strict'。
+- `strictNullChecks`：更严格地检查 null 和 undefined 类型，比如数组的 find 方法的返回类型将是更严格的 T | undefined。
+- `strictBindCallApply`：更严格地检查 call、bind、apply 函数的调用，比如会检查参数的类型与函数类型是否一致。
+- `strictFunctionTypes`：更严格地检查函数参数类型和类型兼容性。
+- `strictPropertyInitialization`：更严格地检查类属性初始化，如果类的属性没有初始化，则会提示错误。
+- `noImplicitAny`：禁止隐式 any 类型，需要显式指定类型。TypeScript 在不能根据上下文推断出类型时，会回退到 any 类型。
+- `noImplicitThis`：禁止隐式 this 类型，需要显示指定 this 的类型。
 
 > 注意：将 `strict` 设置为 `true`，开启严格模式，是本课程极力推荐的最佳实践。
 
@@ -78,10 +78,10 @@ strict 为 true 时，一般我们会开启以下编译配置。
 
 TypeScript 支持一些额外的代码检查，在某种程度上介于编译器与静态分析工具之间。如果你想要更多的代码检查，可能更适合使用 ESLint 这类工具。
 
-- noImplicitReturns：禁止隐式返回。如果代码的逻辑分支中有返回，则所有的逻辑分支都应该有返回。
-- noUnusedLocals：禁止未使用的本地变量。如果一个本地变量声明未被使用，则会抛出错误。
-- noUnusedParameters：禁止未使用的函数参数。如果函数的参数未被使用，则会抛出错误。
-- noFallthroughCasesInSwitch：禁止 switch 语句中的穿透的情况。开启 noFallthroughCasesInSwitch 后，如果 switch 语句的流程分支中没有 break 或 return ，则会抛出错误，从而避免了意外的 swtich 判断穿透导致的问题。
+- `noImplicitReturns`：禁止隐式返回。如果代码的逻辑分支中有返回，则所有的逻辑分支都应该有返回。
+- `noUnusedLocals`：禁止未使用的本地变量。如果一个本地变量声明未被使用，则会抛出错误。
+- `noUnusedParameters`：禁止未使用的函数参数。如果函数的参数未被使用，则会抛出错误。
+- `noFallthroughCasesInSwitch`：禁止 switch 语句中的穿透的情况。开启 `noFallthroughCasesInSwitch` 后，如果 switch 语句的流程分支中没有 break 或 return ，则会抛出错误，从而避免了意外的 swtich 判断穿透导致的问题。
 
 ### 模块解析
 
@@ -89,9 +89,9 @@ TypeScript 支持一些额外的代码检查，在某种程度上介于编译器
 
 #### moduleResolution
 
-moduleResolution 用来指定模块解析策略。
+`moduleResolution` 用来指定模块解析策略。
 
-module 配置值为 AMD、UMD、System、ES6 时，moduleResolution 默认为 classic，否则为 node。_在目前的新代码中，我们一般都是使用 node，而不使用 classic_。
+`module` 配置值为 `AMD`、`UMD`、`System`、`ES6` 时，`moduleResolution` 默认为 classic，否则为 node。_在目前的新代码中，我们一般都是使用 node，而不使用 classic_。
 
 具体的模块解析策略，你可以查看[模块解析策略](https://www.typescriptlang.org/docs/handbook/module-resolution.html#module-resolution-strategies)。
 
@@ -120,7 +120,7 @@ paths 指的是**路径设置，用来将模块路径重新映射到相对于 ba
 
 #### rootDirs
 
-rootDirs 可以指定多个目录作为根目录。这将允许编译器在这些“虚拟”目录中解析相对应的模块导入，就像它们被合并到同一目录中一样。
+`rootDirs` 可以指定多个目录作为根目录。这将允许编译器在这些“虚拟”目录中解析相对应的模块导入，就像它们被合并到同一目录中一样。
 
 #### typeRoots
 
