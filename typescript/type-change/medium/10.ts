@@ -20,7 +20,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type TupleToUnion<K extends keyof T> = any;
+type TupleToUnion<T> = T extends any[] ? T[number] : never;
 
 /* _____________ Test Cases _____________ */
 import { Equal, Expect } from "@type-challenges/utils";

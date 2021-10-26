@@ -12,10 +12,10 @@
 
 /* _____________ Your Code Here _____________ */
 
-type CamelCase<S> = S extends `${infer R}-${infer T}-${infer V}`
-  ? `${R}${Capitalize<T>}${Capitalize<V>}`
-  : S extends `${infer R}-${infer T}`
-  ? `${R}${Capitalize<T>}`
+type CamelCase<S extends string> = S extends `${infer L}-${infer R}`
+  ? R extends Capitalize<R>
+    ? `${L}-${CamelCase<R>}`
+    : `${L}${CamelCase<Capitalize<R>>}`
   : S;
 
 /* _____________ Test Cases _____________ */
@@ -26,7 +26,7 @@ type cases = [
   Expect<Equal<CamelCase<"foo-Bar-Baz">, "foo-Bar-Baz">>,
   Expect<Equal<CamelCase<"foo-bar">, "fooBar">>,
   Expect<Equal<CamelCase<"foo_bar">, "foo_bar">>,
-  // Expect<Equal<CamelCase<"foo--bar----baz">, "foo-Bar---Baz">>,
+  Expect<Equal<CamelCase<"foo--bar----baz">, "foo-Bar---Baz">>,
   Expect<Equal<CamelCase<"a-b-c">, "aBC">>,
   Expect<Equal<CamelCase<"a-b-c-">, "aBC-">>,
   Expect<Equal<CamelCase<"ABC">, "ABC">>,
