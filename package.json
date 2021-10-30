@@ -1,5 +1,6 @@
 {
   "devDependencies": {
-    "@type-challenges/utils": "^0.1.1"
+    "@type-challenges/utils": "^0.1.1",
+    "standard": "^16.0.4"
   }
 }
