@@ -23,13 +23,5 @@ export const compare = (iterator1: Iterator, iterator2: Iterator) => {
     iterator1.next();
     iterator2.next();
   }
-  console.log("iterator1与iterator2相等");
+  return true;
 };
-
-const iterator1 = new Iterator([1, 2, 3]);
-const iterator2 = new Iterator([1, 2, 3]);
-compare(iterator1, iterator2);
-// const iterator3 = new Iterator([1, 2, 3, 4]);
-// const iterator4 = new Iterator([1, 2, 3]);
-// compare(iterator3, iterator4);
-
