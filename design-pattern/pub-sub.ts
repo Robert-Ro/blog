@@ -1,69 +1,86 @@
-interface ISub {
-  fn: () => void;
-  update(): void;
-}
-export class Sub implements ISub {
-  constructor(fn: () => void) {
-    this.fn = fn;
-  }
-  fn: () => void;
-  update(): void {
-    this.fn();
-  }
-}
-type SubFn = () => any;
-type IKey = "*" | string;
+/**
+ * 事件key名，支持通配符和特定字符
+ * *: 所有的事件
+ */
+type EventKey = "*" | string;
+/**
+ * 订阅者函数类型
+ * FIXME
+ */
+type Sub = (...args: unknown[]) => unknown;
 /**
  * 支持先发布后订阅
  */
-interface IPub<T extends SubFn> {
-  emit(key: IKey): void;
-  on(key: IKey, fn: T): void;
-  create(ns: string): this;
+interface IPub<T extends Sub> {
+  emit(key: EventKey, data: unknown): unknown;
+  on(key: EventKey, fn: T, last?: boolean): void;
+  one(key: EventKey, fn: T, last?: boolean): void;
   clear(): void;
-  off(key: IKey, fn: T): void;
-  subSize(): number;
+  off(key: EventKey, fn: T): void;
 }
 
-export class Pub<T extends SubFn> implements IPub<T> {
-  private namespaces: string[] = [];
-  private namespace?: string;
-  private subsribers: { [key: IKey]: T[] } = {};
-  private offlineStack?: T[] = [];
+export class Pub<T extends Sub> implements IPub<T> {
+  private subsribers: Map<string, T[]> = new Map();
+  private offlineStack: ((key: EventKey, fn: T) => unknown)[] | null = [];
+
   /**
    * 发布事件
    * 支持先发布后订阅，发布的事件只触发一次：事件触发时还未有观察者，因此先把触发的事件存储起来
    * @param key
    * @returns
    */
-  emit(key: IKey): void {
-    let fns = this.subsribers[key];
+  emit(key: EventKey, data: unknown): unknown {
+    // when emit a event, all subs will be notified
+    let fns: T[] = [];
+    // 获取全部的观察者
     if (key === "*") {
-      const keys = Object.keys(this.subsribers);
-      fns = keys.reduce((prev: T[], key) => {
-        prev = prev.concat(this.subsribers[key]);
-        return prev;
-      }, []);
+      fns = [];
+      this.subsribers.forEach((_fns) => {
+        fns.push(..._fns);
+      });
+    } else {
+      fns = this.subsribers.get(key) || [];
     }
-    if (!fns || fns.length === 0) return;
-    if (this.offlineStack) {
-      this.offlineStack.push(...fns);
+
+    if (fns.length === 0) {
+      // 无观察者，存储离线消息
+      if (this.offlineStack) {
+        const _fn = function (_key: EventKey, fn: T) {
+          if (_key === key) {
+            return fn(data);
+          }
+        };
+        this.offlineStack!.push(_fn);
+      }
+    } else {
+      // 有观察者，通知观察者执行
+      fns.forEach((fn) => fn.call(null, data));
     }
-    fns.forEach((fn) => fn());
+    return;
   }
-  on(key: IKey, fn: T): void {
-    if (!this.subsribers[key]) {
-      this.subsribers[key] = [];
+  /**
+   * 添加监听者
+   * 触发离线消息，离线模式：只取最新一个或者全部
+   * @param key
+   * @param fn
+   */
+  on(key: EventKey, fn: T, last?: boolean): void {
+    if (!this.subsribers.get(key)) {
+      this.subsribers.set(key, []);
     }
-    this.subsribers[key].push(fn);
+    this.subsribers.get(key)!.push(fn);
+    if (last && this.offlineStack) {
+      const lastItem = this.offlineStack.pop();
+      lastItem && lastItem(key, fn);
+    } else {
+      // 离线消息根据key触发
+      this.offlineStack?.forEach((_fn) => _fn(key, fn));
+    }
+    this.offlineStack = null;
   }
-  create(ns: string): this {
-    this.namespaces.push(ns);
-    this.namespace = ns;
-    return this;
-  }
-  off(key: IKey, fn: T): void {
-    const fns = this.subsribers[key];
+
+  off(key: EventKey, fn: T): void {
+    const fns = this.subsribers.get(key);
     if (!fns) {
       return;
     }
@@ -71,16 +88,12 @@ export class Pub<T extends SubFn> implements IPub<T> {
     if (index === -1) {
       return;
     }
-    this.subsribers[key].splice(index, 1);
+    (this.subsribers.get(key) || []).splice(index, 1);
+  }
+  one(key: string, fn: T, last?: boolean): void {
+    // TODO
   }
   clear(): void {
-    this.subsribers = {};
-  }
-  subSize() {
-    const keys = Object.keys(this.subsribers);
-    return keys.reduce((prev, key) => {
-      prev += this.subsribers[key].length;
-      return prev;
-    }, 0);
+    this.subsribers.clear();
   }
 }

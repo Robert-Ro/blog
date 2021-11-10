@@ -127,6 +127,7 @@ var Event = (function () {
         event.listen(key, fn, last);
       },
       trigger: function () {
+        debugger;
         var event = this.create();
         event.trigger.apply(this, arguments);
       },
@@ -135,3 +136,24 @@ var Event = (function () {
 
   return Event;
 })();
+
+Event.trigger("click", 1);
+
+Event.listen("click", function (a) {
+  console.log(a); // 输出：1
+});
+
+
+/************** 使用命名空间 ********************/
+
+// Event.create("namespace1").listen("click", function (a) {
+//   console.log(a); // 输出：1
+// });
+
+// Event.create("namespace1").trigger("click", 1);
+
+// Event.create("namespace2").listen("click", function (a) {
+//   console.log(a); // 输出：2
+// });
+
+// Event.create("namespace2").trigger("click", 2);
