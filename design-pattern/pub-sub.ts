@@ -29,10 +29,10 @@ export class Pub<T extends SubFn> implements IPub<T> {
   private namespaces: string[] = [];
   private namespace?: string;
   private subsribers: { [key: IKey]: T[] } = {};
-  private unResolveEvents: string[] = [];
+  private offlineStack?: T[] = [];
   /**
    * 发布事件
-   * 支持先发布后订阅，发布的事件只触发一次
+   * 支持先发布后订阅，发布的事件只触发一次：事件触发时还未有观察者，因此先把触发的事件存储起来
    * @param key
    * @returns
    */
@@ -46,6 +46,9 @@ export class Pub<T extends SubFn> implements IPub<T> {
       }, []);
     }
     if (!fns || fns.length === 0) return;
+    if (this.offlineStack) {
+      this.offlineStack.push(...fns);
+    }
     fns.forEach((fn) => fn());
   }
   on(key: IKey, fn: T): void {
