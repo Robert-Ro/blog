@@ -3,8 +3,11 @@
 ## 不同版本
 
 ### 0.x
+
 #### 0.60
+
 MVVM 框架，无 Virtual DOM 设计，事件驱动
+#### 0.12.5
 ### 1.x
 
 ### 2.x
@@ -14,10 +17,6 @@ MVVM 框架，无 Virtual DOM 设计，事件驱动
 - 前端项目引入`full commonjs`
 
 ## 生态
-
-### vue-office
-
-- vue-xx
 
 ### misc
 
