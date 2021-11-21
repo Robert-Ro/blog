@@ -35,3 +35,9 @@
   - `updated`: 设置标记仅第一次将`prop value`赋值给`editor`(不然的话会造成编辑区闪动)，更新当前光标位置
 - 编辑器组件更新 hook：设置标记仅第一次对`editor`赋值，更新当前光标位置
 - 性能优化：使用`this.$nextTick`更新光标位置
+
+### Markdown图片预览区域页面闪动解决办法
+关闭`chrome devtool`的`disable cache`即可
+
+### 优化工具栏
+ [参考](https://github.com/code-farmer-i/vue-markdown-editor)
