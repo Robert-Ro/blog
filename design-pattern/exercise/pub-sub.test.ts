@@ -1,6 +1,6 @@
 import { Pub } from "./pub-sub";
 
-const subSize = (subsribers: Map<string, T[]>) => {
+const subSize = <T>(subsribers: Map<string, T[]>) => {
   const keys = Object.keys(subsribers);
   return keys.reduce((prev, key) => {
     prev += (subsribers.get(key) || []).length;
