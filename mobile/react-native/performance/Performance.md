@@ -2,11 +2,13 @@
 
 > 优化加载的模块
 
-## Loading JavaScript​
+**Show Perf Monitor**
+![](https://reactnative.dev/assets/images/PerfUtil-38a2ddbf1777887d70563a644c72aa64.png)
+## Loading JavaScript
 
 Before react-native can execute JS code, _that code must be loaded into memory and parsed_. With a standard bundle if you load a 50mb bundle, all 50mb must be loaded and parsed before any of it can be executed. The optimization behind RAM bundles is that you can **load only the portion** of the 50mb **that you actually need at startup**, and _progressively load more of the bundle as those sections are needed_.
 
-## Inline Requires​ 懒执行
+## Inline Requires 懒执行
 
 Inline requires delay the requiring of a module or file until that file is actually needed. A basic example would look like this:
 
@@ -119,6 +121,6 @@ const config = {
 module.exports = config;
 ```
 
-## Test and Measure Improvements​
+## Test and Measure Improvement
 
 You should now be ready to build your app using the RAM format and inline requires. Make sure you measure the before and after startup times.
