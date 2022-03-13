@@ -40,7 +40,9 @@
                  // concated.features = worldJson.features.concat(chinaJson.features);
                  echarts.registerMap('world', worldJson);
 
-                var chart = echarts.init(document.getElementById('main'));
+                var chart = echarts.init(document.getElementById('main'), null, {
+                  devicePixelRatio: 1
+                });
 
                 let data4 = option.series[4].data;
                 let data5 = option.series[5].data;
