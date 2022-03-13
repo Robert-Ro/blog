@@ -21,14 +21,26 @@
           }
 
           $.get('./options.json', function(option){
+            // 动的部分和不动的部分分层 @https://echarts.apache.org/zh/option.html#geo.zlevel
+            // 设置不同的zlevel
+            option.geo.zlevel = 1
+            option.series.forEach(( s, index ) => {
+              s.zlevel = index + 2
+              if(s.effect){
+                s.effect.zlevel = index + option.series.length + 2;
+              }
+              if(s.rippleEffect){
+                s.rippleEffect.zlevel = index + option.series.length + 2;
+              }
+
+            })
+            console.log(option)
             $.get('https://unpkg.com/echarts@4.1.0/map/json/world.json', function (worldJson) {
                  // let concated = worldJson;
                  // concated.features = worldJson.features.concat(chinaJson.features);
                  echarts.registerMap('world', worldJson);
 
-                var chart = echarts.init(document.getElementById('main'), null, {
-                  devicePixelRatio: 1
-                });
+                var chart = echarts.init(document.getElementById('main'));
 
                 let data4 = option.series[4].data;
                 let data5 = option.series[5].data;
