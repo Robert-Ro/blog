@@ -1,0 +1,2 @@
+# Performance
+- show fps
