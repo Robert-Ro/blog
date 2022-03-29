@@ -11,6 +11,7 @@ const routes = [
   { path: "/chart", component: () => import("@/views/charts") },
   { path: "/slot", component: () => import("@/views/slot") },
   { path: "/babel", component: () => import("@/views/babel") },
+  { path: "/directive", component: () => import("@/views/directive") },
 ];
 
 // 3. 创建 router 实例，然后传 `routes` 配置

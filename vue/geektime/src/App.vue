@@ -4,6 +4,7 @@
       <router-link to="chart">chart</router-link>
       <router-link to="slot">slot</router-link>
       <router-link to="babel">babel</router-link>
+      <router-link to="directive">directive</router-link>
     </aside>
     <main class="main">
       <router-view></router-view>
