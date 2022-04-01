@@ -13,6 +13,9 @@
   },
   "scripts": {
     "test": "jest",
-    "webpack":"webpack --config webpack/webpack.config.js"
+    "webpack": "webpack --config webpack/webpack.config.js"
+  },
+  "dependencies": {
+    "vue": "2"
   }
 }
