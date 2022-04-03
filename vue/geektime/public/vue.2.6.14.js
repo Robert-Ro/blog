@@ -4,10 +4,12 @@
  * Released under the MIT License.
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global = global || self, global.Vue = factory());
-}(this, function () {
+  typeof exports === "object" && typeof module !== "undefined"
+    ? (module.exports = factory())
+    : typeof define === "function" && define.amd
+    ? define(factory)
+    : ((global = global || self), (global.Vue = factory()));
+})(this, function () {
   ("use strict");
 
   /*  */
@@ -1884,8 +1886,13 @@
     });
   }
 
-  /*  */
-
+  /**
+   * 统一处理函数
+   * @param {Error} err
+   * @param {Vue} vm
+   * @param {string} info
+   * @returns
+   */
   function handleError(err, vm, info) {
     // Deactivate deps tracking while processing error handler to avoid possible infinite rendering.
     // See: https://github.com/vuejs/vuex/issues/1505
@@ -2329,8 +2336,13 @@
     }
   }
 
-  /*  */
-
+  /**
+   * 合并vnode钩子函数
+   * NOTE 将一个钩子函数与虚拟节点现有的钩子函数合并到一起，这样当虚拟DOM触发钩子函数时，新增的钩子函数也会执行？
+   * @param {*} def
+   * @param {string} hookKey
+   * @param {Function} hook
+   */
   function mergeVNodeHook(def, hookKey, hook) {
     if (def instanceof VNode) {
       def = def.data.hook || (def.data.hook = {});
@@ -6938,14 +6950,18 @@
       updateDirectives(vnode, emptyNode);
     },
   };
-
+  /**
+   * 更新指令
+   * @param {import('vue').VNode} oldVnode
+   * @param {import('vue').VNode} vnode
+   */
   function updateDirectives(oldVnode, vnode) {
     if (oldVnode.data.directives || vnode.data.directives) {
       _update(oldVnode, vnode);
     }
   }
   /**
-   * 指令更新
+   * 指令更新函数
    * @param {import('vue').VNode} oldVnode
    * @param {import('vue').VNode} vnode
    */
@@ -6959,12 +6975,12 @@
     var newDirs = normalizeDirectives$1(vnode.data.directives, vnode.context);
 
     /**
-     * 待插入的指令
+     * 待执行的插入回调函数数组
      * @type {import('vue').VNodeDirective[]}
      */
     var dirsWithInsert = [];
     /**
-     * 待更新的指令
+     * 延迟执行的回调函数数组
      * @type {import('vue').VNodeDirective[]}
      */
     var dirsWithPostpatch = [];
@@ -6997,6 +7013,7 @@
         }
       };
       if (isCreate) {
+        // 确保指令的inserted方法再被绑定元素插入到父节点后再调用
         mergeVNodeHook(vnode, "insert", callInsert);
       } else {
         callInsert();
@@ -7030,8 +7047,8 @@
    * 标准化指令
    * 为指令添加修饰符和def属性
    * @param {import('vue').VNodeDirective[]} dirs
-   * @param {*} vm
-   * @returns
+   * @param {Vue} vm
+   * @returns {Object}
    */
   function normalizeDirectives$1(dirs, vm) {
     var res = Object.create(null);
@@ -7047,10 +7064,21 @@
         dir.modifiers = emptyModifiers;
       }
       res[getRawDirName(dir)] = dir;
+      //读取指令的hook配置
       dir.def = resolveAsset(vm.$options, "directives", dir.name, true);
     }
     // $flow-disable-line
     return res;
+    `
+    {
+      [dir]: {
+        def: {inserted: f, ...hooks},
+        modifiers: {},
+        name: "focus",
+        rawName: "v-focus"
+      }
+    }
+    `;
   }
 
   /**
@@ -7065,13 +7093,21 @@
       dir.rawName || dir.name + "." + Object.keys(dir.modifiers || {}).join(".")
     );
   }
-
+  /**
+   * 调用指令钩子函数
+   * @param {import('vue').VNodeDirective} dir
+   * @param {Function} hook
+   * @param {import('vue').VNode} vnode
+   * @param {import('vue').VNode} oldVnode
+   * @param {boolean} isDestroy 新旧节点存在与否，判断是否需要销毁
+   */
   function callHook$1(dir, hook, vnode, oldVnode, isDestroy) {
     var fn = dir.def && dir.def[hook];
     if (fn) {
       try {
         fn(vnode.elm, dir, vnode, oldVnode, isDestroy);
       } catch (e) {
+        // 统一上报错误
         handleError(
           e,
           vnode.context,
@@ -12742,4 +12778,4 @@
   Vue.compile = compileToFunctions;
 
   return Vue;
-}));
+});

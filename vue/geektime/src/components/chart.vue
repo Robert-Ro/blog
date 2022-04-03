@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import * as echarts from "echarts";
+import { init }from "echarts";
 import { addListener, removeListener } from "resize-detector";
 import debounce from "lodash.debounce";
 
@@ -43,7 +43,7 @@ export default {
       this.chart.resize();
     },
     renderChart() {
-      this.chart = echarts.init(this.$refs.chartDom);
+      this.chart =  init(this.$refs.chartDom);
       this.chart.setOption(this.options);
     },
   },
