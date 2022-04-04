@@ -1,0 +1,14 @@
+diff --git a/node_modules/ant-design-vue/es/vc-table/src/TableCell.js b/node_modules/ant-design-vue/es/vc-table/src/TableCell.js
+index fa9742e..c863d79 100644
+--- a/node_modules/ant-design-vue/es/vc-table/src/TableCell.js
++++ b/node_modules/ant-design-vue/es/vc-table/src/TableCell.js
+@@ -130,7 +130,7 @@ export default {
+     return h(
+       BodyCell,
+       _mergeJSXProps([{ 'class': cellClassName }, tdProps]),
+-      [indentText, expandIcon, text]
++      [text, indentText, expandIcon]
+     );
+   }
+ };
+\ No newline at end of file

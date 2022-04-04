@@ -6,6 +6,7 @@
       <router-link to="babel">babel</router-link>
       <router-link to="directive">directive</router-link>
       <router-link to="date-fns">date-fns</router-link>
+      <router-link to="antdv">antdv</router-link>
     </aside>
     <main class="main">
       <router-view></router-view>

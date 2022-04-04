@@ -5,6 +5,11 @@ module.exports = defineConfig({
   configureWebpack: {
     externals:{
       vue: 'Vue'
-    }
+    },
+    // pluginOptions: {
+    // svg: {
+    //   sprite: {}, // Pass options to svg-sprite-loader
+    // }
+  // }
   }
 });

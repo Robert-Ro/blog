@@ -13,6 +13,7 @@ const routes = [
   { path: "/babel", component: () => import("@/views/babel") },
   { path: "/directive", component: () => import("@/views/directive") },
   { path: "/date-fns", component: () => import("@/views/date-fns") },
+  { path: "/antdv", component: () => import("@/views/antdv") },
 ];
 
 // 3. 创建 router 实例，然后传 `routes` 配置
