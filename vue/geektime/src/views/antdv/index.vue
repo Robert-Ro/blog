@@ -33,6 +33,28 @@
           <a> More <a-icon type="down" /> </a>
         </a-dropdown>
       </span>
+      <a-table
+        slot="expandedRowRender"
+        slot-scope="text"
+        :columns="innerinnerColumns"
+        :data-source="innerinnerData"
+        :pagination="false"
+      >
+        <span slot="status" slot-scope="text">
+          <a-badge status="success" />Finished
+        </span>
+        <span slot="operation" slot-scope="text" class="table-operation">
+          <a>Pause</a>
+          <a>Stop</a>
+          <a-dropdown>
+            <a-menu slot="overlay">
+              <a-menu-item> Action 1 </a-menu-item>
+              <a-menu-item> Action 2 </a-menu-item>
+            </a-menu>
+            <a> More <a-icon type="down" /> </a>
+          </a-dropdown>
+        </span>
+      </a-table>
     </a-table>
   </a-table>
 </template>
@@ -110,6 +132,8 @@ export default {
       columns,
       innerColumns,
       innerData,
+      innerinnerColumns: [...innerColumns],
+      innerinnerData: [...innerData],
     };
   },
   computed: {

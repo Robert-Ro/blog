@@ -1,0 +1,77 @@
+# 组件的本质
+
+## 组件的产出
+
+### jquery 年代
+
+在模板引擎年代，组件的产出是`html`字符串
+
+```js
+import { template } from "lodash";
+
+const MyComponent = (props) => {
+  const compile =
+    MyComponent.cache ||
+    (MyComponent.cache = template("<div><%= title %></div>"));
+  return compile(props);
+};
+MyComponent.cache = null;
+
+document.getElementById("app").innerHTML = MyComponent({
+  title: "MyComponent",
+});
+setTimeout(() => {
+  document.getElementById("app").innerHTML = MyComponent({
+    title: "My New Component",
+  });
+}, 2000);
+```
+
+[在线 sandbox](https://codesandbox.io/s/keen-minsky-6lvrp5?file=/index.js:0-438)
+
+### Vue/React 年代
+
+组件所产出的内容并不是`html`字符串，而是`Virtual DOM`
+
+#### Vue
+
+Vue 组件最核心的东西是`render`函数，剩余的其他内容，如`data`, `computed`, `props`等都是为`render`函数提供数据来源服务的。`render`函数本可以直接产出`html`字符串，但却产生了`Virtual DOM`, 借助`snabbdom`的 api 可以描述为以下 API：
+
+```js
+import { h } from "snabbdom";
+const MyComponent = (props) => {
+  return h("h1", props.title);
+};
+```
+
+`virtual DOM` 终究要渲染为真实 `DOM`，这个过程就可以理解为模板引擎年代的完全替换 `html`，只不过它采用的不是完全替换，我们把这个过程叫做 `patch`，同样可以借助 `snabbom` 的 `api` 轻松实现：
+
+```js
+import { h, init } from "snabbdom";
+
+const patch = init([]);
+
+const MyComponent = (props) => {
+  return h("h1", props.title);
+};
+
+const prevNode = MyComponent({ title: "prev" });
+patch(document.getElementById("app"), prevNode);
+
+const nextNode = MyComponent({ title: "next" });
+settimeout(() => {
+  patch(prevNode, nextNode);
+}, 2000);
+```
+
+### 总结
+
+组件的产出就是`Virtual DOM`
+
+`Virtual DOM`带来了分层设计，它对渲染过程的抽象，使得框架可以渲染到`web`(浏览器)意外的平台，以及能够实现`SSR`等
+
+`Virtual DOM`相比原生`DOM`操作的性能，这并非`Virtual DOM`的目标，确切地说，如果要比较二者的性能是要**控制变量**的，例如：页面的大小、数据变化量等
+
+## Resources
+
+- [组件的本质](https://juejin.cn/post/6844903903209717768)

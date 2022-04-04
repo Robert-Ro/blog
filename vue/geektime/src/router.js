@@ -14,6 +14,8 @@ const routes = [
   { path: "/directive", component: () => import("@/views/directive") },
   { path: "/date-fns", component: () => import("@/views/date-fns") },
   { path: "/antdv", component: () => import("@/views/antdv") },
+  { path: "/vue-router/:id", component: () => import("@/views/vue-router") },
+  { path: "/scoped-style", component: () => import("@/views/scope-style") },
 ];
 
 // 3. 创建 router 实例，然后传 `routes` 配置
@@ -25,4 +27,30 @@ const router = new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
 });
 
+const query = { referer: "hao123" };
+/**
+ * 1、全局路由守卫方案
+ */
+// router.beforeEach((to, from, next) => {
+//   to.query.referer
+//     ? next()
+//     : next({
+//         ...to,
+//         query: { ...to.query, ...query },
+//       });
+// });
+/**
+ * 2、函数劫持的方案
+ */
+const transitionTo = router.history.transitionTo;
+router.history.transitionTo = function (location, onComplete, onAbort) {
+  location =
+    typeof location === "object"
+      ? {
+          ...location,
+          query: { ...location.query, ...query },
+        }
+      : { path: location, query };
+  transitionTo.call(router.history, location, onComplete, onAbort);
+};
 export default router;
