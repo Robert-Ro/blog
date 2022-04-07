@@ -1,5 +1,7 @@
 # I18N
+
 ## 本地化关注地方
+
 - 姓名规则，比如是姓氏在前还是名字在前
 - 电话号码格式
 - 日期和时间格式，如日/月/年、月/日/年
@@ -11,11 +13,19 @@
 - 电压、频率和插头
 - 法律要求，如使用欧盟公民的个人数据时应遵守的 GDPR(General_Data_Protection_Regulation)
 
-国际化没有单一的规范定义，但W3C提供了以下指导：
+国际化没有单一的规范定义，但 W3C 提供了以下指导：
 
 "国际化是一种产品、应用程序或文档的设计和开发，可以方便地为不同文化、地区或语言的目标受众进行本地化。"
 
+## 国际化下的文字适配
+
+## 国际化下的 rtl 语言的适配
+
 ## Resource
+
 - [这些都不知道，产品还怎么国际化？](http://www.woshipm.com/pmd/848570.html)
 - vue-18n
 - [General_Data_Protection_Regulation](https://en.wikipedia.org/wiki/General_Data_Protection_Regulation)
+- [Using Arabic, Hebrew, and Other Right-To-Left Languages In Web Pages](https://thenewcode.com/88/Using-Arabic-Hebrew-and-Other-Right-To-Left-Languages-In-Web-Pages)
+- [在网页中使用阿拉伯语，希伯来语和其他从右至左的语言](https://blog.csdn.net/cungui5726/article/details/108207343)
+- [国际化 - 通用 LTR/RTL 布局解决方案](https://zhuanlan.zhihu.com/p/47864242)
