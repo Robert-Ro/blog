@@ -18,7 +18,7 @@ const config = {
       minSize: 0, // 默认30000（30kb），但是demo中的文件都很小，minSize设为0，让每个文件都满足大小条件
       cacheGroups: {
         commons: {
-          chunks: "initial",
+          chunks: "all", //加入按需加载后，设为all将所有模块包括在优化范围内
           minChunks: 2,
           maxInitialRequests: 5, // 默认为3
         },
