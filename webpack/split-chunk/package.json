@@ -1,0 +1,16 @@
+{
+  "name": "split-chunk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "pageA.js",
+  "devDependencies": {
+    "webpack": "4.46.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack -c webpack.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
