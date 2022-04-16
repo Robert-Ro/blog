@@ -32,6 +32,7 @@ const query = { referer: "hao123" };
  * 1、全局路由守卫方案
  */
 // router.beforeEach((to, from, next) => {
+//   console.log(to.query, "==="); NOTE 访问两次的原因：需要主动添加这个referer，如果当前路由上没有这个referer的话
 //   to.query.referer
 //     ? next()
 //     : next({

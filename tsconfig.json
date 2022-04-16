@@ -3,7 +3,7 @@
     "target": "es6",
     "module": "commonjs",
     "rootDir": ".",
-    "outDir": "webpack/dist",
+    "outDir": "webpack/codepen/dist",
     "strict": true,
     "noImplicitThis": false,
     "esModuleInterop": true,

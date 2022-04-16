@@ -29,3 +29,6 @@
 - [Using Arabic, Hebrew, and Other Right-To-Left Languages In Web Pages](https://thenewcode.com/88/Using-Arabic-Hebrew-and-Other-Right-To-Left-Languages-In-Web-Pages)
 - [在网页中使用阿拉伯语，希伯来语和其他从右至左的语言](https://blog.csdn.net/cungui5726/article/details/108207343)
 - [国际化 - 通用 LTR/RTL 布局解决方案](https://zhuanlan.zhihu.com/p/47864242)
+
+## repos
+- [vue-lang-router](https://github.com/adbrosaci/vue-lang-router), Vue language routing with (optional) localized URLs.含有语言的路由解决方案

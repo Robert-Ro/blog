@@ -127,7 +127,6 @@ var Event = (function () {
         event.listen(key, fn, last);
       },
       trigger: function () {
-        debugger;
         var event = this.create();
         event.trigger.apply(this, arguments);
       },
