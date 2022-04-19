@@ -16,6 +16,7 @@ const routes = [
   { path: "/antdv", component: () => import("@/views/antdv") },
   { path: "/vue-router/:id", component: () => import("@/views/vue-router") },
   { path: "/scoped-style", component: () => import("@/views/scope-style") },
+  { path: "/responsive", component: () => import("@/views/responsive") },
 ];
 
 // 3. 创建 router 实例，然后传 `routes` 配置

@@ -9,6 +9,7 @@
       <router-link to="/antdv">antdv</router-link>
       <router-link to="/vue-router/123">vue-router</router-link>
       <router-link to="/scoped-style">scoped style</router-link>
+      <router-link to="/responsive">responsive</router-link>
     </aside>
     <main class="main">
       <router-view></router-view>
