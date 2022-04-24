@@ -107,7 +107,7 @@ const render = (vnode, container) => {
   } else mountComponent(vnode, container);
 };
 const mountComponent = (vnode, container) => {
-  const instance = new vnode.tag();
+  const instance = vnode.tag();
   instance.$vnode = instance.render();
   mountElement(instance.$vnode, container);
 };
