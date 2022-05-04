@@ -7,5 +7,7 @@
 - typescript类型编程培训
 - 前端工程化
 - 卡颂github issue测试
- - 算法
- - 前端飞行手册目录大纲
+- 算法
+- 前端飞行手册目录大纲
+- flipper plugin development
+  - need paitence
