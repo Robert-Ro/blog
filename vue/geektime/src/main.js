@@ -4,6 +4,8 @@ import Router from "./router";
 import customPlugin from "./directives/custom";
 import antd from 'ant-design-vue'
 import "ant-design-vue/dist/antd.css";
+import './assets/tailwind.css'
+
 // import { svgSpritePlugin } from "vue-svg-sprite";
 
 Vue.use(antd)
