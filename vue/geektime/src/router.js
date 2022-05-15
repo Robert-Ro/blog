@@ -17,6 +17,7 @@ const routes = [
   { path: "/vue-router/:id", component: () => import("@/views/vue-router") },
   { path: "/scoped-style", component: () => import("@/views/scope-style") },
   { path: "/responsive", component: () => import("@/views/responsive") },
+  { path: "/tailwind", component: () => import("@/views/tailwind") },
 ];
 
 // 3. 创建 router 实例，然后传 `routes` 配置
