@@ -27,6 +27,13 @@
 - 剑指 offer图解视频，[链接](https://link.zhihu.com/?target=https%3A//b23.tv/av82476697)
 - [计算机网络微课堂](https://link.zhihu.com/?target=https%3A//www.bilibili.com/video/BV1c4411d7jb%3Fp%3D1)
 
+## 220523
+- axios
+    - 源码实现
+    - axios-retry实现
+    - custom拦截器
+    - cancel
+- promise练习
 
 ## 1223
 - ids byId的意思
@@ -218,7 +225,7 @@ to the future](https://evilmartians.com/chronicles/scroll-to-the-future-modern-j
 - [Read JavaScript Source Code, Using an AST](https://www.digitalocean.com/community/tutorials/js-traversing-ast)
 - [astexplorer](https://astexplorer.net/)，在线查看AST
 - React开发常见错误
-```js
+```log
 Uncaught (in promise) Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
     at createFiberFromTypeAndProps (react-dom.development.js:23965)
     at createFiberFromElement (react-dom.development.js:23988)
