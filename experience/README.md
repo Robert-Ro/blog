@@ -1,6 +1,6 @@
 # Experience Share
 
-一些新的知识、经验分享
+一些新的知识、经验的收集、分享
 
 ## readling list
 

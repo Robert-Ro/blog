@@ -34,6 +34,7 @@
     - custom拦截器
     - cancel
 - promise练习
+    - 多种请求组合式
 
 ## 1223
 - ids byId的意思
