@@ -29,3 +29,10 @@
   - 翻译平台
   - 告警：爬取中文(存在漏包的情况)
 - axios retry-request
+
+体验：
+- next.js
+- nuxt.js
+- nest.js
+- gastby
+- ssr
