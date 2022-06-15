@@ -36,3 +36,12 @@
 - nest.js
 - gastby
 - ssr
+
+- commitlint/changelog 配置信息
+  > 分tag分提交类型
+  - auto-changelog
+    - `npx auto-changelog --tag-pattern <tag>`
+  - conventional-changelog-cli： 配合提交
+  - commit msg with jira
+    - https://www.npmjs.com/package/prefix-commit-jira-id
+    - https://www.npmjs.com/package/jira-prepare-commit-msg
