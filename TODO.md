@@ -45,3 +45,7 @@
   - commit msg with jira
     - https://www.npmjs.com/package/prefix-commit-jira-id
     - https://www.npmjs.com/package/jira-prepare-commit-msg
+
+- input
+  - mdn input事件
+  - maskInput
