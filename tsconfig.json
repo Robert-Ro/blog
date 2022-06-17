@@ -1,13 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "rootDir": ".",
-    "outDir": "webpack/codepen/dist",
+    "outDir": "out",
     "strict": true,
     "noImplicitThis": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true
   },
+  "exclude": [
+    "typescript/**/*.ts",
+    "practises/**/*.ts"
+  ]
 }
