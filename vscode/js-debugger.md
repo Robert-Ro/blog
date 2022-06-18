@@ -19,7 +19,7 @@
 ```
 
 - `.vscode/launch.json`
-  > 使用`babel-node`去执行代码，`babel-node`读取`.babelrc`配置信息
+  > 使用`babel-node`(`@babel/node`库)去执行代码，`babel-node`读取`.babelrc`配置信息
 
 ```sh
 {
