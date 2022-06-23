@@ -20,7 +20,9 @@ window.createTextEditorDecorationType; // 创建 decorator 的 api
 - [extension-anatomy])(https://code.visualstudio.com/api/get-started/extension-anatomy)
 - [wrapping-up])(https://code.visualstudio.com/api/get-started/wrapping-up)
 - [vscode tasks](https://code.visualstudio.com/docs/editor/tasks)，理解概念，学习如何配置，在extension开发中如何应用(以及typescipt、gulp中的使用)
+- [vscode-extension-vscode](https://github.com/Microsoft/vscode-extension-vscode), vscode库(已废弃)
 
-## TODOs
-
-- [ ] resolve package.json and get nodejs depend latest version, 提供升级按钮等
+## ideas
+  - tree
+    - [project-tree](https://github.com/Maple-Team/project-tree.git),在此项目基础上升级
+  - resolve package.json and get nodejs depend latest version, 提供升级命令 升级老项目的依赖(这个有npm 脚本命令)
