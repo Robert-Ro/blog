@@ -7,8 +7,7 @@ npm login --registry <repo url>
 npm publish --registry <repo url>
 ```
 > 注册机构名不可用的原因：机构名与其他的用户名重复了
-### publish的坑
-publish to Verdaccio, 没啥大问题，但是to npm会有鉴权失败的问题
+### publish
 
 ```sh
 # 最新
@@ -23,6 +22,13 @@ npm publish --access public
 [--tag <tag>] 指定tag
 [--workspaces] Enables workspace context while publishing. All workspace packages will be published. 发布当前workspace下的所有packages
 [--workspace] Enables workspaces context and limits results to only those specified by this config item. Only the packages in the workspaces given will be published. 发布当前workspace下的指定packages
+```
+#### unpublish 命令
+```sh
+# 下架<package-name>
+npm unpublish <package-name> -f
+# 下架特定版本
+npm unpublish <package-name>@<version>
 ```
 
 ### TypeScript project
@@ -127,6 +133,8 @@ npm config set @myco:registry http://reg.example.com
 
 - https://docs.npmjs.com/getting-started
 - https://docs.npmjs.com/cli/v8/
+
+TODO publish script
 
 ### monorepo setup 相关
 
