@@ -2,9 +2,9 @@
 
 > patch本身就有补丁、修补等意思
 
-虚拟DOM最核心的就是patch，它可以将vnode渲染成真实的DOM。
+虚拟DOM最核心的就是patch，它可以将`vnode`渲染成真实的DOM。
 
-渲染真实DOM时，并不是暴力覆盖原有DOM，而是比对新旧两个vnode之间有哪些不同，然后根据对比结果找出需要更新的节点进行更新。
+渲染真实DOM时，并不是暴力覆盖原有DOM，而是比对新旧两个`vnode`之间有哪些不同，然后根据对比结果找出需要更新的节点进行更新。
 
 之所以这么做，是因为DOM操作的执行速度(跟底层C++)远不如JavaScript的运算速度快，因此把大量的DOM操作搬运到JavaScript中，使用patching算法来计算出真正需要更新的节点，最大限度地减少DOM操作，从而显著提升性能。本质上是用JavaScript的运算速度来替换DOM操作的执行成本，所以才有了虚拟DOM。
 
@@ -12,7 +12,7 @@
 
 ## patch介绍
 
-对比两个vnode之间的差异只是patch的一部分，这是手段，而不是目的。patch的目的是修改DOM节点，也可以理解为渲染视图。patch不是暴力替换节点，而是在现有的DOM上进行修改来达到渲染视图的目的。对现有DOM进行修改有三种方法：
+对比两个`vnode`之间的差异只是patch的一部分，这是手段，而不是目的。patch的目的是修改DOM节点，也可以理解为渲染视图。patch不是暴力替换节点，而是在现有的DOM上进行修改来达到渲染视图的目的。对现有DOM进行修改有三种方法：
 * 创建新的节点
   + 什么情况下创建节点，插入到什么位置
 * 删除已经废弃的节点
@@ -20,7 +20,7 @@
 * 修改需要更新的节点
   + 什么情况下修改节点，修改哪个节点
 
-  我们的最终目的是渲染视图，所以可以发现渲染视图的标准是以vnode(使用最新状态创建的vnode)来渲染而不是以oldVnode(上一次渲染的DOM所创建的vnode)，也就是说，当oldVnode与vnode不一致的时候，以vnode来渲染视图。
+  我们的最终目的是渲染视图，所以可以发现渲染视图的标准是以`vnode`(使用最新状态创建的`vnode`)来渲染而不是以`oldVnode`(上一次渲染的DOM所创建的`vnode`)，也就是说，当`oldVnode`与`vnode`不一致的时候，以`vnode`来渲染视图。
 
 ### 新增节点
 
@@ -30,31 +30,31 @@
 
 #### 场景
 
-* 当oldVnode不存在而vnode存在时，就需要使用vnode生成真实的DOM元素并将其插入到视图中。通常发生在首次渲染中，只有首次渲染时，oldVnode才是不存在的。
-* 当odlVnode与vnode完全不是同一个节点时，就需要使用vnode生成真实的DOM并将其插入到视图中。
+* 当`oldVnode`不存在而`vnode`存在时，就需要使用`vnode`生成真实的DOM元素并将其插入到视图中。通常发生在首次渲染中，只有首次渲染时，`oldVnode`才是不存在的。
+* 当odlVnode与`vnode`完全不是同一个节点时，就需要使用`vnode`生成真实的DOM并将其插入到视图中。
 
 ### 删除节点
 
-当oldVnode以vnode完全不是同一个节点时，在DOM中需要使用vnode创建的新节点替换oldVnode所对应的旧节点，替换过程是将新创建的DOM节点插入到旧节点的旁边，然后再将旧节点删除
+当`oldVnode`以`vnode`完全不是同一个节点时，在DOM中需要使用`vnode`创建的新节点替换`oldVnode`所对应的旧节点，替换过程是将新创建的DOM节点插入到旧节点的旁边，然后再将旧节点删除
 
 ### 更新节点
 
-除了上述的场景外，另一个更常见的场景是新旧两个节点是同一个节点，这时就需要对这两个节点进行细致的比对，然后对oldVnode在视图中所对应的真实节点进行更新。
+除了上述的场景外，另一个更常见的场景是新旧两个节点是同一个节点，这时就需要对这两个节点进行细致的比对，然后对`oldVnode`在视图中所对应的真实节点进行更新。
 
 > 需要根据节点的不同类型做不同的处理
 
 ### 小结
 
-* 当oldVnode不存在时，直接使用vnode渲染视图；
-* 当oldVnode和vnode都存在但并不是同一个节点，使用vnode创建的DOM元素来替换就的DOM元素；
-* 当oldVnode和vnode是同一个节点是，就需要更详细的对比操作对真实的DOM节点进行更新。
+* 当`oldVnode`不存在时，直接使用`vnode`渲染视图；
+* 当`oldVnode`和`vnode`都存在但并不是同一个节点，使用`vnode`创建的DOM元素来替换就的DOM元素；
+* 当`oldVnode`和`vnode`是同一个节点是，就需要更详细的对比操作对真实的DOM节点进行更新。
 
 ## 创建节点
 
 > 在什么情况下创建元素并将元素渲染到视图。
 
-* 创建DOM元素所需信息保存在vnode中
-* vnode有不同的类型，需要根据vnode的类型来创建出相同类型的DOM元素，然后将元素插入到视图中
+* 创建DOM元素所需信息保存在`vnode`中
+* `vnode`有不同的类型，需要根据`vnode`的类型来创建出相同类型的DOM元素，然后将元素插入到视图中
 
 事实上，只有三种类型的节点会被创建并插入到DOM中：元素节点、文本节点和注释节点。
 
@@ -71,10 +71,10 @@
 删除节点的过程比较简单，调用 `removeVnodes` / `removeVnoed` 方法( `el.removeChild` )
 
 ```js
-function removeVnodes(vnodes, startIdx, endIdx) {
+function removeVnodes(`vnode`s, startIdx, endIdx) {
 
     for (; startIdx < endIdx; ++startIdx) {
-        const ch = vnodes[startIdx]
+        const ch = `vnode`s[startIdx]
         if (isDef(ch)) {
             removeVnode(ch.elm)
         }
@@ -115,8 +115,8 @@ function removeChild(el) {
 
 #### 新虚拟节点有文本属性
 
-当虚拟节点不是静态节点，并且有不同的属性时，要以vnode为准来更新视图。根据vnode是否含有text属性，更新节点分为两种情况：
-* 新生成的vnode有text属性，那么无论之前旧节点的子节点是什么，直接调用`setTextContent`方法(`node.textContent = 'xxx'`), 如果oldVnode也是文本节点，且和新节点的文本相同，就不需要执行`setTextContent`方法。
+当虚拟节点不是静态节点，并且有不同的属性时，要以`vnode`为准来更新视图。根据`vnode`是否含有text属性，更新节点分为两种情况：
+* 新生成的`vnode`有text属性，那么无论之前旧节点的子节点是什么，直接调用`setTextContent`方法(`node.textContent = 'xxx'`), 如果`oldVnode`也是文本节点，且和新节点的文本相同，就不需要执行`setTextContent`方法。
 
 #### 新虚拟节点无文本属性
 

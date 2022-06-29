@@ -29,7 +29,7 @@ export default class vnode {
     this.children = children;
     this.text = text;
     /**
-     * ?
+     * 对应的真实DOM节点的引用?
      */
     this.elm = elm;
     this.ns = undefined;
@@ -75,11 +75,15 @@ export default class vnode {
     this.isCloned = false;
     this.isOnce = false;
     /**
-     * 异步组件实例化所需
+     * 异步组件实例化所需工厂函数
      */
     this.asyncFactory = asyncFactor;
     /**
-     * ?
+     * 异步组件生成所需的元信息
+     * @type {data?: any,
+      context: context,
+      children?: VNode[],
+      tag?: string}
      */
     this.asyncMeta = undefined;
     /**

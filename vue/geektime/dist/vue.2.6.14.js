@@ -4,10 +4,12 @@
  * Released under the MIT License.
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global = global || self, global.Vue = factory());
-}(this, function () {
+  typeof exports === "object" && typeof module !== "undefined"
+    ? (module.exports = factory())
+    : typeof define === "function" && define.amd
+    ? define(factory)
+    : ((global = global || self), (global.Vue = factory()));
+})(this, function () {
   ("use strict");
 
   /*  */
@@ -3272,6 +3274,15 @@
 
   var hooksToMerge = Object.keys(componentVNodeHooks);
 
+  /**
+   * 创建组件
+   * @param {Function} Ctor 异步组件定义时的函数 ()=> ({component: import(''), error: })
+   * @param {*} data
+   * @param {*} context
+   * @param {*} children
+   * @param {*} tag
+   * @returns
+   */
   function createComponent(Ctor, data, context, children, tag) {
     if (isUndef(Ctor)) {
       return;
@@ -3293,7 +3304,7 @@
       return;
     }
 
-    // async component
+    // 异步组件生成工厂函数
     var asyncFactory;
     if (isUndef(Ctor.cid)) {
       asyncFactory = Ctor;
@@ -3735,7 +3746,15 @@
     }
     return isObject(comp) ? base.extend(comp) : comp;
   }
-
+  /**
+   * 创建异步组件的占位节点
+   * @param {Function} factory
+   * @param {*} data
+   * @param {*} context
+   * @param {*} children
+   * @param {*} tag
+   * @returns
+   */
   function createAsyncPlaceholder(factory, data, context, children, tag) {
     var node = createEmptyVNode();
     node.asyncFactory = factory;
@@ -3748,6 +3767,12 @@
     return node;
   }
 
+  /**
+   * 解析异步组件
+   * @param {*} factory 当前环境下的异步组件生成函数
+   * @param {*} baseCtor 可能是全局中定义的异步组件
+   * @returns
+   */
   function resolveAsyncComponent(factory, baseCtor) {
     if (isTrue(factory.error) && isDef(factory.errorComp)) {
       return factory.errorComp;
@@ -3757,7 +3782,7 @@
       return factory.resolved;
     }
 
-    var owner = currentRenderingInstance;
+    var owner = currentRenderingInstance; // NOTE ?
     if (
       owner &&
       isDef(factory.owners) &&
@@ -5807,11 +5832,20 @@
   var isPreTag = function (tag) {
     return tag === "pre";
   };
-
+  /**
+   * 判断是否为html tag或svg tag
+   * @param {string} tag
+   * @returns
+   */
   var isReservedTag = function (tag) {
     return isHTMLTag(tag) || isSVG(tag);
   };
 
+  /**
+   * 获取命名空间，用于svg、math
+   * @param {string} tag
+   * @returns
+   */
   function getTagNamespace(tag) {
     if (isSVG(tag)) {
       return "svg";
@@ -6008,7 +6042,14 @@
   var emptyNode = new VNode("", {}, []);
 
   var hooks = ["create", "activate", "update", "remove", "destroy"];
-
+  /**
+   * 判断两个节点是否为相同节点
+   * 适配不同类型的节点进行比较
+   * NOTE 异步组件
+   * @param {import('vue').VNode} a
+   * @param {import('vue').VNode} b
+   * @returns
+   */
   function sameVnode(a, b) {
     return (
       a.key === b.key &&
@@ -6020,7 +6061,13 @@
         (isTrue(a.isAsyncPlaceholder) && isUndef(b.asyncFactory.error)))
     );
   }
-
+  /**
+   * 对input元素节点进行判断，
+   * 只有为input且属性、数据和类型一致才是相同的
+   * @param {*} a
+   * @param {*} b
+   * @returns
+   */
   function sameInputType(a, b) {
     if (a.tag !== "input") {
       return true;
@@ -6816,6 +6863,9 @@
     }
 
     return function patch(oldVnode, vnode, hydrating, removeOnly) {
+      /**
+       * 新节点不存在，旧节点，触发调用旧节点的destroy hook
+       */
       if (isUndef(vnode)) {
         if (isDef(oldVnode)) {
           invokeDestroyHook(oldVnode);
@@ -6825,13 +6875,18 @@
 
       var isInitialPatch = false;
       var insertedVnodeQueue = [];
-
+      /**
+       * 1. 旧节点不存在，直接创建新节点
+       * 2. 新旧节点都存在,
+       * 是否是真实节点，不是->节点是否相同->patchNode逻辑
+       *                 是->
+       */
       if (isUndef(oldVnode)) {
         // empty mount (likely as component), create new root element
         isInitialPatch = true;
         createElm(vnode, insertedVnodeQueue);
       } else {
-        var isRealElement = isDef(oldVnode.nodeType);
+        var isRealElement = isDef(oldVnode.nodeType); // SSR?
         if (!isRealElement && sameVnode(oldVnode, vnode)) {
           // patch existing root node
           patchVnode(
@@ -12742,4 +12797,4 @@
   Vue.compile = compileToFunctions;
 
   return Vue;
-}));
+});

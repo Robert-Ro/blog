@@ -11,6 +11,7 @@
       <router-link to="/scoped-style">scoped style</router-link>
       <router-link to="/responsive">responsive</router-link>
       <router-link to="/tailwind">tailwind</router-link>
+      <router-link to="/vnode">vnode</router-link>
     </aside>
     <main class="main">
       <router-view></router-view>
