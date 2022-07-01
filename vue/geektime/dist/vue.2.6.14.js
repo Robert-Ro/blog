@@ -4216,12 +4216,17 @@
         var endTag = "vue-perf-end:" + id;
 
         mark(startTag);
+        console.time(`${startTag}_render`);
         var vnode = vm._render();
+        console.timeEnd(`${startTag}_render`);
         mark(endTag);
+
         measure("vue " + name + " render", startTag, endTag);
 
         mark(startTag);
+        console.time(`${startTag}_patch`);
         vm._update(vnode, hydrating);
+        console.timeEnd(`${startTag}_patch`);
         mark(endTag);
         measure("vue " + name + " patch", startTag, endTag);
       };
@@ -6375,7 +6380,15 @@
         nodeOps.setStyleScope(vnode.elm, i);
       }
     }
-
+    /**
+     * 批量添加节点
+     * @param {*} parentElm
+     * @param {*} refElm
+     * @param {*} vnodes
+     * @param {*} startIdx
+     * @param {*} endIdx
+     * @param {*} insertedVnodeQueue
+     */
     function addVnodes(
       parentElm,
       refElm,
@@ -6415,6 +6428,12 @@
       }
     }
 
+    /**
+     * 批量移除子节点
+     * @param {*} vnodes
+     * @param {*} startIdx
+     * @param {*} endIdx
+     */
     function removeVnodes(vnodes, startIdx, endIdx) {
       for (; startIdx <= endIdx; ++startIdx) {
         var ch = vnodes[startIdx];
@@ -6462,7 +6481,14 @@
         removeNode(vnode.elm);
       }
     }
-
+    /**
+     * 双指针对children进行比对
+     * @param {Element} parentElm
+     * @param {import('vue').VNode[]} oldCh
+     * @param {import('vue').VNode[]} newCh
+     * @param {any[]} insertedVnodeQueue
+     * @param {boolean} removeOnly
+     */
     function updateChildren(
       parentElm,
       oldCh,
@@ -6612,6 +6638,10 @@
       }
     }
 
+    /**
+     * 子节点的key是否存在重复
+     * @param {VNode[]} children
+     */
     function checkDuplicateKeys(children) {
       var seenKeys = {};
       for (var i = 0; i < children.length; i++) {
@@ -6693,18 +6723,23 @@
       var ch = vnode.children;
       if (isDef(data) && isPatchable(vnode)) {
         for (i = 0; i < cbs.update.length; ++i) {
+          // 更新class、attr、指令、dom listeners、style
           cbs.update[i](oldVnode, vnode);
         }
         if (isDef((i = data.hook)) && isDef((i = i.update))) {
           i(oldVnode, vnode);
         }
       }
+      // 新节点不存在文本的情况
       if (isUndef(vnode.text)) {
         if (isDef(oldCh) && isDef(ch)) {
           if (oldCh !== ch) {
+            // 新旧节点的children不一样
             updateChildren(elm, oldCh, ch, insertedVnodeQueue, removeOnly);
           }
-        } else if (isDef(ch)) {
+        }
+        // 仅新节点的children存在，则批量添加新的children节点
+        else if (isDef(ch)) {
           {
             checkDuplicateKeys(ch);
           }
@@ -6712,12 +6747,17 @@
             nodeOps.setTextContent(elm, "");
           }
           addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue);
-        } else if (isDef(oldCh)) {
+        }
+        // 仅旧节点的children存在， 则批量移除旧的children节点
+        else if (isDef(oldCh)) {
           removeVnodes(oldCh, 0, oldCh.length - 1);
-        } else if (isDef(oldVnode.text)) {
+        }
+        // 旧节点的文本节点存在
+        else if (isDef(oldVnode.text)) {
           nodeOps.setTextContent(elm, "");
         }
       } else if (oldVnode.text !== vnode.text) {
+        // 都为文本节点，则直接替换文本
         nodeOps.setTextContent(elm, vnode.text);
       }
       if (isDef(data)) {
@@ -7181,6 +7221,13 @@
     }
   }
 
+  /**
+   * 设置样式
+   * @param {Element} el
+   * @param {*} key
+   * @param {*} value
+   * @param {*} isInPre
+   */
   function setAttr(el, key, value, isInPre) {
     if (isInPre || el.tagName.indexOf("-") > -1) {
       baseSetAttr(el, key, value);
