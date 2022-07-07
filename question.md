@@ -1,2 +1,3 @@
 # Question
-- [ ] babel/node use .babelrc not babel.config.js
+
+- [x] babel/node use .babelrc not babel.config.js
