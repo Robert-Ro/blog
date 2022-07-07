@@ -6,6 +6,7 @@ module.exports = defineConfig({
     externals: {
       vue: "Vue",
     },
+    cache: true,
     // pluginOptions: {
     // svg: {
     //   sprite: {}, // Pass options to svg-sprite-loader

@@ -18,6 +18,8 @@ const routes = [
   { path: "/scoped-style", component: () => import("@/views/scope-style") },
   { path: "/responsive", component: () => import("@/views/responsive") },
   { path: "/tailwind", component: () => import("@/views/tailwind") },
+  { path: "/vnode", component: () => import("@/views/vnode") },
+  { path: "/patch", component: () => import("@/views/patch") },
 ];
 
 // 3. 创建 router 实例，然后传 `routes` 配置
@@ -26,7 +28,7 @@ const router = new VueRouter({
   routes, // (缩写) 相当于 routes: routes
   mode: "history",
   base: process.env.BASE_URL,
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({ y: 0, behavior: "smooth" }),
 });
 
 const query = { referer: "hao123" };
