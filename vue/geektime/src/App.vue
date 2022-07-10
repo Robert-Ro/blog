@@ -13,6 +13,7 @@
       <router-link to="/tailwind">tailwind</router-link>
       <router-link to="/vnode">vnode</router-link>
       <router-link to="/patch">patch</router-link>
+      <router-link to="/parse">parse</router-link>
     </aside>
     <main class="main">
       <router-view></router-view>

@@ -7,8 +7,8 @@
   typeof exports === "object" && typeof module !== "undefined"
     ? (module.exports = factory())
     : typeof define === "function" && define.amd
-    ? define(factory)
-    : ((global = global || self), (global.Vue = factory()));
+      ? define(factory)
+      : ((global = global || self), (global.Vue = factory()));
 })(this, function () {
   ("use strict");
 
@@ -100,8 +100,8 @@
     return val == null
       ? ""
       : Array.isArray(val) || (isPlainObject(val) && val.toString === _toString)
-      ? JSON.stringify(val, null, 2)
-      : String(val);
+        ? JSON.stringify(val, null, 2)
+        : String(val);
   }
 
   /**
@@ -125,11 +125,11 @@
     }
     return expectsLowerCase
       ? function (val) {
-          return map[val.toLowerCase()];
-        }
+        return map[val.toLowerCase()];
+      }
       : function (val) {
-          return map[val];
-        };
+        return map[val];
+      };
   }
 
   /**
@@ -270,7 +270,7 @@
    * Stubbing args to make Flow happy without leaving useless transpiled code
    * with ...rest (https://flow.org/blog/2017/05/07/Strict-Function-Call-Arity/).
    */
-  function noop(a, b, c) {}
+  function noop(a, b, c) { }
 
   /**
    * Always return false.
@@ -572,7 +572,7 @@
         },
       }); // https://github.com/facebook/flow/issues/285
       window.addEventListener("test-passive", null, opts);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   // this needs to be lazy-evaled because vue may be required before
@@ -676,8 +676,8 @@
         typeof vm === "function" && vm.cid != null
           ? vm.options
           : vm._isVue
-          ? vm.$options || vm.constructor.options
-          : vm;
+            ? vm.$options || vm.constructor.options
+            : vm;
       var name = options.name || options._componentTag;
       var file = options.__file;
       if (!name && file) {
@@ -733,9 +733,9 @@
                 (i === 0 ? "---> " : repeat(" ", 5 + i * 2)) +
                 (Array.isArray(vm)
                   ? formatComponentName(vm[0]) +
-                    "... (" +
-                    vm[1] +
-                    " recursive calls)"
+                  "... (" +
+                  vm[1] +
+                  " recursive calls)"
                   : formatComponentName(vm))
               );
             })
@@ -1124,7 +1124,7 @@
     if (isUndef(target) || isPrimitive(target)) {
       warn(
         "Cannot set reactive property on undefined, null, or primitive value: " +
-          target
+        target
       );
     }
     if (Array.isArray(target) && isValidArrayIndex(key)) {
@@ -1140,7 +1140,7 @@
     if (target._isVue || (ob && ob.vmCount)) {
       warn(
         "Avoid adding reactive properties to a Vue instance or its root $data " +
-          "at runtime - declare it upfront in the data option."
+        "at runtime - declare it upfront in the data option."
       );
       return val;
     }
@@ -1160,7 +1160,7 @@
     if (isUndef(target) || isPrimitive(target)) {
       warn(
         "Cannot delete reactive property on undefined, null, or primitive value: " +
-          target
+        target
       );
     }
     if (Array.isArray(target) && isValidArrayIndex(key)) {
@@ -1171,7 +1171,7 @@
     if (target._isVue || (ob && ob.vmCount)) {
       warn(
         "Avoid deleting properties on a Vue instance or its root $data " +
-          "- just set it to null."
+        "- just set it to null."
       );
       return;
     }
@@ -1216,9 +1216,9 @@
       if (!vm) {
         warn(
           'option "' +
-            key +
-            '" can only be used during instance ' +
-            "creation with the `new` keyword."
+          key +
+          '" can only be used during instance ' +
+          "creation with the `new` keyword."
         );
       }
       return defaultStrat(parent, child);
@@ -1303,8 +1303,8 @@
       if (childVal && typeof childVal !== "function") {
         warn(
           'The "data" option should be a function ' +
-            "that returns a per-instance value in component " +
-            "definitions.",
+          "that returns a per-instance value in component " +
+          "definitions.",
           vm
         );
 
@@ -1324,8 +1324,8 @@
       ? parentVal
         ? parentVal.concat(childVal)
         : Array.isArray(childVal)
-        ? childVal
-        : [childVal]
+          ? childVal
+          : [childVal]
       : parentVal;
     return res ? dedupeHooks(res) : res;
   }
@@ -1400,8 +1400,8 @@
       ret[key$1] = parent
         ? parent.concat(child)
         : Array.isArray(child)
-        ? child
-        : [child];
+          ? child
+          : [child];
     }
     return ret;
   };
@@ -1413,20 +1413,20 @@
     strats.methods =
     strats.inject =
     strats.computed =
-      function (parentVal, childVal, vm, key) {
-        if (childVal && "development" !== "production") {
-          assertObjectType(key, childVal, vm);
-        }
-        if (!parentVal) {
-          return childVal;
-        }
-        var ret = Object.create(null);
-        extend(ret, parentVal);
-        if (childVal) {
-          extend(ret, childVal);
-        }
-        return ret;
-      };
+    function (parentVal, childVal, vm, key) {
+      if (childVal && "development" !== "production") {
+        assertObjectType(key, childVal, vm);
+      }
+      if (!parentVal) {
+        return childVal;
+      }
+      var ret = Object.create(null);
+      extend(ret, parentVal);
+      if (childVal) {
+        extend(ret, childVal);
+      }
+      return ret;
+    };
   strats.provide = mergeDataOrFn;
 
   /**
@@ -1453,16 +1453,16 @@
     ) {
       warn(
         'Invalid component name: "' +
-          name +
-          '". Component names ' +
-          "should conform to valid custom element name in html5 specification."
+        name +
+        '". Component names ' +
+        "should conform to valid custom element name in html5 specification."
       );
     }
     if (isBuiltInTag(name) || config.isReservedTag(name)) {
       warn(
         "Do not use built-in or reserved HTML elements as component " +
-          "id: " +
-          name
+        "id: " +
+        name
       );
     }
   }
@@ -1498,9 +1498,9 @@
     } else {
       warn(
         'Invalid value for option "props": expected an Array or an Object, ' +
-          "but got " +
-          toRawType(props) +
-          ".",
+        "but got " +
+        toRawType(props) +
+        ".",
         vm
       );
     }
@@ -1530,9 +1530,9 @@
     } else {
       warn(
         'Invalid value for option "inject": expected an Array or an Object, ' +
-          "but got " +
-          toRawType(inject) +
-          ".",
+        "but got " +
+        toRawType(inject) +
+        ".",
         vm
       );
     }
@@ -1557,11 +1557,11 @@
     if (!isPlainObject(value)) {
       warn(
         'Invalid value for option "' +
-          name +
-          '": expected an Object, ' +
-          "but got " +
-          toRawType(value) +
-          ".",
+        name +
+        '": expected an Object, ' +
+        "but got " +
+        toRawType(value) +
+        ".",
         vm
       );
     }
@@ -1703,10 +1703,10 @@
     if (isObject(def)) {
       warn(
         'Invalid default value for prop "' +
-          key +
-          '": ' +
-          "Props with type Object/Array must use a factory function " +
-          "to return the default value.",
+        key +
+        '": ' +
+        "Props with type Object/Array must use a factory function " +
+        "to return the default value.",
         vm
       );
     }
@@ -1764,8 +1764,8 @@
       if (!validator(value)) {
         warn(
           'Invalid prop: custom validator check failed for prop "' +
-            name +
-            '".',
+          name +
+          '".',
           vm
         );
       }
@@ -2106,20 +2106,20 @@
   {
     var allowedGlobals = makeMap(
       "Infinity,undefined,NaN,isFinite,isNaN," +
-        "parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent," +
-        "Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,BigInt," +
-        "require" // for Webpack/Browserify
+      "parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent," +
+      "Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,BigInt," +
+      "require" // for Webpack/Browserify
     );
 
     var warnNonPresent = function (target, key) {
       warn(
         'Property or method "' +
-          key +
-          '" is not defined on the instance but ' +
-          "referenced during render. Make sure that this property is reactive, " +
-          "either in the data option, or for class-based components, by " +
-          "initializing the property. " +
-          "See: https://vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.",
+        key +
+        '" is not defined on the instance but ' +
+        "referenced during render. Make sure that this property is reactive, " +
+        "either in the data option, or for class-based components, by " +
+        "initializing the property. " +
+        "See: https://vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.",
         target
       );
     };
@@ -2127,13 +2127,13 @@
     var warnReservedPrefix = function (target, key) {
       warn(
         'Property "' +
-          key +
-          '" must be accessed with "$data.' +
-          key +
-          '" because ' +
-          'properties starting with "$" or "_" are not proxied in the Vue instance to ' +
-          "prevent conflicts with Vue internals. " +
-          "See: https://vuejs.org/v2/api/#data",
+        key +
+        '" must be accessed with "$data.' +
+        key +
+        '" because ' +
+        'properties starting with "$" or "_" are not proxied in the Vue instance to ' +
+        "prevent conflicts with Vue internals. " +
+        "See: https://vuejs.org/v2/api/#data",
         target
       );
     };
@@ -2391,20 +2391,20 @@
           ) {
             tip(
               'Prop "' +
-                keyInLowerCase +
-                '" is passed to component ' +
-                formatComponentName(tag || Ctor) +
-                ", but the declared prop name is" +
-                ' "' +
-                key +
-                '". ' +
-                "Note that HTML attributes are case-insensitive and camelCased " +
-                "props need to use their kebab-case equivalents when using in-DOM " +
-                'templates. You should probably use "' +
-                altKey +
-                '" instead of "' +
-                key +
-                '".'
+              keyInLowerCase +
+              '" is passed to component ' +
+              formatComponentName(tag || Ctor) +
+              ", but the declared prop name is" +
+              ' "' +
+              key +
+              '". ' +
+              "Note that HTML attributes are case-insensitive and camelCased " +
+              "props need to use their kebab-case equivalents when using in-DOM " +
+              'templates. You should probably use "' +
+              altKey +
+              '" instead of "' +
+              key +
+              '".'
             );
           }
         }
@@ -2465,8 +2465,8 @@
     return isPrimitive(children)
       ? [createTextVNode(children)]
       : Array.isArray(children)
-      ? normalizeArrayChildren(children)
-      : undefined;
+        ? normalizeArrayChildren(children)
+        : undefined;
   }
 
   function isTextNode(node) {
@@ -2544,10 +2544,10 @@
           defineReactive$$1(vm, key, result[key], function () {
             warn(
               "Avoid mutating an injected value directly since the changes will be " +
-                "overwritten whenever the provided component re-renders. " +
-                'injection being mutated: "' +
-                key +
-                '"',
+              "overwritten whenever the provided component re-renders. " +
+              'injection being mutated: "' +
+              key +
+              '"',
               vm
             );
           });
@@ -3002,7 +3002,7 @@
         // null is a special value for explicitly removing a binding
         warn(
           "Invalid value for dynamic directive argument (expected string or null): " +
-            key,
+          key,
           this
         );
       }
@@ -3486,9 +3486,9 @@
     if (isDef(data) && isDef(data.__ob__)) {
       warn(
         "Avoid using observed data object as vnode data: " +
-          JSON.stringify(data) +
-          "\n" +
-          "Always create fresh vnode data objects in each render!",
+        JSON.stringify(data) +
+        "\n" +
+        "Always create fresh vnode data objects in each render!",
         context
       );
       return createEmptyVNode();
@@ -3506,7 +3506,7 @@
       {
         warn(
           "Avoid using non-primitive value as key, " +
-            "use string/number value instead.",
+          "use string/number value instead.",
           context
         );
       }
@@ -3531,8 +3531,8 @@
         if (isDef(data) && isDef(data.nativeOn) && data.tag !== "component") {
           warn(
             "The .native modifier for v-on is only valid on components but it was used on <" +
-              tag +
-              ">.",
+            tag +
+            ">.",
             context
           );
         }
@@ -3723,7 +3723,7 @@
         if (Array.isArray(vnode)) {
           warn(
             "Multiple root nodes returned from render function. Render function " +
-              "should return a single root node.",
+            "should return a single root node.",
             vm
           );
         }
@@ -3839,8 +3839,8 @@
       var reject = once(function (reason) {
         warn(
           "Failed to resolve async component: " +
-            String(factory) +
-            (reason ? "\nReason: " + reason : "")
+          String(factory) +
+          (reason ? "\nReason: " + reason : "")
         );
         if (isDef(factory.errorComp)) {
           factory.error = true;
@@ -4028,19 +4028,19 @@
         if (lowerCaseEvent !== event && vm._events[lowerCaseEvent]) {
           tip(
             'Event "' +
-              lowerCaseEvent +
-              '" is emitted in component ' +
-              formatComponentName(vm) +
-              ' but the handler is registered for "' +
-              event +
-              '". ' +
-              "Note that HTML attributes are case-insensitive and you cannot use " +
-              "v-on to listen to camelCase events when using in-DOM templates. " +
-              'You should probably use "' +
-              hyphenate(event) +
-              '" instead of "' +
-              event +
-              '".'
+            lowerCaseEvent +
+            '" is emitted in component ' +
+            formatComponentName(vm) +
+            ' but the handler is registered for "' +
+            event +
+            '". ' +
+            "Note that HTML attributes are case-insensitive and you cannot use " +
+            "v-on to listen to camelCase events when using in-DOM templates. " +
+            'You should probably use "' +
+            hyphenate(event) +
+            '" instead of "' +
+            event +
+            '".'
           );
         }
       }
@@ -4192,8 +4192,8 @@
         ) {
           warn(
             "You are using the runtime-only build of Vue where the template " +
-              "compiler is not available. Either pre-compile the templates into " +
-              "render functions, or use the compiler-included build.",
+            "compiler is not available. Either pre-compile the templates into " +
+            "render functions, or use the compiler-included build.",
             vm
           );
         } else {
@@ -4497,9 +4497,9 @@
         if (circular[id] > MAX_UPDATE_COUNT) {
           warn(
             "You may have an infinite update loop " +
-              (watcher.user
-                ? 'in watcher with expression "' + watcher.expression + '"'
-                : "in a component render function."),
+            (watcher.user
+              ? 'in watcher with expression "' + watcher.expression + '"'
+              : "in a component render function."),
             watcher.vm
           );
           break;
@@ -4629,10 +4629,10 @@
         this.getter = noop;
         warn(
           'Failed watching path: "' +
-            expOrFn +
-            '" ' +
-            "Watcher only accepts simple dot-delimited paths. " +
-            "For full control, use a function instead.",
+          expOrFn +
+          '" ' +
+          "Watcher only accepts simple dot-delimited paths. " +
+          "For full control, use a function instead.",
           vm
         );
       }
@@ -4853,8 +4853,8 @@
         ) {
           warn(
             '"' +
-              hyphenatedKey +
-              '" is a reserved attribute and cannot be used as component prop.',
+            hyphenatedKey +
+            '" is a reserved attribute and cannot be used as component prop.',
             vm
           );
         }
@@ -4862,11 +4862,11 @@
           if (!isRoot && !isUpdatingChildComponent) {
             warn(
               "Avoid mutating a prop directly since the value will be " +
-                "overwritten whenever the parent component re-renders. " +
-                "Instead, use a data or computed property based on the prop's " +
-                'value. Prop being mutated: "' +
-                key +
-                '"',
+              "overwritten whenever the parent component re-renders. " +
+              "Instead, use a data or computed property based on the prop's " +
+              'value. Prop being mutated: "' +
+              key +
+              '"',
               vm
             );
           }
@@ -4892,7 +4892,7 @@
       data = {};
       warn(
         "data functions should return an object:\n" +
-          "https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function",
+        "https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function",
         vm
       );
     }
@@ -4914,9 +4914,9 @@
       if (props && hasOwn(props, key)) {
         warn(
           'The data property "' +
-            key +
-            '" is already declared as a prop. ' +
-            "Use prop default value instead.",
+          key +
+          '" is already declared as a prop. ' +
+          "Use prop default value instead.",
           vm
         );
       } else if (!isReserved(key)) {
@@ -4984,8 +4984,8 @@
         } else if (vm.$options.methods && key in vm.$options.methods) {
           warn(
             'The computed property "' +
-              key +
-              '" is already defined as a method.',
+            key +
+            '" is already defined as a method.',
             vm
           );
         }
@@ -5012,8 +5012,8 @@
       sharedPropertyDefinition.set = function () {
         warn(
           'Computed property "' +
-            key +
-            '" was assigned to but it has no setter.',
+          key +
+          '" was assigned to but it has no setter.',
           this
         );
       };
@@ -5049,11 +5049,11 @@
         if (typeof methods[key] !== "function") {
           warn(
             'Method "' +
-              key +
-              '" has type "' +
-              typeof methods[key] +
-              '" in the component definition. ' +
-              "Did you reference the function correctly?",
+            key +
+            '" has type "' +
+            typeof methods[key] +
+            '" in the component definition. ' +
+            "Did you reference the function correctly?",
             vm
           );
         }
@@ -5063,9 +5063,9 @@
         if (key in vm && isReserved(key)) {
           warn(
             'Method "' +
-              key +
-              '" conflicts with an existing Vue instance method. ' +
-              "Avoid defining component methods that start with _ or $."
+            key +
+            '" conflicts with an existing Vue instance method. ' +
+            "Avoid defining component methods that start with _ or $."
           );
         }
       }
@@ -5114,7 +5114,7 @@
       dataDef.set = function () {
         warn(
           "Avoid replacing instance root $data. " +
-            "Use nested data properties instead.",
+          "Use nested data properties instead.",
           this
         );
       };
@@ -5567,9 +5567,9 @@
         var key =
           vnode.key == null
             ? // same constructor may get registered as different local components
-              // so cid alone is not enough (#3269)
-              componentOptions.Ctor.cid +
-              (componentOptions.tag ? "::" + componentOptions.tag : "")
+            // so cid alone is not enough (#3269)
+            componentOptions.Ctor.cid +
+            (componentOptions.tag ? "::" + componentOptions.tag : "")
             : vnode.key;
         if (cache[key]) {
           vnode.componentInstance = cache[key].componentInstance;
@@ -5694,17 +5694,17 @@
       ? "false"
       : // allow arbitrary string value for contenteditable
       key === "contenteditable" && isValidContentEditableValue(value)
-      ? value
-      : "true";
+        ? value
+        : "true";
   };
 
   var isBooleanAttr = makeMap(
     "allowfullscreen,async,autofocus,autoplay,checked,compact,controls,declare," +
-      "default,defaultchecked,defaultmuted,defaultselected,defer,disabled," +
-      "enabled,formnovalidate,hidden,indeterminate,inert,ismap,itemscope,loop,multiple," +
-      "muted,nohref,noresize,noshade,novalidate,nowrap,open,pauseonexit,readonly," +
-      "required,reversed,scoped,seamless,selected,sortable," +
-      "truespeed,typemustmatch,visible"
+    "default,defaultchecked,defaultmuted,defaultselected,defer,disabled," +
+    "enabled,formnovalidate,hidden,indeterminate,inert,ismap,itemscope,loop,multiple," +
+    "muted,nohref,noresize,noshade,novalidate,nowrap,open,pauseonexit,readonly," +
+    "required,reversed,scoped,seamless,selected,sortable," +
+    "truespeed,typemustmatch,visible"
   );
 
   var xlinkNS = "http://www.w3.org/1999/xlink";
@@ -5813,24 +5813,24 @@
 
   var isHTMLTag = makeMap(
     "html,body,base,head,link,meta,style,title," +
-      "address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section," +
-      "div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul," +
-      "a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby," +
-      "s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video," +
-      "embed,object,param,source,canvas,script,noscript,del,ins," +
-      "caption,col,colgroup,table,thead,tbody,td,th,tr," +
-      "button,datalist,fieldset,form,input,label,legend,meter,optgroup,option," +
-      "output,progress,select,textarea," +
-      "details,dialog,menu,menuitem,summary," +
-      "content,element,shadow,template,blockquote,iframe,tfoot"
+    "address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section," +
+    "div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul," +
+    "a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby," +
+    "s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video," +
+    "embed,object,param,source,canvas,script,noscript,del,ins," +
+    "caption,col,colgroup,table,thead,tbody,td,th,tr," +
+    "button,datalist,fieldset,form,input,label,legend,meter,optgroup,option," +
+    "output,progress,select,textarea," +
+    "details,dialog,menu,menuitem,summary," +
+    "content,element,shadow,template,blockquote,iframe,tfoot"
   );
 
   // this map is intentionally selective, only covering SVG elements that may
   // contain child elements.
   var isSVG = makeMap(
     "svg,animate,circle,clippath,cursor,defs,desc,ellipse,filter,font-face," +
-      "foreignobject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern," +
-      "polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view",
+    "foreignobject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern," +
+    "polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view",
     true
   );
 
@@ -6193,10 +6193,10 @@
           if (isUnknownElement$$1(vnode, creatingElmInVPre)) {
             warn(
               "Unknown custom element: <" +
-                tag +
-                "> - did you " +
-                "register the component correctly? For recursive components, " +
-                'make sure to provide the "name" option.',
+              tag +
+              "> - did you " +
+              "register the component correctly? For recursive components, " +
+              'make sure to provide the "name" option.',
               vnode.context
             );
           }
@@ -6651,8 +6651,8 @@
           if (seenKeys[key]) {
             warn(
               "Duplicate keys detected: '" +
-                key +
-                "'. This may cause an update error.",
+              key +
+              "'. This may cause an update error.",
               vnode.context
             );
           } else {
@@ -6895,7 +6895,7 @@
           vnode.tag.indexOf("vue-component") === 0 ||
           (!isUnknownElement$$1(vnode, inVPre) &&
             vnode.tag.toLowerCase() ===
-              (node.tagName && node.tagName.toLowerCase()))
+            (node.tagName && node.tagName.toLowerCase()))
         );
       } else {
         return node.nodeType === (vnode.isComment ? 8 : 3);
@@ -6953,10 +6953,10 @@
               } else {
                 warn(
                   "The client-side rendered virtual DOM tree is not matching " +
-                    "server-rendered content. This is likely caused by incorrect " +
-                    "HTML markup, for example nesting block-level elements inside " +
-                    "<p>, or missing <tbody>. Bailing hydration and performing " +
-                    "full client-side render."
+                  "server-rendered content. This is likely caused by incorrect " +
+                  "HTML markup, for example nesting block-level elements inside " +
+                  "<p>, or missing <tbody>. Bailing hydration and performing " +
+                  "full client-side render."
                 );
               }
             }
@@ -7464,12 +7464,12 @@
   function pluckModuleFunction(modules, key) {
     return modules
       ? modules
-          .map(function (m) {
-            return m[key];
-          })
-          .filter(function (_) {
-            return _;
-          })
+        .map(function (m) {
+          return m[key];
+        })
+        .filter(function (_) {
+          return _;
+        })
       : [];
   }
 
@@ -7542,7 +7542,7 @@
     if (warn && modifiers.prevent && modifiers.passive) {
       warn(
         "passive and prevent can't be used together. " +
-          "Passive handler can't prevent default event.",
+        "Passive handler can't prevent default event.",
         range
       );
     }
@@ -7848,11 +7848,11 @@
       if (tag === "input" && type === "file") {
         warn$1(
           "<" +
-            el.tag +
-            ' v-model="' +
-            value +
-            '" type="file">:\n' +
-            "File inputs are read only. Use a v-on:change listener instead.",
+          el.tag +
+          ' v-model="' +
+          value +
+          '" type="file">:\n' +
+          "File inputs are read only. Use a v-on:change listener instead.",
           el.rawAttrsMap["v-model"]
         );
       }
@@ -7877,13 +7877,13 @@
     } else {
       warn$1(
         "<" +
-          el.tag +
-          ' v-model="' +
-          value +
-          '">: ' +
-          "v-model is not supported on this element type. " +
-          "If you are working with contenteditable, it's recommended to " +
-          "wrap a library dedicated for that purpose inside a custom component.",
+        el.tag +
+        ' v-model="' +
+        value +
+        '">: ' +
+        "v-model is not supported on this element type. " +
+        "If you are working with contenteditable, it's recommended to " +
+        "wrap a library dedicated for that purpose inside a custom component.",
         el.rawAttrsMap["v-model"]
       );
     }
@@ -7901,43 +7901,43 @@
       el,
       "checked",
       "Array.isArray(" +
-        value +
-        ")" +
-        "?_i(" +
-        value +
-        "," +
-        valueBinding +
-        ")>-1" +
-        (trueValueBinding === "true"
-          ? ":(" + value + ")"
-          : ":_q(" + value + "," + trueValueBinding + ")")
+      value +
+      ")" +
+      "?_i(" +
+      value +
+      "," +
+      valueBinding +
+      ")>-1" +
+      (trueValueBinding === "true"
+        ? ":(" + value + ")"
+        : ":_q(" + value + "," + trueValueBinding + ")")
     );
     addHandler(
       el,
       "change",
       "var $$a=" +
-        value +
-        "," +
-        "$$el=$event.target," +
-        "$$c=$$el.checked?(" +
-        trueValueBinding +
-        "):(" +
-        falseValueBinding +
-        ");" +
-        "if(Array.isArray($$a)){" +
-        "var $$v=" +
-        (number ? "_n(" + valueBinding + ")" : valueBinding) +
-        "," +
-        "$$i=_i($$a,$$v);" +
-        "if($$el.checked){$$i<0&&(" +
-        genAssignmentCode(value, "$$a.concat([$$v])") +
-        ")}" +
-        "else{$$i>-1&&(" +
-        genAssignmentCode(value, "$$a.slice(0,$$i).concat($$a.slice($$i+1))") +
-        ")}" +
-        "}else{" +
-        genAssignmentCode(value, "$$c") +
-        "}",
+      value +
+      "," +
+      "$$el=$event.target," +
+      "$$c=$$el.checked?(" +
+      trueValueBinding +
+      "):(" +
+      falseValueBinding +
+      ");" +
+      "if(Array.isArray($$a)){" +
+      "var $$v=" +
+      (number ? "_n(" + valueBinding + ")" : valueBinding) +
+      "," +
+      "$$i=_i($$a,$$v);" +
+      "if($$el.checked){$$i<0&&(" +
+      genAssignmentCode(value, "$$a.concat([$$v])") +
+      ")}" +
+      "else{$$i>-1&&(" +
+      genAssignmentCode(value, "$$a.slice(0,$$i).concat($$a.slice($$i+1))") +
+      ")}" +
+      "}else{" +
+      genAssignmentCode(value, "$$c") +
+      "}",
       null,
       true
     );
@@ -7986,10 +7986,10 @@
         var binding = el.attrsMap["v-bind:value"] ? "v-bind:value" : ":value";
         warn$1(
           binding +
-            '="' +
-            value$1 +
-            '" conflicts with v-model on the same element ' +
-            "because the latter already expands to a value binding internally",
+          '="' +
+          value$1 +
+          '" conflicts with v-model on the same element ' +
+          "because the latter already expands to a value binding internally",
           el.rawAttrsMap[binding]
         );
       }
@@ -8209,7 +8209,7 @@
         // e.g. `value` on <progress> w/ non-finite value
         try {
           elm[key] = cur;
-        } catch (e) {}
+        } catch (e) { }
       }
     }
   }
@@ -8233,7 +8233,7 @@
     // work around IE bug when accessing document.activeElement in an iframe
     try {
       notInFocus = document.activeElement !== elm;
-    } catch (e) {}
+    } catch (e) { }
     return notInFocus && elm.value !== checkVal;
   }
 
@@ -8557,8 +8557,8 @@
       ? window.requestAnimationFrame.bind(window)
       : setTimeout
     : /* istanbul ignore next */ function (fn) {
-        return fn();
-      };
+      return fn();
+    };
 
   function nextFrame(fn) {
     raf(function () {
@@ -8944,19 +8944,19 @@
     if (typeof val !== "number") {
       warn(
         "<transition> explicit " +
-          name +
-          " duration is not a valid number - " +
-          "got " +
-          JSON.stringify(val) +
-          ".",
+        name +
+        " duration is not a valid number - " +
+        "got " +
+        JSON.stringify(val) +
+        ".",
         vnode.context
       );
     } else if (isNaN(val)) {
       warn(
         "<transition> explicit " +
-          name +
-          " duration is NaN - " +
-          "the duration expression might be incorrect.",
+        name +
+        " duration is NaN - " +
+        "the duration expression might be incorrect.",
         vnode.context
       );
     }
@@ -8995,17 +8995,17 @@
 
   var transition = inBrowser
     ? {
-        create: _enter,
-        activate: _enter,
-        remove: function remove$$1(vnode, rm) {
-          /* istanbul ignore else */
-          if (vnode.data.show !== true) {
-            leave(vnode, rm);
-          } else {
-            rm();
-          }
-        },
-      }
+      create: _enter,
+      activate: _enter,
+      remove: function remove$$1(vnode, rm) {
+        /* istanbul ignore else */
+        if (vnode.data.show !== true) {
+          leave(vnode, rm);
+        } else {
+          rm();
+        }
+      },
+    }
     : {};
 
   var platformModules = [attrs, klass, events, domProps, style, transition];
@@ -9082,10 +9082,10 @@
           // no matching option found for at least one value
           var needReset = el.multiple
             ? binding.value.some(function (v) {
-                return hasNoMatchingOption(v, curOptions);
-              })
+              return hasNoMatchingOption(v, curOptions);
+            })
             : binding.value !== binding.oldValue &&
-              hasNoMatchingOption(binding.value, curOptions);
+            hasNoMatchingOption(binding.value, curOptions);
           if (needReset) {
             trigger(el, "change");
           }
@@ -9110,10 +9110,10 @@
     if (isMultiple && !Array.isArray(value)) {
       warn(
         '<select multiple v-model="' +
-          binding.expression +
-          '"> ' +
-          "expects an Array value for its binding, but got " +
-          Object.prototype.toString.call(value).slice(8, -1),
+        binding.expression +
+        '"> ' +
+        "expects an Array value for its binding, but got " +
+        Object.prototype.toString.call(value).slice(8, -1),
         vm
       );
       return;
@@ -9333,7 +9333,7 @@
       if (children.length > 1) {
         warn(
           "<transition> can only be used on a single element. Use " +
-            "<transition-group> for lists.",
+          "<transition-group> for lists.",
           this.$parent
         );
       }
@@ -9375,10 +9375,10 @@
             ? id + "comment"
             : id + child.tag
           : isPrimitive(child.key)
-          ? String(child.key).indexOf(id) === 0
-            ? child.key
-            : id + child.key
-          : child.key;
+            ? String(child.key).indexOf(id) === 0
+              ? child.key
+              : id + child.key
+            : child.key;
 
       var data = ((child.data || (child.data = {})).transition =
         extractTransitionData(this));
@@ -9651,15 +9651,15 @@
         } else {
           console[console.info ? "info" : "log"](
             "Download the Vue Devtools extension for a better development experience:\n" +
-              "https://github.com/vuejs/vue-devtools"
+            "https://github.com/vuejs/vue-devtools"
           );
         }
       }
       if (config.productionTip !== false && typeof console !== "undefined") {
         console[console.info ? "info" : "log"](
           "You are running Vue in development mode.\n" +
-            "Make sure to turn on production mode when deploying for production.\n" +
-            "See more tips at https://vuejs.org/guide/deployment.html"
+          "Make sure to turn on production mode when deploying for production.\n" +
+          "See more tips at https://vuejs.org/guide/deployment.html"
         );
       }
     }, 0);
@@ -9718,11 +9718,11 @@
       if (res) {
         warn(
           'class="' +
-            staticClass +
-            '": ' +
-            "Interpolation inside attributes has been removed. " +
-            "Use v-bind or the colon shorthand instead. For example, " +
-            'instead of <div class="{{ val }}">, use <div :class="val">.',
+          staticClass +
+          '": ' +
+          "Interpolation inside attributes has been removed. " +
+          "Use v-bind or the colon shorthand instead. For example, " +
+          'instead of <div class="{{ val }}">, use <div :class="val">.',
           el.rawAttrsMap["class"]
         );
       }
@@ -9765,11 +9765,11 @@
         if (res) {
           warn(
             'style="' +
-              staticStyle +
-              '": ' +
-              "Interpolation inside attributes has been removed. " +
-              "Use v-bind or the colon shorthand instead. For example, " +
-              'instead of <div style="{{ val }}">, use <div :style="val">.',
+            staticStyle +
+            '": ' +
+            "Interpolation inside attributes has been removed. " +
+            "Use v-bind or the colon shorthand instead. For example, " +
+            'instead of <div style="{{ val }}">, use <div :style="val">.',
             el.rawAttrsMap["style"]
           );
         }
@@ -9816,7 +9816,7 @@
 
   var isUnaryTag = makeMap(
     "area,base,br,col,embed,frame,hr,img,input,isindex,keygen," +
-      "link,meta,param,source,track,wbr"
+    "link,meta,param,source,track,wbr"
   );
 
   // Elements that you can, intentionally, leave open
@@ -9829,10 +9829,10 @@
   // Phrasing Content https://html.spec.whatwg.org/multipage/dom.html#phrasing-content
   var isNonPhrasingTag = makeMap(
     "address,article,aside,base,blockquote,body,caption,col,colgroup,dd," +
-      "details,dialog,div,dl,dt,fieldset,figcaption,figure,footer,form," +
-      "h1,h2,h3,h4,h5,h6,head,header,hgroup,hr,html,legend,li,menuitem,meta," +
-      "optgroup,option,param,rp,rt,source,style,summary,tbody,td,tfoot,th,thead," +
-      "title,tr,track"
+    "details,dialog,div,dl,dt,fieldset,figcaption,figure,footer,form," +
+    "h1,h2,h3,h4,h5,h6,head,header,hgroup,hr,html,legend,li,menuitem,meta," +
+    "optgroup,option,param,rp,rt,source,style,summary,tbody,td,tfoot,th,thead," +
+    "title,tr,track"
   );
 
   /**
@@ -10271,8 +10271,8 @@
         } else {
           warnOnce(
             "Component template should contain exactly one root element. " +
-              "If you are using v-if on multiple elements, " +
-              "use v-else-if to chain them instead.",
+            "If you are using v-if on multiple elements, " +
+            "use v-else-if to chain them instead.",
             { start: element.start }
           );
         }
@@ -10334,16 +10334,16 @@
       if (el.tag === "slot" || el.tag === "template") {
         warnOnce(
           "Cannot use <" +
-            el.tag +
-            "> as component root element because it may " +
-            "contain multiple nodes.",
+          el.tag +
+          "> as component root element because it may " +
+          "contain multiple nodes.",
           { start: el.start }
         );
       }
       if (el.attrsMap.hasOwnProperty("v-for")) {
         warnOnce(
           "Cannot use v-for on stateful component root element because " +
-            "it renders multiple elements.",
+          "it renders multiple elements.",
           el.rawAttrsMap["v-for"]
         );
       }
@@ -10386,13 +10386,13 @@
               cumulated[attr.name] = attr;
               return cumulated;
             },
-            {});
+              {});
           }
           attrs.forEach(function (attr) {
             if (invalidAttributeRE.test(attr.name)) {
               warn$2(
                 "Invalid dynamic argument expression: attribute names cannot contain " +
-                  "spaces, quotes, <, >, / or =.",
+                "spaces, quotes, <, >, / or =.",
                 {
                   start: attr.start + attr.name.indexOf("["),
                   end: attr.start + attr.name.length,
@@ -10406,11 +10406,11 @@
           element.forbidden = true;
           warn$2(
             "Templates should only be responsible for mapping the state to the " +
-              "UI. Avoid placing tags with side-effects in your templates, such as " +
-              "<" +
-              tag +
-              ">" +
-              ", as they will not be parsed.",
+            "UI. Avoid placing tags with side-effects in your templates, such as " +
+            "<" +
+            tag +
+            ">" +
+            ", as they will not be parsed.",
             { start: element.start }
           );
         }
@@ -10557,6 +10557,7 @@
         }
       },
     });
+    debugger
     return root;
   }
 
@@ -10627,7 +10628,7 @@
           ) {
             warn$2(
               "Do not use v-for index as key on <transition-group> children, " +
-                "this is the same as not using keys.",
+              "this is the same as not using keys.",
               getRawBindingAttr(el, "key"),
               true /* tip */
             );
@@ -10708,11 +10709,11 @@
     } else {
       warn$2(
         "v-" +
-          (el.elseif ? 'else-if="' + el.elseif + '"' : "else") +
-          " " +
-          "used on element <" +
-          el.tag +
-          "> without corresponding v-if.",
+        (el.elseif ? 'else-if="' + el.elseif + '"' : "else") +
+        " " +
+        "used on element <" +
+        el.tag +
+        "> without corresponding v-if.",
         el.rawAttrsMap[el.elseif ? "v-else-if" : "v-else"]
       );
     }
@@ -10727,9 +10728,9 @@
         if (children[i].text !== " ") {
           warn$2(
             'text "' +
-              children[i].text.trim() +
-              '" between v-if and v-else(-if) ' +
-              "will be ignored.",
+            children[i].text.trim() +
+            '" between v-if and v-else(-if) ' +
+            "will be ignored.",
             children[i]
           );
         }
@@ -10762,9 +10763,9 @@
       if (slotScope) {
         warn$2(
           'the "scope" attribute for scoped slots have been deprecated and ' +
-            'replaced by "slot-scope" since 2.5. The new "slot-scope" attribute ' +
-            "can also be used on plain elements in addition to <template> to " +
-            "denote scoped slots.",
+          'replaced by "slot-scope" since 2.5. The new "slot-scope" attribute ' +
+          "can also be used on plain elements in addition to <template> to " +
+          "denote scoped slots.",
           el.rawAttrsMap["scope"],
           true
         );
@@ -10775,10 +10776,10 @@
       if (el.attrsMap["v-for"]) {
         warn$2(
           "Ambiguous combined usage of slot-scope and v-for on <" +
-            el.tag +
-            "> " +
-            "(v-for takes higher priority). Use a wrapper <template> for the " +
-            "scoped slot to make it clearer.",
+          el.tag +
+          "> " +
+          "(v-for takes higher priority). Use a wrapper <template> for the " +
+          "scoped slot to make it clearer.",
           el.rawAttrsMap["slot-scope"],
           true
         );
@@ -10813,7 +10814,7 @@
             if (el.parent && !maybeComponent(el.parent)) {
               warn$2(
                 "<template v-slot> can only appear at the root level inside " +
-                  "the receiving component",
+                "the receiving component",
                 el
               );
             }
@@ -10842,7 +10843,7 @@
             if (el.scopedSlots) {
               warn$2(
                 "To avoid scope ambiguity, the default slot should also use " +
-                  "<template> syntax when there are other named slots.",
+                "<template> syntax when there are other named slots.",
                 slotBinding$1
               );
             }
@@ -10886,9 +10887,9 @@
     }
     return dynamicArgRE.test(name)
       ? // dynamic [name]
-        { name: name.slice(1, -1), dynamic: true }
+      { name: name.slice(1, -1), dynamic: true }
       : // static name
-        { name: '"' + name + '"', dynamic: false };
+      { name: '"' + name + '"', dynamic: false };
   }
 
   // handle <slot/> outlets
@@ -10898,8 +10899,8 @@
       if (el.key) {
         warn$2(
           "`key` does not work on <slot> because slots are abstract outlets " +
-            "and can possibly expand into multiple elements. " +
-            "Use the key on a wrapping element instead.",
+          "and can possibly expand into multiple elements. " +
+          "Use the key on a wrapping element instead.",
           getRawBindingAttr(el, "key")
         );
       }
@@ -10942,8 +10943,8 @@
           if (value.trim().length === 0) {
             warn$2(
               'The value for a v-bind expression cannot be empty. Found in "v-bind:' +
-                name +
-                '"'
+              name +
+              '"'
             );
           }
           if (modifiers) {
@@ -11055,12 +11056,12 @@
           if (res) {
             warn$2(
               name +
-                '="' +
-                value +
-                '": ' +
-                "Interpolation inside attributes has been removed. " +
-                "Use v-bind or the colon shorthand instead. For example, " +
-                'instead of <div id="{{ val }}">, use <div :id="val">.',
+              '="' +
+              value +
+              '": ' +
+              "Interpolation inside attributes has been removed. " +
+              "Use v-bind or the colon shorthand instead. For example, " +
+              'instead of <div id="{{ val }}">, use <div :id="val">.',
               list[i]
             );
           }
@@ -11147,14 +11148,14 @@
       if (_el.for && _el.alias === value) {
         warn$2(
           "<" +
-            el.tag +
-            ' v-model="' +
-            value +
-            '">: ' +
-            "You are binding v-model directly to a v-for iteration alias. " +
-            "This will not be able to modify the v-for source array because " +
-            "writing to the alias is like modifying a function local variable. " +
-            "Consider using an array of objects and use v-model on an object property instead.",
+          el.tag +
+          ' v-model="' +
+          value +
+          '">: ' +
+          "You are binding v-model directly to a v-for iteration alias. " +
+          "This will not be able to modify the v-for source array because " +
+          "writing to the alias is like modifying a function local variable. " +
+          "Consider using an array of objects and use v-model on an object property instead.",
           el.rawAttrsMap["v-model"]
         );
       }
@@ -11306,7 +11307,7 @@
   function genStaticKeys$1(keys) {
     return makeMap(
       "type,tag,attrsList,attrsMap,plain,parent,children,attrs,start,end,rawAttrsMap" +
-        (keys ? "," + keys : "")
+      (keys ? "," + keys : "")
     );
   }
 
@@ -11560,10 +11561,10 @@
       var handlerCode = isMethodPath
         ? "return " + handler.value + ".apply(null, arguments)"
         : isFunctionExpression
-        ? "return (" + handler.value + ").apply(null, arguments)"
-        : isFunctionInvocation
-        ? "return " + handler.value
-        : handler.value;
+          ? "return (" + handler.value + ").apply(null, arguments)"
+          : isFunctionInvocation
+            ? "return " + handler.value
+            : handler.value;
       return "function($event){" + code + handlerCode + "}";
     }
   }
@@ -11794,8 +11795,8 @@
       return altGen
         ? altGen(el, state)
         : el.once
-        ? genOnce(el, state)
-        : genElement(el, state);
+          ? genOnce(el, state)
+          : genElement(el, state);
     }
   }
 
@@ -11813,14 +11814,14 @@
     ) {
       state.warn(
         "<" +
-          el.tag +
-          ' v-for="' +
-          alias +
-          " in " +
-          exp +
-          '">: component lists rendered with ' +
-          "v-for should have explicit keys. " +
-          "See https://vuejs.org/guide/list.html#key for more info.",
+        el.tag +
+        ' v-for="' +
+        alias +
+        " in " +
+        exp +
+        '">: component lists rendered with ' +
+        "v-for should have explicit keys. " +
+        "See https://vuejs.org/guide/list.html#key for more info.",
         el.rawAttrsMap["v-for"],
         true /* tip */
       );
@@ -11964,9 +11965,9 @@
           '"' +
           (dir.value
             ? ",value:(" +
-              dir.value +
-              "),expression:" +
-              JSON.stringify(dir.value)
+            dir.value +
+            "),expression:" +
+            JSON.stringify(dir.value)
             : "") +
           (dir.arg
             ? ",arg:" + (dir.isDynamicArg ? dir.arg : '"' + dir.arg + '"')
@@ -12104,10 +12105,10 @@
       (el.tag === "template"
         ? el.if && isLegacySyntax
           ? "(" +
-            el.if +
-            ")?" +
-            (genChildren(el, state) || "undefined") +
-            ":undefined"
+          el.if +
+          ")?" +
+          (genChildren(el, state) || "undefined") +
+          ":undefined"
           : genChildren(el, state) || "undefined"
         : genElement(el, state)) +
       "}";
@@ -12232,15 +12233,15 @@
     var attrs =
       el.attrs || el.dynamicAttrs
         ? genProps(
-            (el.attrs || []).concat(el.dynamicAttrs || []).map(function (attr) {
-              return {
-                // slot props are camelized
-                name: camelize(attr.name),
-                value: attr.value,
-                dynamic: attr.dynamic,
-              };
-            })
-          )
+          (el.attrs || []).concat(el.dynamicAttrs || []).map(function (attr) {
+            return {
+              // slot props are camelized
+              name: camelize(attr.name),
+              value: attr.value,
+              dynamic: attr.dynamic,
+            };
+          })
+        )
         : null;
     var bind$$1 = el.attrsMap["v-bind"];
     if ((attrs || bind$$1) && !children) {
@@ -12299,21 +12300,21 @@
   // typeof, instanceof and in are allowed
   var prohibitedKeywordRE = new RegExp(
     "\\b" +
-      (
-        "do,if,for,let,new,try,var,case,else,with,await,break,catch,class,const," +
-        "super,throw,while,yield,delete,export,import,return,switch,default," +
-        "extends,finally,continue,debugger,function,arguments"
-      )
-        .split(",")
-        .join("\\b|\\b") +
-      "\\b"
+    (
+      "do,if,for,let,new,try,var,case,else,with,await,break,catch,class,const," +
+      "super,throw,while,yield,delete,export,import,return,switch,default," +
+      "extends,finally,continue,debugger,function,arguments"
+    )
+      .split(",")
+      .join("\\b|\\b") +
+    "\\b"
   );
 
   // these unary operators should not be used as property/method names
   var unaryOperatorsRE = new RegExp(
     "\\b" +
-      "delete,typeof,void".split(",").join("\\s*\\([^\\)]*\\)|\\b") +
-      "\\s*\\([^\\)]*\\)"
+    "delete,typeof,void".split(",").join("\\s*\\([^\\)]*\\)|\\b") +
+    "\\s*\\([^\\)]*\\)"
   );
 
   // strip strings in expressions
@@ -12367,10 +12368,10 @@
     if (keywordMatch && stripped.charAt(keywordMatch.index - 1) !== "$") {
       warn(
         "avoid using JavaScript unary operator as property name: " +
-          '"' +
-          keywordMatch[0] +
-          '" in expression ' +
-          text.trim(),
+        '"' +
+        keywordMatch[0] +
+        '" in expression ' +
+        text.trim(),
         range
       );
     }
@@ -12407,23 +12408,23 @@
       if (keywordMatch) {
         warn(
           "avoid using JavaScript keyword as property name: " +
-            '"' +
-            keywordMatch[0] +
-            '"\n  Raw expression: ' +
-            text.trim(),
+          '"' +
+          keywordMatch[0] +
+          '"\n  Raw expression: ' +
+          text.trim(),
           range
         );
       } else {
         warn(
           "invalid expression: " +
-            e.message +
-            " in\n\n" +
-            "    " +
-            exp +
-            "\n\n" +
-            "  Raw expression: " +
-            text.trim() +
-            "\n",
+          e.message +
+          " in\n\n" +
+          "    " +
+          exp +
+          "\n\n" +
+          "  Raw expression: " +
+          text.trim() +
+          "\n",
           range
         );
       }
@@ -12436,14 +12437,14 @@
     } catch (e) {
       warn(
         "invalid function parameter expression: " +
-          e.message +
-          " in\n\n" +
-          "    " +
-          exp +
-          "\n\n" +
-          "  Raw expression: " +
-          text.trim() +
-          "\n",
+        e.message +
+        " in\n\n" +
+        "    " +
+        exp +
+        "\n\n" +
+        "  Raw expression: " +
+        text.trim() +
+        "\n",
         range
       );
     }
@@ -12469,10 +12470,10 @@
           }
           res.push(
             "" +
-              (j + 1) +
-              repeat$1(" ", 3 - String(j + 1).length) +
-              "|  " +
-              lines[j]
+            (j + 1) +
+            repeat$1(" ", 3 - String(j + 1).length) +
+            "|  " +
+            lines[j]
           );
           var lineLength = lines[j].length;
           if (j === i) {
@@ -12540,10 +12541,10 @@
           if (e.toString().match(/unsafe-eval|CSP/)) {
             warn$$1(
               "It seems you are using the standalone build of Vue.js in an " +
-                "environment with Content Security Policy that prohibits unsafe-eval. " +
-                "The template compiler cannot work in this environment. Consider " +
-                "relaxing the policy to allow unsafe-eval or pre-compiling your " +
-                "templates into render functions."
+              "environment with Content Security Policy that prohibits unsafe-eval. " +
+              "The template compiler cannot work in this environment. Consider " +
+              "relaxing the policy to allow unsafe-eval or pre-compiling your " +
+              "templates into render functions."
             );
           }
         }
@@ -12567,23 +12568,23 @@
             compiled.errors.forEach(function (e) {
               warn$$1(
                 "Error compiling template:\n\n" +
-                  e.msg +
-                  "\n\n" +
-                  generateCodeFrame(template, e.start, e.end),
+                e.msg +
+                "\n\n" +
+                generateCodeFrame(template, e.start, e.end),
                 vm
               );
             });
           } else {
             warn$$1(
               "Error compiling template:\n\n" +
-                template +
-                "\n\n" +
-                compiled.errors
-                  .map(function (e) {
-                    return "- " + e;
-                  })
-                  .join("\n") +
-                "\n",
+              template +
+              "\n\n" +
+              compiled.errors
+                .map(function (e) {
+                  return "- " + e;
+                })
+                .join("\n") +
+              "\n",
               vm
             );
           }
@@ -12620,14 +12621,14 @@
         ) {
           warn$$1(
             "Failed to generate render function:\n\n" +
-              fnGenErrors
-                .map(function (ref) {
-                  var err = ref.err;
-                  var code = ref.code;
+            fnGenErrors
+              .map(function (ref) {
+                var err = ref.err;
+                var code = ref.code;
 
-                  return err.toString() + " in\n\n" + code + "\n";
-                })
-                .join("\n"),
+                return err.toString() + " in\n\n" + code + "\n";
+              })
+              .join("\n"),
             vm
           );
         }

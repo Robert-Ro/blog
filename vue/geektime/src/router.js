@@ -20,6 +20,7 @@ const routes = [
   { path: "/tailwind", component: () => import("@/views/tailwind") },
   { path: "/vnode", component: () => import("@/views/vnode") },
   { path: "/patch", component: () => import("@/views/patch") },
+  { path: "/parse", component: () => import("@/views/parse") },
 ];
 
 // 3. 创建 router 实例，然后传 `routes` 配置
@@ -52,9 +53,9 @@ router.history.transitionTo = function (location, onComplete, onAbort) {
   location =
     typeof location === "object"
       ? {
-          ...location,
-          query: { ...location.query, ...query },
-        }
+        ...location,
+        query: { ...location.query, ...query },
+      }
       : { path: location, query };
   transitionTo.call(router.history, location, onComplete, onAbort);
 };
