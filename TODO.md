@@ -9,15 +9,25 @@
 * 算法
 * flipper plugin development
   + need paitence
-* ant-design-vue form表单源码实现
-* better-scroll源码
 
-* vue源码
+
+## 源码阅读⭐⭐⭐⭐⭐
   + vue-router
   + vuex
   + vue-i18n
+  * ant-design-vue
+  - element
+  - mint-ui
+  - vant-ui
+  - cube-ui
+## 体验：⭐⭐⭐⭐
 * 低代码
 * 微前端
+* next.js
+* nuxt.js
+* nest.js
+* gastby
+* ssr
 
 * 国际化
   + 基于ast给字段自动包$t()
@@ -26,14 +36,15 @@
       - 动态变量问题
   + 翻译平台
   + 告警：爬取中文(存在漏包的情况)
-* axios retry-request
+  - 走查 chrome 插件
 
-体验：
-* next.js
-* nuxt.js
-* nest.js
-* gastby
-* ssr
+- 2x 3x 图自动导入插件
+- flipper plugin development
+- 个人 eslint/prettier+typescript 等
+* axios retry-request⭐⭐⭐⭐⭐
+- 优雅的处理Vue项目中的错误⭐⭐⭐⭐基于原型/babel插件
+
+
 
 * commitlint/changelog 配置信息
   > 分tag分提交类型
@@ -44,13 +55,9 @@
     - https://www.npmjs.com/package/prefix-commit-jira-id
     - https://www.npmjs.com/package/jira-prepare-commit-msg
 
-* input
-  + mdn input事件
-  + maskInput
-
-  + scroll相关
++ scroll相关
     虚拟滚动、滚动性能，滚动条
 
-    - better-scroll
+    - better-scroll ⭐⭐⭐⭐⭐
     - iscroll
     - [vue-virtual-scroller](https://github.com/Akryum/vue-virtual-scroller)
