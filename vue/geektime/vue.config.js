@@ -5,6 +5,7 @@ module.exports = defineConfig({
   configureWebpack: {
     externals: {
       vue: "Vue",
+      'vue-i18n': "VueI18n"
     },
     cache: true,
     // pluginOptions: {

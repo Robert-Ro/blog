@@ -5,6 +5,7 @@ import customPlugin from "./directives/custom";
 import antd from "ant-design-vue";
 import "ant-design-vue/dist/antd.css";
 import "./assets/tailwind.css";
+import { i18n } from './i18n'
 
 // import { svgSpritePlugin } from "vue-svg-sprite";
 
@@ -16,5 +17,6 @@ Vue.config.performance = true;
 
 new Vue({
   router: Router,
+  i18n,
   render: (h) => h(App),
 }).$mount("#app");
