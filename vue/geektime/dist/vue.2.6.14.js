@@ -2066,7 +2066,7 @@
     }
     // $flow-disable-line
     if (!cb && typeof Promise !== "undefined") {
-      return new Promise(function (resolve) {
+      return new Promise(function (resolve) { //在支持Promise的环境下，如果未传回调函数，则返回一个Promise
         _resolve = resolve;
       });
     }
@@ -5901,7 +5901,7 @@
       var selected = document.querySelector(el);
       if (!selected) {
         warn("Cannot find element: " + el);
-        return document.createElement("div");
+        return document.createElement("div"); // 空的div元素
       }
       return selected;
     } else {
