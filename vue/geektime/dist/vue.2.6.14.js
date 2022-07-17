@@ -5285,7 +5285,7 @@
 
   function initUse(Vue) {
     Vue.use = function (plugin) {
-      var installedPlugins =
+      var installedPlugins = //去重处理
         this._installedPlugins || (this._installedPlugins = []);
       if (installedPlugins.indexOf(plugin) > -1) {
         return this;
@@ -5293,7 +5293,7 @@
 
       // additional parameters
       var args = toArray(arguments, 1);
-      args.unshift(this);
+      args.unshift(this); //将Vue作为第一个参数
       if (typeof plugin.install === "function") {
         plugin.install.apply(plugin, args);
       } else if (typeof plugin === "function") {
@@ -5332,7 +5332,7 @@
       var Super = this;
       var SuperId = Super.cid;
       var cachedCtors = extendOptions._Ctor || (extendOptions._Ctor = {});
-      if (cachedCtors[SuperId]) {
+      if (cachedCtors[SuperId]) { // 缓存策略
         return cachedCtors[SuperId];
       }
 
