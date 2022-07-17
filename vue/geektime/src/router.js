@@ -21,6 +21,7 @@ const routes = [
   { path: "/vnode", component: () => import("@/views/vnode") },
   { path: "/patch", component: () => import("@/views/patch") },
   { path: "/parse", component: () => import("@/views/parse") },
+  { path: "/i18n", component: () => import("@/views/i18n") },
 ];
 
 // 3. 创建 router 实例，然后传 `routes` 配置
