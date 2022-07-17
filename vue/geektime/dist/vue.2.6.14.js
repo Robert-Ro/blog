@@ -5157,7 +5157,7 @@
     Vue.prototype._init = function (options) {
       var vm = this;
       // a uid
-      vm._uid = uid$3++;
+      vm._uid = uid$3++; // id递增
 
       var startTag, endTag;
       /* istanbul ignore if */
