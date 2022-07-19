@@ -2,10 +2,12 @@ import VueI18n from 'vue-i18n'
 
 const messages = {
   en: {
-    hello: 'hello world'
+    hello: 'hello world',
+    aa: 'hello {count}'
   },
   cn: {
-    hello: '你好，世界'
+    hello: '你好，世界',
+    aa: 'hello {count}'
   }
 }
 

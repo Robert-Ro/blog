@@ -1,6 +1,6 @@
 <template>
     <div>
-        <section>
+        <!-- <section>
             <p>模板:</p>
             <div>{{ $t('hello') }}</div>
             <li class="item-container">
@@ -22,11 +22,24 @@
         <section>
             <p>运行时:</p>
             <a-table :columns="columns"></a-table>
+            <span>{{ aa() }}</span>
+            <span>{{ cc() }}</span>
+        </section> -->
+        <section>
+            <test />
+            <tabs />
         </section>
     </div>
 </template>
 <script>
+import Test from './test.vue'
+import Tabs from './tabs.vue'
+
 export default {
+    components: {
+        Test,
+        Tabs,
+    },
     computed: {
         columns() {
             return [
@@ -49,6 +62,17 @@ export default {
                 timePrice: 0,
             },
         }
+    },
+    methods: {
+        aa() {
+            const item = { a: 22 }
+            const a = this.$t(`a.${item.a}`)
+            return a
+        },
+        cc() {
+            const a = this.$t('aa', { count: 2 })
+            return a
+        },
     },
 }
 </script>
