@@ -1,0 +1,80 @@
+<template>
+    <a-form
+        :form="form"
+        :label-col="{ span: 5 }"
+        :wrapper-col="{ span: 12 }"
+        @submit="handleSubmit"
+    >
+        <a-form-item :label="$t('form.Note')">
+            <a-input
+                v-decorator="[
+                    'note',
+                    {
+                        rules: [
+                            {
+                                required: true,
+                                message: $t(['form.node.required']),
+                            },
+                        ],
+                    },
+                ]"
+            />
+        </a-form-item>
+        <a-form-item :label="$t('form.Gender')">
+            <a-select
+                v-decorator="[
+                    'gender',
+                    {
+                        rules: [
+                            {
+                                required: true,
+                                message: $t('form.gender.required'),
+                            },
+                        ],
+                    },
+                ]"
+                :placeholder="$t('form.gender.placeholder')"
+                @change="handleSelectChange"
+            >
+                <a-select-option value="male">
+                    {{ $t('male') }}
+                </a-select-option>
+                <a-select-option value="female">
+                    {{ $t('female') }}
+                </a-select-option>
+            </a-select>
+        </a-form-item>
+        <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
+            <a-button type="primary" html-type="submit">
+                {{ $t('submit') }}
+            </a-button>
+        </a-form-item>
+    </a-form>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            formLayout: 'horizontal',
+            form: this.$form.createForm(this, { name: 'coordinated' }),
+        }
+    },
+    methods: {
+        handleSubmit(e) {
+            e.preventDefault()
+            this.form.validateFields((err, values) => {
+                if (!err) {
+                    console.log('Received values of form: ', values)
+                }
+            })
+        },
+        handleSelectChange(value) {
+            console.log(value)
+            this.form.setFieldsValue({
+                note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
+            })
+        },
+    },
+}
+</script>

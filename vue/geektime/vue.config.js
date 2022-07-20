@@ -24,7 +24,10 @@ module.exports = defineConfig({
           options.compilerOptions.modules = [
             {
               transformNode: (el) => {
-                // console.log(el)
+                if (/div/.test(el.tag) && el.tag !== 'a-table') {
+                  // console.log(el)
+                  // console.log('=====================')
+                }
                 try {
                   // 静态渲染
                   if (el.tag === 'input' || el.tag === 'textarea') {
@@ -34,15 +37,18 @@ module.exports = defineConfig({
                     })
                   }
                   if (el.tag === 'a-tab-pane') {
-                    console.log(el, '====')
-                    const key = el.rawAttrsMap[':tab'].value // $t('<key>')
-                    el.attrsList.push({
-                      name: `data-i18n`, value: key
-                    })
+                    const key = el.rawAttrsMap[':tab'].value  // $t('<key>')
+                    const reg = new RegExp(`\\s?\\$t\\('([a-zA-Z0-9\\-\\.]+)'\\)\\s?`)
+                    const matches = key.match(reg)
+                    if (matches) {
+                      el.attrsList.push({
+                        name: `data-i18n`, value: matches[1]
+                      })
+                    }
                   }
                   if (el.children.length === 1) {
                     const child = el.children[0]
-                    if (child.type === 2) {
+                    if (child.type === 2) { // FIXME 父节点上有国际化，子节点上也有国际化->子节点覆盖父节点
                       const text = child.text
                       // FIXME 提取出 {{$t(<key>)}} 正则
                       const reg = new RegExp(`\{\{\\s?\\$t\\('([a-zA-Z0-9\\-\\.]+)'\\)\\s?\}\}`, 'gm')
@@ -56,16 +62,21 @@ module.exports = defineConfig({
                           if (matches1) {
                             const key = matches1[1]
                             values.push(key)
-                            // 处理input, 组件, 占位符, 枚举类 -> ant-design-vue组件内列名
+                            // 组件, 占位符, 枚举类 -> ant-design-vue组件内列名
                           }
                         }
+                        const getExistedI18nAttrs = (attrs) => {
+                          return attrs.find((attr) => attr.name === 'data-i18n')?.value
+                        }
                         if (values.length > 1) {
+                          const i18nAttr = getExistedI18nAttrs(el.attrsList)
                           el.attrsList.push({
-                            name: `data-i18n`, value: values
+                            name: `data-i18n`, value: i18nAttr ? [i18nAttr, ...values] : values
                           })
                         } else {
+                          const i18nAttr = getExistedI18nAttrs(el.attrsList)
                           el.attrsList.push({
-                            name: `data-i18n`, value: values[0]
+                            name: `data-i18n`, value: i18nAttr ? [i18nAttr, values[0]] : values[0]
                           })
                         }
                       }

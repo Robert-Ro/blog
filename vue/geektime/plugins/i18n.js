@@ -14,6 +14,8 @@ const i18nPlugin = (babel) => {
        *
        * @param {import('@babel/core').NodePath} path
        * @param {*} state
+       * FIXME: form-item字段错误提示
+       * NOTE: column列名
        */
       ObjectExpression(path) {
         if (path.node.isNew) return
@@ -21,14 +23,12 @@ const i18nPlugin = (babel) => {
           return property?.value?.callee?.property?.name === '$t'
         })
         if (index > -1) {
-
           const value = path.node.properties[index].value
           if (t.isMemberExpression(value.callee)) {
             const argus = value.arguments[0]
             let newNode
             if (t.isStringLiteral(argus)) {
               const id = argus.value
-              console.log(value.arguments, '===value.arguments===')
               newNode = t.objectProperty(
                 t.StringLiteral('data-i18n'),
                 t.StringLiteral(id)
@@ -45,9 +45,9 @@ const i18nPlugin = (babel) => {
               path.node.properties.unshift(newNode)
             }
           }
-
         }
       },
+      // NOTE v-decorator -> compiled -> 指令解析 -> ast分析
     },
   }
 }

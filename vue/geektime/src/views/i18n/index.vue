@@ -1,6 +1,7 @@
 <template>
     <div>
-        <!-- <section>
+        <h1>i18n key注入DOM data-i18n 示例</h1>
+        <section>
             <p>模板:</p>
             <div>{{ $t('hello') }}</div>
             <li class="item-container">
@@ -24,21 +25,24 @@
             <a-table :columns="columns"></a-table>
             <span>{{ aa() }}</span>
             <span>{{ cc() }}</span>
-        </section> -->
+        </section>
         <section>
             <test />
             <tabs />
+            <form-test></form-test>
         </section>
     </div>
 </template>
 <script>
 import Test from './test.vue'
 import Tabs from './tabs.vue'
+import FormTest from './form-item.vue'
 
 export default {
     components: {
         Test,
         Tabs,
+        FormTest,
     },
     computed: {
         columns() {

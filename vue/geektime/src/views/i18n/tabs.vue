@@ -1,17 +1,17 @@
 <template>
-    <div>
-        <a-tabs default-active-key="1" @change="callback">
-            <a-tab-pane key="1" :tab="$t('tab.title.1')">
-                {{ $t('tab.1') }}
-            </a-tab-pane>
-            <!-- <a-tab-pane key="2" :tab="$t('tab.title.2')" force-render>
+    <a-tabs default-active-key="1" @change="callback">
+        <a-tab-pane key="1" :tab="$t('tab.title.1')">
+            {{ $t('tab.1') }}
+        </a-tab-pane>
+        <a-tab-pane key="2" :tab="$t('tab.title.2')" force-render>
+            <div>
                 {{ $t('tab.2') }}
-            </a-tab-pane>
-            <a-tab-pane key="3" :tab="$t('tab.title.3')">
-                {{ $t('tab.3') }}
-            </a-tab-pane> -->
-        </a-tabs>
-    </div>
+            </div>
+        </a-tab-pane>
+        <a-tab-pane key="3" :tab="$t('tab.title.3')">
+            {{ $t('tab.3') }}
+        </a-tab-pane>
+    </a-tabs>
 </template>
 
 <script>
