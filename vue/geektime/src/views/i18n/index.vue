@@ -16,6 +16,10 @@
             </span>
             <p>组件:</p>
             <a-button type="primary">{{ $t('hello') }}</a-button>
+            <a-button type="primary">
+                <a-icon type="reload"></a-icon>
+                {{ $t('hello') }}</a-button
+            >
             <p>输入项:</p>
             <input :placeholder="$t('hello')" />
             <textarea :placeholder="$t('hello')" value="111"></textarea>

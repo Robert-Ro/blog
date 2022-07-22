@@ -28,13 +28,21 @@ module.exports = defineConfig({
                   // console.log(el)
                   // console.log('=====================')
                 }
+                if (el.tag === 'a-button') {
+                  console.log(el)
+                  // console.log('=====================')
+                }
                 try {
                   // 静态渲染
                   if (el.tag === 'input' || el.tag === 'textarea') {
                     const key = el.rawAttrsMap[':placeholder'].value
-                    el.attrsList.push({
-                      name: `data-i18n`, value: key
-                    })
+                    const reg = new RegExp(`\\s?\\$t\\('([a-zA-Z0-9\\-\\.]+)'\\)\\s?`)
+                    const matches = key.match(reg)
+                    if (matches) {
+                      el.attrsList.push({
+                        name: `data-i18n`, value: matches[1]
+                      })
+                    }
                   }
                   if (el.tag === 'a-tab-pane') {
                     const key = el.rawAttrsMap[':tab'].value  // $t('<key>')
@@ -46,9 +54,17 @@ module.exports = defineConfig({
                       })
                     }
                   }
-                  if (el.children.length === 1) {
-                    const child = el.children[0]
-                    if (child.type === 2) { // FIXME 父节点上有国际化，子节点上也有国际化->子节点覆盖父节点
+                  /**
+                   * 判断是否是带有icon的<a-button />组件
+                   * @param {*} _el
+                   * @returns
+                   */
+                  const isIconButton = (_el) => {
+                    return _el.tag === 'a-button' && _el.children.some((child => child.tag === 'a-icon'))
+                  }
+                  if (el.children.length === 1 || isIconButton(el)) {
+                    const child = el.children.find(child => child.type === 2)
+                    if (child) { // NOTE 父节点上有国际化，子节点上也有国际化->子节点覆盖父节点
                       const text = child.text
                       // FIXME 提取出 {{$t(<key>)}} 正则
                       const reg = new RegExp(`\{\{\\s?\\$t\\('([a-zA-Z0-9\\-\\.]+)'\\)\\s?\}\}`, 'gm')

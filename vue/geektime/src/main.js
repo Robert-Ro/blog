@@ -1,5 +1,6 @@
 import Vue from "vue";
-import App from "./App.vue";
+// import App from "./App.vue";
+import App from "./views/i18n/list.vue";
 import Router from "./router";
 import customPlugin from "./directives/custom";
 import antd from "ant-design-vue";
