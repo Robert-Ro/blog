@@ -1,18 +1,22 @@
-import type { VNode } from 'vue'
 import * as VueRouter from 'vue-router'
+import { h } from 'vue'
 
 const routes = [
     {
         path: '/',
         component: {
-            render: (h) => h('div', ['home']),
+            render: () => h('div', ['home']),
         },
     },
     {
         path: '/about',
         component: {
-            template: '<div>about</div>',
+            render: () => h('div', [h('span', ['about'])]),
         },
+    },
+    {
+        path: '/ts',
+        component: () => import('@/components/TsDemo.vue'),
     },
 ]
 
