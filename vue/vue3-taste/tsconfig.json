@@ -8,12 +8,18 @@
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
+    "baseUrl": ".",
     "isolatedModules": true,
     "esModuleInterop": true,
     "lib": [
       "ESNext",
       "DOM"
     ],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
     "skipLibCheck": true
   },
   "include": [

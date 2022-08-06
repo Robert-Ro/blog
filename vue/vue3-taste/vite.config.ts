@@ -6,7 +6,9 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
-        vue(),
+        vue({
+            reactivityTransform: true, // ->  支持属性默认值选项
+        }),
         // legacy({
         //     targets: ['defaults', 'not IE 11'],
         // }),

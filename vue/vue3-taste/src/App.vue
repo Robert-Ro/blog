@@ -30,6 +30,7 @@
     height: 100%;
     justify-content: space-between;
     flex-direction: column;
+    padding: 0 20px;
     header,
     footer {
         text-align: center;
@@ -37,7 +38,6 @@
     }
     .content {
         flex: 1;
-        padding-left: 20px;
     }
 }
 </style>
