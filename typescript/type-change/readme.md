@@ -1,25 +1,13 @@
 # type-challenges
+## Learning Target
+- ts类型编程概念
+- ts类型编程操作符
+- ts类型编程应用实践
+## Termology & type Operator(类型编程操作符)✨✨✨✨✨
+[links](./type%20operator.md#L3)
 
-## Termology & type Operator
-
-- `keyof`: takes an **object type** or **union type** and produces a string or numeric **literal union** of its keys
-- `in`:
-  - acts as a type guard as [described](https://github.com/Microsoft/TypeScript/issues/10485)
-  - in mapped type definition: as part of the syntax to **iterate over all the items in a union of keys(`keyof` object)**.
-- `extends`:
-  - class/interface Inheritance
-  - Generic Constraints
-  - Conditional Types
-- `infer`: 表示在 `extends` 条件语句中待推断的类型变量。[Reference](https://github.com/Microsoft/TypeScript/pull/21496)
-  - 用于提取函数类型的返回值类型：`type ReturnType<T> = T extends (...args: any[]) => infer P ? P : any;`
-  - 用于提取构造函数中参数（实例）类型：[Detail](https://jkchao.github.io/typescript-book-chinese/tips/infer.html#%E5%86%85%E7%BD%AE%E7%B1%BB%E5%9E%8B)
-- `...`: 析构
-- `length`：length of tuple ?
-- `number`：
-- `Mapped Types`: [link](https://www.typescriptlang.org/docs/handbook/2/mapped-types.html)
-- `Indexed Access Types`:[link](https://www.typescriptlang.org/docs/handbook/2/indexed-access-types.html)
-
-## easy
+## Practics
+### easy
 
 - [pick](./easy/4.ts)
 - [readonly](./easy/7.ts)
@@ -34,7 +22,7 @@
 - [Push](./easy/3057.md)
 - [Unshift](./easy/3060.md)
 - [Parameters](./easy/3312.md)
-## medium
+### medium
 - [Get Return Type](./medium/2.ts)
 ## Reference
 
@@ -59,7 +47,7 @@
 ### Projects / Solutions
 
 - [Type Gymnastics](https://github.com/g-plane/type-gymnastics)
-- [TypeType Examples](https://github.com/mistlog/typetype-examples)### Inspired by
+- [TypeType Examples](https://github.com/mistlog/typetype-examples)
 
 ### Inspired by
 

@@ -32,3 +32,6 @@
 - [ts-import-plugin](https://github.com/stars/theniceangel/lists/typescript): babel-import-plugin TypeScript Implement
 - [type-assertions](https://github.com/ForbesLindesay/type-assertions): Assertions to test your TypeScript types.
 - [@type-challenges/utils](https://www.npmjs.com/package/@type-challenges/utils), 类型断言工具库
+
+## TODOs
+- https://github.com/vuejs/core/blob/main/test-dts/componentTypeExtensions.test-d.tsx
