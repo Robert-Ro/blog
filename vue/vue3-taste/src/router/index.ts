@@ -1,28 +1,20 @@
-import * as VueRouter from 'vue-router'
-import { h } from 'vue'
+import * as VueRouter from "vue-router";
+import { h } from "vue";
+import { dynamicRoutes } from "@/utils";
 
 const routes = [
-    {
-        path: '/',
-        component: {
-            render: () => h('div', ['home']),
-        },
+  {
+    path: "/",
+    component: {
+      render: () => h("div", ["home"]),
     },
-    {
-        path: '/about',
-        component: {
-            render: () => h('div', [h('span', ['about'])]),
-        },
-    },
-    {
-        path: '/ts',
-        component: () => import('@/components/TsDemo.vue'),
-    },
-]
+  },
+  ...dynamicRoutes,
+];
 
 const router = VueRouter.createRouter({
-    history: VueRouter.createWebHistory(),
-    routes,
-})
+  history: VueRouter.createWebHistory(),
+  routes,
+});
 
-export default router
+export default router;
