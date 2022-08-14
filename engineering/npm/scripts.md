@@ -32,6 +32,7 @@
 
 ## MISC
 - [concurrently](https://github.com/open-cli-tools/concurrently), Run multiple commands concurrently
+- [npm-run-all](https://www.npmjs.com/package/npm-run-all)
 - [wait-on](https://github.com/jeffbski/wait-on), wait-on is a cross-platform command line utility which will wait for files, ports, sockets, and http(s) resources to become available (or not available using reverse mode)
 - [node-semver](https://github.com/npm/node-semver), The semver parser for node (the one npm uses)
 - ⭐⭐⭐[patch-package](https://github.com/ds300/patch-package), Fix broken node modules instantly 🏃🏽‍♀️💨

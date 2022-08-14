@@ -135,8 +135,3 @@ npm config set @myco:registry http://reg.example.com
 - https://docs.npmjs.com/cli/v8/
 
 TODO publish script
-
-### monorepo setup 相关
-
-- https://javascript.plainenglish.io/monorepo-setup-with-npm-and-typescript-90b329ba7275
-- https://2ality.com/2021/07/simple-monorepos.html

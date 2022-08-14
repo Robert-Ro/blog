@@ -1,4 +1,6 @@
 # type-challenges
+> 类型编程的意义：**实现更精准的类型提示和检查**
+> 存在一些套路: TS内置的语法/常用的操作
 ## Learning Target
 - ts类型编程概念
 - ts类型编程操作符
@@ -24,6 +26,7 @@
 - [Parameters](./easy/3312.md)
 ### medium
 - [Get Return Type](./medium/2.ts)
+
 ## Reference
 
 - [repo](https://github.com/type-challenges/type-challenges/)

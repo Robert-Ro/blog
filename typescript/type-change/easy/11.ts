@@ -48,3 +48,17 @@ type error = TupleToObject<[[1, 2], {}]>;
 /* _____________ Solution _____________ */
 // We need to take all the values from the array and make it as keys and values in our new object.
 // It is easy to do with indexed types. We can get the values from an array by using T[number] construct. With the help of mapped types, we can iterate over those values in T[number] and return a new type where the key and value is the type from T[number]:
+
+/*
+- 字面量类型
+    - let x = '123', type A = typeof x === string
+    - const x = '123', type A = typeof x === '123'
+    - const x = ['123', '456'] as const; type A = typeof x; A[0] = '34' 报错
+- 遍历数组
+    - NOTE 如何取出数组里面的每一项: T[number]
+- typeof: 将js世界里面的东西转变为ts世界里面的东西
+// 崔晓瑞思路：先用js去实现一遍
+
+
+
+*/
