@@ -66,15 +66,17 @@
 ## Design Pattern
 
 ## Vscode
-
+- 快捷键
+- 开发提速：snippets
+- 插件开发
 ## Node.js
 
 ## Rust
 
 ## lua
 
-## nginx
-
+## nginx/openresty
+- 前端灰度
 ## C/C++
 
 ## Python
