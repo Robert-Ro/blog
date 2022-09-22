@@ -112,23 +112,23 @@ Return `Wrapper` `vm` props object. If `key` is provided, the value for the `key
 Sets checked value for input element of type checkbox or radio and updates `v-model` bound data.
 
 ```js
-import { mount } from "@vue/test-utils";
-import Foo from "./Foo.vue";
+import { mount } from '@vue/test-utils'
+import Foo from './Foo.vue'
 
-test("setChecked demo", async () => {
-  const wrapper = mount(Foo);
-  const radioInput = wrapper.find('input[type="radio"]');
-  await radioInput.setChecked();
-  expect(radioInput.element.checked).toBeTruthy();
-});
+test('setChecked demo', async () => {
+  const wrapper = mount(Foo)
+  const radioInput = wrapper.find('input[type="radio"]')
+  await radioInput.setChecked()
+  expect(radioInput.element.checked).toBeTruthy()
+})
 ```
 
 `checkboxInput.setChecked(checked)` is an alias of the following code.
 
 ```js
-checkboxInput.element.checked = checked;
-checkboxInput.trigger("click");
-checkboxInput.trigger("change");
+checkboxInput.element.checked = checked
+checkboxInput.trigger('click')
+checkboxInput.trigger('change')
 ```
 
 ### setData ⭐⭐⭐⭐
@@ -148,21 +148,21 @@ Sets `Wrapper` `vm` props and forces update.
 Selects an option element and updates `v-model` bound data.
 
 ```js
-import { mount } from "@vue/test-utils";
-import Foo from "./Foo.vue";
-test("setSelected demo", async () => {
-  const wrapper = mount(Foo);
-  const options = wrapper.find("select").findAll("option");
-  await options.at(1).setSelected();
-  expect(wrapper.find("option:checked").element.value).toBe("bar");
-});
+import { mount } from '@vue/test-utils'
+import Foo from './Foo.vue'
+test('setSelected demo', async () => {
+  const wrapper = mount(Foo)
+  const options = wrapper.find('select').findAll('option')
+  await options.at(1).setSelected()
+  expect(wrapper.find('option:checked').element.value).toBe('bar')
+})
 ```
 
 `option.setSelected()` is an alias of the following code.
 
 ```js
-option.element.selected = true;
-parentSelect.trigger("change");
+option.element.selected = true
+parentSelect.trigger('change')
 ```
 
 ### setValue ⭐⭐⭐⭐
@@ -170,45 +170,43 @@ parentSelect.trigger("change");
 Sets value of a text-control input or select element and updates `v-model` bound data.
 
 ```js
-import { mount } from "@vue/test-utils";
-import Foo from "./Foo.vue";
+import { mount } from '@vue/test-utils'
+import Foo from './Foo.vue'
 
-test("setValue demo", async () => {
-  const wrapper = mount(Foo);
+test('setValue demo', async () => {
+  const wrapper = mount(Foo)
 
-  const textInput = wrapper.find('input[type="text"]');
-  await textInput.setValue("some value");
+  const textInput = wrapper.find('input[type="text"]')
+  await textInput.setValue('some value')
 
-  expect(wrapper.find('input[type="text"]').element.value).toBe("some value");
+  expect(wrapper.find('input[type="text"]').element.value).toBe('some value')
 
-  const select = wrapper.find("select");
-  await select.setValue("option value");
+  const select = wrapper.find('select')
+  await select.setValue('option value')
 
-  expect(wrapper.find("select").element.value).toBe("option value");
+  expect(wrapper.find('select').element.value).toBe('option value')
 
   // requires <select multiple>
-  const multiselect = wrapper.find("select");
-  await multiselect.setValue(["value1", "value3"]);
+  const multiselect = wrapper.find('select')
+  await multiselect.setValue(['value1', 'value3'])
 
-  const selectedOptions = Array.from(multiselect.element.selectedOptions).map(
-    (o) => o.value
-  );
-  expect(selectedOptions).toEqual(["value1", "value3"]);
-});
+  const selectedOptions = Array.from(multiselect.element.selectedOptions).map((o) => o.value)
+  expect(selectedOptions).toEqual(['value1', 'value3'])
+})
 ```
 
 - `textInput.setValue(value)` is an alias of the following code.
 
 ```js
-textInput.element.value = value;
-textInput.trigger("input");
+textInput.element.value = value
+textInput.trigger('input')
 ```
 
 - `select.setValue(value)` is an alias of the following code.
 
 ```js
-select.element.value = value;
-select.trigger("change");
+select.element.value = value
+select.trigger('change')
 ```
 
 ### text ⭐⭐⭐⭐
@@ -228,7 +226,7 @@ Triggers an **event asynchronously** on the `Wrapper` DOM node.
 To add an attribute to the `target`, you need to set the value of the Wrapper element before calling `trigger`. You can do this with the `element` property.
 
 ```js
-const input = wrapper.find("input");
-input.element.value = 100;
-input.trigger("click");
+const input = wrapper.find('input')
+input.element.value = 100
+input.trigger('click')
 ```

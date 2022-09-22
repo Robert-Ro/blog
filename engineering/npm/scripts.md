@@ -23,14 +23,17 @@
 
 利用`--`透传参数
 
-## 脚本钩子hooks
+## 脚本钩子 hooks
+
 - preXXX
 - postXXX
 
 ### example
+
 - 版本递增：`require('semver').inc(v, release)`等方法
 
 ## MISC
+
 - [concurrently](https://github.com/open-cli-tools/concurrently), Run multiple commands concurrently
 - [npm-run-all](https://www.npmjs.com/package/npm-run-all)
 - [wait-on](https://github.com/jeffbski/wait-on), wait-on is a cross-platform command line utility which will wait for files, ports, sockets, and http(s) resources to become available (or not available using reverse mode)

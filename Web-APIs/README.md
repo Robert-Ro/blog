@@ -13,4 +13,4 @@
 ## Refernce
 
 - [链接](https://developer.mozilla.org/en-US/docs/Web/API)
-- [CSP内容安全策略](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP)⭐⭐⭐
+- [CSP 内容安全策略](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP)⭐⭐⭐

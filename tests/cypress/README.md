@@ -2,4 +2,4 @@
 
 ## Reference
 
-* [cypress](https://www.cypress.io/)
+- [cypress](https://www.cypress.io/)

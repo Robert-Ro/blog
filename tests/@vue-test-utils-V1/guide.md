@@ -50,8 +50,8 @@ Wrapper.destroy(): 手动执行，触发 `beforeDestroy` 和 `destroyed` 钩子�
 Each mounted wrapper automatically records **all events emitted** by the underlying Vue instance. You can retrieve the recorded events using the **wrapper.emitted()** method:
 
 ```js
-wrapper.vm.$emit("foo");
-wrapper.vm.$emit("foo", 123);
+wrapper.vm.$emit('foo')
+wrapper.vm.$emit('foo', 123)
 
 /*
 `wrapper.emitted()` returns the following object:
@@ -65,11 +65,11 @@ wrapper.vm.$emit("foo", 123);
 
 ```js
 // assert event has been emitted 事件被触发出
-expect(wrapper.emitted().foo).toBeTruthy();
+expect(wrapper.emitted().foo).toBeTruthy()
 // assert event count 事件被触发的次数
-expect(wrapper.emitted().foo.length).toBe(2);
+expect(wrapper.emitted().foo.length).toBe(2)
 // assert event payload 事件回调的参数
-expect(wrapper.emitted().foo[1]).toEqual([123]);
+expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
 
 > 更多查看[Wrapper](./wrapper.md)
@@ -85,10 +85,10 @@ expect(wrapper.emitted().foo[1]).toEqual([123]);
 You can directly manipulate the state of the component using the `setData` or `setProps` method on the wrapper:
 
 ```js
-it("manipulates state", async () => {
-  await wrapper.setData({ count: 10 });
-  await wrapper.setProps({ foo: "bar" }); // NOTE top-level component
-});
+it('manipulates state', async () => {
+  await wrapper.setData({ count: 10 })
+  await wrapper.setProps({ foo: 'bar' }) // NOTE top-level component
+})
 ```
 
 ### Mocking Props
@@ -96,13 +96,13 @@ it("manipulates state", async () => {
 通过传内置的`propsData`选项
 
 ```js
-import { mount } from "@vue/test-utils";
+import { mount } from '@vue/test-utils'
 
 mount(Component, {
   propsData: {
-    aProp: "some value",
+    aProp: 'some value',
   },
-});
+})
 ```
 
 ### Mocking Transitions
@@ -118,34 +118,34 @@ Although calling `await Vue.nextTick()` works well for most use cases, there are
 > it's better to test your components in a more isolated setup, without polluting the global Vue constructor
 
 ```js
-import { createLocalVue, mount } from "@vue/test-utils";
+import { createLocalVue, mount } from '@vue/test-utils'
 // create an extended `Vue` constructor
-const localVue = createLocalVue();
+const localVue = createLocalVue()
 // install plugins as normal
-localVue.use(MyPlugin);
+localVue.use(MyPlugin)
 // pass the `localVue` to the mount options
 mount(Component, {
   localVue,
-});
+})
 ```
 
 ### Mocking Injections
 
 ```js
-import { mount } from "@vue/test-utils";
+import { mount } from '@vue/test-utils'
 const $route = {
-  path: "/",
-  hash: "",
-  params: { id: "123" },
-  query: { q: "hello" },
-};
+  path: '/',
+  hash: '',
+  params: { id: '123' },
+  query: { q: 'hello' },
+}
 mount(Component, {
   mocks: {
     // adds mocked `$route` object to the Vue instance
     // before mounting component
     $route,
   },
-});
+})
 ```
 
 ### Stubbing components
@@ -153,12 +153,12 @@ mount(Component, {
 > You can override components that are registered globally or locally by using the `stubs` option:
 
 ```js
-import { mount } from "@vue/test-utils";
+import { mount } from '@vue/test-utils'
 mount(Component, {
   // Will resolve globally-registered-component with
   // empty stub
-  stubs: ["globally-registered-component"],
-});
+  stubs: ['globally-registered-component'],
+})
 ```
 
 ### Dealing with Routing
@@ -205,15 +205,15 @@ In practice, this means that after _mutating a reactive property_, to assert tha
 
 ```js
 // inside test-suite, add this test case
-it("button click should increment the count text", async () => {
-  expect(wrapper.text()).toContain("0");
-  const button = wrapper.find("button");
-  await button.trigger("click");
+it('button click should increment the count text', async () => {
+  expect(wrapper.text()).toContain('0')
+  const button = wrapper.find('button')
+  await button.trigger('click')
   // 等同于下面的代码
   // button.trigger("click")
   // await Vue.nextTick()
-  expect(wrapper.text()).toContain("1");
-});
+  expect(wrapper.text()).toContain('1')
+})
 ```
 
 Methods that **can be awaited** are:
@@ -250,25 +250,25 @@ When we run tests, _we need to make these Vue Router components available to the
 #### Using stubs
 
 ```js
-import { shallowMount } from "@vue/test-utils";
+import { shallowMount } from '@vue/test-utils'
 shallowMount(Component, {
-  stubs: ["router-link", "router-view"],
-});
+  stubs: ['router-link', 'router-view'],
+})
 ```
 
 #### Installing Vue Router with localVue
 
 ```js
-import { mount, createLocalVue } from "@vue/test-utils";
-import VueRouter from "vue-router";
+import { mount, createLocalVue } from '@vue/test-utils'
+import VueRouter from 'vue-router'
 
-const localVue = createLocalVue();
-localVue.use(VueRouter);
+const localVue = createLocalVue()
+localVue.use(VueRouter)
 
 mount(Component, {
   localVue,
   router: VueRouter, // ?
-});
+})
 ```
 
 The router instance is available to all children components, this is useful for integration level testing.
@@ -280,16 +280,16 @@ The router instance is available to all children components, this is useful for 
 Sometimes you want to test that a component does something with parameters from the `$route` and `$router` objects. To do that, you can pass custom mocks to the Vue instance.
 
 ```js
-import { shallowMount } from "@vue/test-utils";
+import { shallowMount } from '@vue/test-utils'
 const $route = {
-  path: "/some/path",
-};
+  path: '/some/path',
+}
 const wrapper = shallowMount(Component, {
   mocks: {
     $route,
   },
-});
-wrapper.vm.$route.path; // /some/path
+})
+wrapper.vm.$route.path // /some/path
 ```
 
 > Note: the mocked `$route` and `$router` values are not available to children components, either stub this components or use the `localVue` method
@@ -316,10 +316,10 @@ wrapper.vm.$route.path; // /some/path
 export default {
   methods: {
     test() {
-      this.$store.dispatch("actionInput", { inputValue });
+      this.$store.dispatch('actionInput', { inputValue })
     },
   },
-};
+}
 ```
 
 For the purposes of this test, **we don’t care what the actions do**, or **what the store looks like**. We just need to know that these actions are being fired(action 能正常 fired) when they should, and that they are fired with the expected value.
@@ -352,29 +352,29 @@ two approaches to testing a Vuex store:
 
 ```js
 // mutations.spec.js
-import mutations from "./mutations";
+import mutations from './mutations'
 test('"increment" increments "state.count" by 1', () => {
   const state = {
     count: 0,
-  };
-  mutations.increment(state);
-  expect(state.count).toBe(1);
-});
+  }
+  mutations.increment(state)
+  expect(state.count).toBe(1)
+})
 
 // getters.spec.js
-import getters from "./getters";
+import getters from './getters'
 test('"evenOrOdd" returns even if "state.count" is even', () => {
   const state = {
     count: 2,
-  };
-  expect(getters.evenOrOdd(state)).toBe("even");
-});
+  }
+  expect(getters.evenOrOdd(state)).toBe('even')
+})
 test('"evenOrOdd" returns odd if "state.count" is odd', () => {
   const state = {
     count: 1,
-  };
-  expect(getters.evenOrOdd(state)).toBe("odd");
-});
+  }
+  expect(getters.evenOrOdd(state)).toBe('odd')
+})
 ```
 
 ##### Testing a running store
@@ -386,32 +386,32 @@ The **benefit** of creating a running store instance is we don't have to mock an
 The **downside** is that when a test breaks, it can be difficult to find where the problem is.
 
 ```js
-import { createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import storeConfig from "./store-config";
-import { cloneDeep } from "lodash"; // to create clear store not deep
+import { createLocalVue } from '@vue/test-utils'
+import Vuex from 'vuex'
+import storeConfig from './store-config'
+import { cloneDeep } from 'lodash' // to create clear store not deep
 
 test('increments "count" value when "increment" is committed', () => {
-  const localVue = createLocalVue();
-  localVue.use(Vuex);
-  const store = new Vuex.Store(cloneDeep(storeConfig));
-  expect(store.state.count).toBe(0);
-  store.commit("increment");
-  expect(store.state.count).toBe(1);
-});
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
+  const store = new Vuex.Store(cloneDeep(storeConfig))
+  expect(store.state.count).toBe(0)
+  store.commit('increment')
+  expect(store.state.count).toBe(1)
+})
 
 test('updates "evenOrOdd" getter when "increment" is committed', () => {
-  const localVue = createLocalVue();
-  localVue.use(Vuex);
-  const store = new Vuex.Store(cloneDeep(storeConfig));
-  expect(store.getters.evenOrOdd).toBe("even");
-  store.commit("increment");
-  expect(store.getters.evenOrOdd).toBe("odd");
-});
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
+  const store = new Vuex.Store(cloneDeep(storeConfig))
+  expect(store.getters.evenOrOdd).toBe('even')
+  store.commit('increment')
+  expect(store.getters.evenOrOdd).toBe('odd')
+})
 
-import myModule from "./myModule";
+import myModule from './myModule'
 // ...
-const store = new Vuex.Store({ modules: { myModule: cloneDeep(myModule) } });
+const store = new Vuex.Store({ modules: { myModule: cloneDeep(myModule) } })
 ```
 
 ## Using with Vue-i18n
@@ -427,8 +427,8 @@ const store = new Vuex.Store({ modules: { myModule: cloneDeep(myModule) } });
 Sometimes you want to have a default value for the mock, so you don't create it on a test by test basis. You can do this using the [config](https://vue-test-utils.vuejs.org/api/#vue-test-utils-config-options) API provided by `vue-test-utils`. Let's expand the `vue-i18n` example. You can set default mocks anywhere by doing the following:
 
 ```js
-import { config } from "@vue/test-utils";
-config.mocks["mock"] = "Default Mock Value";
+import { config } from '@vue/test-utils'
+config.mocks['mock'] = 'Default Mock Value'
 ```
 
 declare the default mock in `jest.init.js`, which is loaded before the tests are run automatically.
@@ -436,8 +436,8 @@ declare the default mock in `jest.init.js`, which is loaded before the tests are
 ```js
 // jest.init.js
 
-import VueTestUtils from "@vue/test-utils";
-import translations from "./src/translations.js";
-const locale = "en";
-VueTestUtils.config.mocks["$t"] = (msg) => translations[locale][msg];
+import VueTestUtils from '@vue/test-utils'
+import translations from './src/translations.js'
+const locale = 'en'
+VueTestUtils.config.mocks['$t'] = (msg) => translations[locale][msg]
 ```

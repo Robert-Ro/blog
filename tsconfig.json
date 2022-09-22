@@ -11,8 +11,5 @@
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true
   },
-  "exclude": [
-    "typescript/**/*.ts",
-    "practises/**/*.ts"
-  ]
+  "exclude": ["TypeScript/**/*.ts", "practises-todo/**/*.ts"]
 }

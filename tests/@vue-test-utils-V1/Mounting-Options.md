@@ -57,20 +57,20 @@ Pass properties for components to use in injection. See [`provide/inject`](https
 
 ```js
 const Component = {
-  template: "<div>{{ foo }}</div>",
+  template: '<div>{{ foo }}</div>',
   data() {
     return {
-      foo: "fromComponent",
-    };
+      foo: 'fromComponent',
+    }
   },
-};
+}
 const options = {
   data() {
     return {
-      foo: "fromOptions",
-    };
+      foo: 'fromOptions',
+    }
   },
-};
-const wrapper = mount(Component, options);
-expect(wrapper.text()).toBe("fromOptions");
+}
+const wrapper = mount(Component, options)
+expect(wrapper.text()).toBe('fromOptions')
 ```

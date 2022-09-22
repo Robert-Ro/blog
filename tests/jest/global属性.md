@@ -76,9 +76,11 @@ In your test files, Jest puts each of these methods and objects into the global 
   Also under the aliases: `it.skip(name, fn)`, `xit(name, fn)`, and `xtest(name, fn)`
 
   When you are maintaining a large codebase, you may sometimes find a test that is temporarily broken for some reason. If you want to skip running this test, but you don't want to delete this code, you can use `test.skip` to specify some tests to skip.
+
 - ⭐⭐`test.todo(name)`: Also under the alias: `it.todo(name)`
 
-  Use `test.todo` when you are planning on writing tests. These tests will be highlighted in the summary output at the end *so you know how many tests you still need todo*.
+  Use `test.todo` when you are planning on writing tests. These tests will be highlighted in the summary output at the end _so you know how many tests you still need todo_.
+
 ## Reference
 
 - [Jest global methods](https://jestjs.io/docs/api#methods)

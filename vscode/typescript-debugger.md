@@ -30,7 +30,7 @@
 - link out/\*.js to html template
 - run `tsc` to build `ts` file
 - setup `.vscode/launch.json` file
-- Press `F5` to start the debug session, which **launches the browser** and **hits your breakpoint** in <*.ts>
+- Press `F5` to start the debug session, which **launches the browser** and **hits your breakpoint** in <\*.ts>
 
 ```json
 {

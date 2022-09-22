@@ -6,4 +6,4 @@ When using snapshot, Vitest will take a snapshot of the given value, then compar
 
 ## Reference
 
-* [vitest snapshot](https://vitest.dev/guide/snapshot.html)
+- [vitest snapshot](https://vitest.dev/guide/snapshot.html)

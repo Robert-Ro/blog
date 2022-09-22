@@ -20,5 +20,4 @@ To debug a test file in VSCode, create the following launch configuration.
     }
   ]
 }
-
 ```

@@ -1,6 +1,7 @@
 # 知乎问题：[有哪些必看的 JS 库？](https://www.zhihu.com/question/429436558)
 
 ## doodlewind
+
 ​
 没有吧，Vue 和 React 等主流框架的源码我基本都没读过，越好的框架越不需要使用者特地去读。但对于和 JS 相关的源码阅读，那肯定是工作里绕不开的。个人印象里比较深的有这些：
 
@@ -21,6 +22,7 @@
 毕竟某种程度上，读源码也是一种逆向工程，只应该在必要的时候去做。
 
 ## 花果山大圣
-- vue3: @vue/reactivity: 1000行
-- seajs: 1000行
-- the-super-tiny-compiler这200行代码
+
+- vue3: @vue/reactivity: 1000 行
+- seajs: 1000 行
+- the-super-tiny-compiler 这 200 行代码

@@ -1,3 +1,0 @@
-- [30concepts of js]()
-- [前端开发核心知识进阶](https://gitbook.cn/gitchat/column/5c91c813968b1d64b1e08fde/topic/5cbbe639bbbba80861a35bd3)
-- [JavaScript 核心原理精讲](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=601#/content)

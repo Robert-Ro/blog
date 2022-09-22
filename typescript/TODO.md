@@ -1,3 +1,3 @@
-- [ ] `typescript` setup with `eslint`
+- [x] `typescript` setup with `eslint`: overrides
 - [ ] `types` `typeRoots` `paths` difference
 - [ ] `tsconfig.test.json` `tsconfig.build.json` meaning

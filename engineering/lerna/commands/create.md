@@ -1,5 +1,7 @@
 # Create
+
 > 创建一个新的由`lerna`管理的包。
+
 ```sh
 lerna create <name> [loc]
 

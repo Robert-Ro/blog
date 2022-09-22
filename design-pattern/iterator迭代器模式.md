@@ -14,16 +14,16 @@
 // example1
 var each = function (arr, callback) {
   for (let i = 0; i < arr.length; i++) {
-    callback(arr[i], i);
+    callback(arr[i], i)
   }
-};
-each([1, 2, 3], (item, index) => alert(item));
+}
+each([1, 2, 3], (item, index) => alert(item))
 // example2 ES6迭代器
 function* values() {
-  let curr = linkedList.head;
+  let curr = linkedList.head
   while (curr) {
-    yield curr.data;
-    curr = curr.next;
+    yield curr.data
+    curr = curr.next
   }
 }
 ```
@@ -63,28 +63,28 @@ $.each = function (obj, callback) {
   var value,
     i = 0,
     length = obj.length,
-    isArray = isArraylike(obj);
+    isArray = isArraylike(obj)
 
   if (isArray) {
     // 迭代类数组
     for (; i < length; i++) {
-      value = callback.call(obj[i], i, obj[i]);
+      value = callback.call(obj[i], i, obj[i])
 
       if (value === false) {
-        break;
+        break
       }
     }
   } else {
     for (i in obj) {
       // 迭代 object 对象
-      value = callback.call(obj[i], i, obj[i]);
+      value = callback.call(obj[i], i, obj[i])
       if (value === false) {
-        break;
+        break
       }
     }
   }
-  return obj;
-};
+  return obj
+}
 ```
 
 ## 倒序迭代器
@@ -96,12 +96,12 @@ $.each = function (obj, callback) {
 ```js
 var reverseEach = function (ary, callback) {
   for (var l = ary.length - 1; l >= 0; l--) {
-    callback.call(ary[l], l);
+    callback.call(ary[l], l)
   }
-};
+}
 reverseEach([0, 1, 2], (item, i) => {
-  console.log(item, i);
-});
+  console.log(item, i)
+})
 ```
 
 ## 中止迭代器
@@ -123,25 +123,25 @@ reverseEach([0, 1, 2], (item, i) => {
 ```js
 var getActiveUploadObj = function () {
   try {
-    return new ActiveXObject("TXFTNActiveX.FTNUpload"); // IE 上传控件
+    return new ActiveXObject('TXFTNActiveX.FTNUpload') // IE 上传控件
   } catch (e) {
-    return false;
+    return false
   }
-};
+}
 
 var getFlashUploadObj = function () {
   if (supportFlash()) {
     // supportFlash 函数未提供
-    var str = '<object type="application/x-shockwave-flash"></object>';
-    return $(str).appendTo($("body"));
+    var str = '<object type="application/x-shockwave-flash"></object>'
+    return $(str).appendTo($('body'))
   }
-  return false;
-};
+  return false
+}
 
 var getFormUpladObj = function () {
-  var str = '<input name="file" type="file" class="ui-file"/>'; // 表单上传
-  return $(str).appendTo($("body"));
-};
+  var str = '<input name="file" type="file" class="ui-file"/>' // 表单上传
+  return $(str).appendTo($('body'))
+}
 ```
 
 - 提供一个可以被迭代的方法，使得 ` getActiveUploadObj``，getFlashUploadObj ` 以及 `getFlashUploadObj`依照**优先级**被循环迭代
@@ -152,13 +152,13 @@ var getFormUpladObj = function () {
 ```js
 var iteratorUploadObj = function () {
   for (var i = 0; i < arguments.length; i++) {
-    var uploadObj = arguments[i]();
+    var uploadObj = arguments[i]()
     if (uploadObj !== false) {
-      return uploadObj;
+      return uploadObj
     }
   }
-};
-iteratorUploadObj(getActiveUploadObj, getFlashUploadObj, getFormUpladObj);
+}
+iteratorUploadObj(getActiveUploadObj, getFlashUploadObj, getFormUpladObj)
 ```
 
 重构代码之后，我们可以看到，获取不同上传对象的方法被隔离在各自的函数里互不干扰，`try`、`catch` 和 `if` 分支不再纠缠在一起，使得我们可以很方便地的维护和扩展代码。比如，后来我们又给上传项目增加了 `Webkit` 控件上传和 `HTML5` 上传，我们要做的仅仅是下面一些工作。
@@ -168,11 +168,11 @@ iteratorUploadObj(getActiveUploadObj, getFlashUploadObj, getFormUpladObj);
 ```js
 var getWebkitUploadObj = function () {
   // 具体代码略
-};
+}
 
 var getHtml5UploadObj = function () {
   // 具体代码略
-};
+}
 ```
 
 - 依照优先级把它们添加进迭代器：
@@ -184,7 +184,7 @@ var uploadObj = iteratorUploadObj(
   getFlashUploadObj,
   getHtml5UploadObj,
   getFormUpladObj
-);
+)
 ```
 
 ## 小结

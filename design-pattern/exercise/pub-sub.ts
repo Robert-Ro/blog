@@ -2,26 +2,26 @@
  * 事件key名，支持通配符和特定字符
  * *: 所有的事件
  */
-type EventKey = "*" | string;
+type EventKey = '*' | string
 /**
  * 订阅者函数类型
  * FIXME
  */
-type Sub = (...args: unknown[]) => unknown;
+type Sub = (...args: unknown[]) => unknown
 /**
  * 支持先发布后订阅
  */
 interface IPub<T extends Sub> {
-  emit(key: EventKey, data: unknown): unknown;
-  on(key: EventKey, fn: T, last?: boolean): void;
-  one(key: EventKey, fn: T, last?: boolean): void;
-  clear(): void;
-  off(key: EventKey, fn: T): void;
+  emit(key: EventKey, data: unknown): unknown
+  on(key: EventKey, fn: T, last?: boolean): void
+  one(key: EventKey, fn: T, last?: boolean): void
+  clear(): void
+  off(key: EventKey, fn: T): void
 }
 
 export class Pub<T extends Sub> implements IPub<T> {
-  private subsribers: Map<string, T[]> = new Map();
-  private offlineStack: ((key: EventKey, fn: T) => unknown)[] | null = [];
+  private subsribers: Map<string, T[]> = new Map()
+  private offlineStack: ((key: EventKey, fn: T) => unknown)[] | null = []
 
   /**
    * 发布事件
@@ -31,15 +31,15 @@ export class Pub<T extends Sub> implements IPub<T> {
    */
   emit(key: EventKey, data: unknown): unknown {
     // when emit a event, all subs will be notified
-    let fns: T[] = [];
+    let fns: T[] = []
     // 获取全部的观察者
-    if (key === "*") {
-      fns = [];
+    if (key === '*') {
+      fns = []
       this.subsribers.forEach((_fns) => {
-        fns.push(..._fns);
-      });
+        fns.push(..._fns)
+      })
     } else {
-      fns = this.subsribers.get(key) || [];
+      fns = this.subsribers.get(key) || []
     }
 
     if (fns.length === 0) {
@@ -47,16 +47,16 @@ export class Pub<T extends Sub> implements IPub<T> {
       if (this.offlineStack) {
         const _fn = function (_key: EventKey, fn: T) {
           if (_key === key) {
-            return fn(data);
+            return fn(data)
           }
-        };
-        this.offlineStack!.push(_fn);
+        }
+        this.offlineStack!.push(_fn)
       }
     } else {
       // 有观察者，通知观察者执行
-      fns.forEach((fn) => fn.call(null, data));
+      fns.forEach((fn) => fn.call(null, data))
     }
-    return;
+    return
   }
   /**
    * 添加监听者
@@ -66,34 +66,34 @@ export class Pub<T extends Sub> implements IPub<T> {
    */
   on(key: EventKey, fn: T, last?: boolean): void {
     if (!this.subsribers.get(key)) {
-      this.subsribers.set(key, []);
+      this.subsribers.set(key, [])
     }
-    this.subsribers.get(key)!.push(fn);
+    this.subsribers.get(key)!.push(fn)
     if (last && this.offlineStack) {
-      const lastItem = this.offlineStack.pop();
-      lastItem && lastItem(key, fn);
+      const lastItem = this.offlineStack.pop()
+      lastItem && lastItem(key, fn)
     } else {
       // 离线消息根据key触发
-      this.offlineStack?.forEach((_fn) => _fn(key, fn));
+      this.offlineStack?.forEach((_fn) => _fn(key, fn))
     }
-    this.offlineStack = null;
+    this.offlineStack = null
   }
 
   off(key: EventKey, fn: T): void {
-    const fns = this.subsribers.get(key);
+    const fns = this.subsribers.get(key)
     if (!fns) {
-      return;
+      return
     }
-    const index = fns.indexOf(fn);
+    const index = fns.indexOf(fn)
     if (index === -1) {
-      return;
+      return
     }
-    (this.subsribers.get(key) || []).splice(index, 1);
+    ;(this.subsribers.get(key) || []).splice(index, 1)
   }
   one(key: string, fn: T, last?: boolean): void {
     // TODO
   }
   clear(): void {
-    this.subsribers.clear();
+    this.subsribers.clear()
   }
 }

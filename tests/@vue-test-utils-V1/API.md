@@ -3,43 +3,37 @@
 ## `mount()`⭐⭐⭐⭐⭐
 
 ```ts
-export declare function mount<V extends Vue>(
-  component: VueClass<V>,
-  options?: ThisTypedMountOptions<V>
-): Wrapper<V>;
+export declare function mount<V extends Vue>(component: VueClass<V>, options?: ThisTypedMountOptions<V>): Wrapper<V>
 export declare function mount<V extends Vue>(
   component: ComponentOptions<V>,
   options?: ThisTypedMountOptions<V>
-): Wrapper<V>;
+): Wrapper<V>
 export declare function mount<V extends Vue, Data, Methods, Computed, Props>(
   component: ExtendedVue<V, Data, Methods, Computed, Props>,
   options?: ThisTypedMountOptions<V>
-): Wrapper<CombinedVueInstance<V, Data, Methods, Computed, Props> & Vue>;
-export declare function mount<
-  Props = DefaultProps,
-  PropDefs = PropsDefinition<Props>
->(
+): Wrapper<CombinedVueInstance<V, Data, Methods, Computed, Props> & Vue>
+export declare function mount<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(
   component: FunctionalComponentOptions<Props, PropDefs>,
   options?: MountOptions<Vue>
-): Wrapper<Vue>;
+): Wrapper<Vue>
 export declare function mount<V extends Vue, Props = DefaultProps>(
   component: ExtendedVue<V, {}, {}, {}, Props>,
   options?: FunctionalComponentMountOptions<V>
-): Wrapper<CombinedVueInstance<V, {}, {}, {}, Props> & Vue>;
+): Wrapper<CombinedVueInstance<V, {}, {}, {}, Props> & Vue>
 
 interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   // ComponentOptions Vue组件选项类型
-  attachToDocument?: boolean;
-  attachTo?: Element | string;
-  context?: VNodeData;
-  localVue?: typeof Vue;
-  mocks?: object | false;
-  parentComponent?: Component;
-  slots?: Slots;
-  scopedSlots?: Record<string, string | Function>;
-  stubs?: Stubs | false;
-  attrs?: Record<string, string>;
-  listeners?: Record<string, Function | Function[]>;
+  attachToDocument?: boolean
+  attachTo?: Element | string
+  context?: VNodeData
+  localVue?: typeof Vue
+  mocks?: object | false
+  parentComponent?: Component
+  slots?: Slots
+  scopedSlots?: Record<string, string | Function>
+  stubs?: Stubs | false
+  attrs?: Record<string, string>
+  listeners?: Record<string, Function | Function[]>
 }
 ```
 
@@ -111,13 +105,13 @@ The `errorHandler` option can be used to handle uncaught errors during component
 `createWrapper` creates a `Wrapper` for a mounted Vue instance, or an HTML element.
 
 ```js
-import { createWrapper } from "@vue/test-utils";
-import Foo from "./Foo.vue";
+import { createWrapper } from '@vue/test-utils'
+import Foo from './Foo.vue'
 
-const Constructor = Vue.extend(Foo);
-const vm = new Constructor().$mount();
-const wrapper = createWrapper(vm);
-expect(wrapper.vm.foo).toBe(true);
+const Constructor = Vue.extend(Foo)
+const vm = new Constructor().$mount()
+const wrapper = createWrapper(vm)
+expect(wrapper.vm.foo).toBe(true)
 ```
 
 ## Config
@@ -148,17 +142,17 @@ Vue Test Utils includes a config object to defined options used by Vue Test Util
 `enableAutoDestroy` will destroy all created `Wrapper` instances using the passed hook function (for example [`afterEach`](https://jestjs.io/docs/en/api#aftereachfn-timeout)). After calling the method, you can revert to the default behavior by calling the `resetAutoDestroyState` method.
 
 ```js
-import { enableAutoDestroy, mount } from "@vue/test-utils";
-import Foo from "./Foo.vue";
+import { enableAutoDestroy, mount } from '@vue/test-utils'
+import Foo from './Foo.vue'
 // calls wrapper.destroy() after each test
-enableAutoDestroy(afterEach);
-describe("Foo", () => {
-  it("renders a div", () => {
-    const wrapper = mount(Foo);
-    expect(wrapper.contains("div")).toBe(true);
+enableAutoDestroy(afterEach)
+describe('Foo', () => {
+  it('renders a div', () => {
+    const wrapper = mount(Foo)
+    expect(wrapper.contains('div')).toBe(true)
     // no need to call wrapper.destroy() here
-  });
-});
+  })
+})
 ```
 
 ## resetAutoDestroyState
@@ -168,23 +162,19 @@ After calling `enableAutoDestroy` you might need to disable auto-destroy behavio
 To achieve this you might call `resetAutoDestroyState` to disable previously registered hook
 
 ```js
-import {
-  enableAutoDestroy,
-  resetAutoDestroyState,
-  mount,
-} from "@vue/test-utils";
-import Foo from "./Foo.vue";
+import { enableAutoDestroy, resetAutoDestroyState, mount } from '@vue/test-utils'
+import Foo from './Foo.vue'
 
 // calls wrapper.destroy() after each test
-enableAutoDestroy(afterEach);
+enableAutoDestroy(afterEach)
 // resets auto-destroy after suite completes
-afterAll(resetAutoDestroyState);
+afterAll(resetAutoDestroyState)
 
-describe("Foo", () => {
-  it("renders a div", () => {
-    const wrapper = mount(Foo);
-    expect(wrapper.contains("div")).toBe(true);
+describe('Foo', () => {
+  it('renders a div', () => {
+    const wrapper = mount(Foo)
+    expect(wrapper.contains('div')).toBe(true)
     // no need to call wrapper.destroy() here
-  });
-});
+  })
+})
 ```

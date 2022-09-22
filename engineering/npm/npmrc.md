@@ -1,6 +1,5 @@
-# .npmrc配置项
-
-
+# .npmrc 配置项
 
 ## Resources
+
 - https://pnpm.io/zh/npmrc

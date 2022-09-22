@@ -1,12 +1,15 @@
 # NPM package publish
 
 ## Basic
+
 ```sh
 
 npm login --registry <repo url>
 npm publish --registry <repo url>
 ```
+
 > 注册机构名不可用的原因：机构名与其他的用户名重复了
+
 ### publish
 
 ```sh
@@ -16,14 +19,18 @@ npm login
 npm publish --access public
 # 输入otp一次性密码即可
 ```
+
 #### publish 命令
+
 ```sh
 [--access public] Tells the registry whether this package should be published as public or restricted
 [--tag <tag>] 指定tag
 [--workspaces] Enables workspace context while publishing. All workspace packages will be published. 发布当前workspace下的所有packages
 [--workspace] Enables workspaces context and limits results to only those specified by this config item. Only the packages in the workspaces given will be published. 发布当前workspace下的指定packages
 ```
+
 #### unpublish 命令
+
 ```sh
 # 下架<package-name>
 npm unpublish <package-name> -f

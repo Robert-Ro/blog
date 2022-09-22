@@ -36,4 +36,5 @@
 ```
 
 ## problems
-- 在ts项目(大多数文件都是ts格式的)中，怎么去debug js文件
+
+- 在 ts 项目(大多数文件都是 ts 格式的)中，怎么去 debug js 文件

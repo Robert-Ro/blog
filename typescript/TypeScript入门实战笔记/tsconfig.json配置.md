@@ -152,9 +152,9 @@ allowSyntheticDefaultImports: 允许合成默认导出。
 
 ```ts
 // allowSyntheticDefaultImports: true 可以使用
-import React from "react";
+import React from 'react'
 // allowSyntheticDefaultImports: false
-import * as React from "react";
+import * as React from 'react'
 ```
 
 在上面的示例中，对于没有默认导出的模块 react，如果设置了 `allowSyntheticDefaultImports` 为 `true`，则可以直接通过 import 导入 react；但如果设置 `allowSyntheticDefaultImports` 为 `false`，则需要通过 `import * as` 导入 react。

@@ -4,22 +4,31 @@
 
 一个 `workspace` 的根目录下必须有 `pnpm-workspace.yaml` 文件， 也可能会有 `.npmrc` 文件。
 
-## Workspace协议(workspace)
-### 通过别名应用workspace
-### 通过相对路径应用workspace包
+## Workspace 协议(workspace)
+
+### 通过别名应用 workspace
+
+### 通过相对路径应用 workspace 包
+
 假如 workspace 中有两个包：
+
 ```
 + packages
     + foo
     + bar
 ```
+
 `bar` 中可能有 `foo` 的依赖： `"foo": "workspace:../foo"`， 在发布之前，这些将转换为所有包管理器支持的常规版本规范。
-### 发布workspace包
+
+### 发布 workspace 包
+
 执行`pnpm pack`或`pnpm publish`之类的发布命令时，将动态替换`workspace:`依赖：
-- 目标workspace中对应的版本：如`workspace:*`,`workspace:~`,`workspae:^`
+
+- 目标 workspace 中对应的版本：如`workspace:*`,`workspace:~`,`workspae:^`
 - 相关`sermver`范围
 
 转换前：
+
 ```JSON
 {
     "dependencies": {
@@ -30,7 +39,9 @@
     }
 }
 ```
+
 转换后：
+
 ```JSON
 {
     "dependencies": {
@@ -41,19 +52,25 @@
     }
 }
 ```
+
 ## 发布工作流
-> 相对来说，lerna完成该任务
-`workspace` 中的包版本管理是一个复杂的任务，`pnpm` 目前也并未提供内置的解决方案。 不过，有两个不错且支持 `pnpm` 的版本控制工具可以使用：
+
+> 相对来说，lerna 完成该任务
+> `workspace` 中的包版本管理是一个复杂的任务，`pnpm` 目前也并未提供内置的解决方案。 不过，有两个不错且支持 `pnpm` 的版本控制工具可以使用：
 
 - [changesets](https://github.com/changesets/changesets)
 - [Rush](https://rushjs.io/)
+
 ## 故障排查
+
 ### **循环依赖**问题
 
 如果您看到此消息`There are cyclic workspace dependencies`，请检查在`dependencies`, `optionalDependencies` 和 `devDependencies` 中声明的工作空间依赖。
 
 ## 使用示例
+
 > 最佳实践
+
 - https://github.com/vercel/next.js
 - https://github.com/vitejs/vite
 - https://github.com/vuejs/vue-next
@@ -76,7 +93,7 @@
 - https://github.com/vuepress/vuepress-next
 - https://github.com/vercel/turborepo
 
-## pnpm-workspae.yaml文件内容
+## pnpm-workspae.yaml 文件内容
 
 ```sh
 packages:
@@ -87,8 +104,10 @@ packages:
   # exclude packages that are inside test directories 排除包中的某些目录
   - '!**/test/**'
 ```
+
 ## Resources
+
 - [pnpm workspaces](https://pnpm.io/workspaces)
-- [Bit](https://github.com/teambit/bit), 多包管理工具，依赖pnpm
+- [Bit](https://github.com/teambit/bit), 多包管理工具，依赖 pnpm
 - [rush](https://rushjs.io/pages/maintainer/setup_new_repo)，设置新的仓库
 - [changesets](https://pnpm.io/zh/using-changesets), 使用指南

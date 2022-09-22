@@ -8,5 +8,6 @@ Asset Modules type replaces all of these loaders by adding 4 new module types:
 - `asset` automatically chooses between exporting a data URI and emitting a separate file. Previously achievable by using url-loader with asset size limit.
 
 ## Reference
+
 - [asset-modules](https://webpack.docschina.org/guides/asset-modules/)中文
 - [asset-modules](https://webpack.js.org/guides/asset-modules/)

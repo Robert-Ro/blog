@@ -1,5 +1,5 @@
 const A3 = {
-    a: '12',
+  a: '12',
 }
 type A2 = typeof A3
 

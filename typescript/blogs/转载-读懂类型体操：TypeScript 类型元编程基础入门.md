@@ -4,21 +4,21 @@
 
 ```ts
 // editor.ts
-import { Element } from "./element";
+import { Element } from './element'
 
 // Editor 中需要建立 Element 实例
 class Editor {
   constructor() {
-    this.element = new Element();
+    this.element = new Element()
   }
 }
 
 // element.ts
-import { Editor } from "./editor";
+import { Editor } from './editor'
 
 // Element 中需要标注类型为 Editor 的属性
 class Element {
-  editor: Editor;
+  editor: Editor
 }
 ```
 
@@ -26,15 +26,15 @@ class Element {
 
 ```ts
 // element.ts
-import type { Editor } from "./editor";
+import type { Editor } from './editor'
 
 // 这个 type 可以放心地用作类型标注，不造成循环引用
 class Element {
-  editor: Editor;
+  editor: Editor
 }
 
 // 但这里就不能这么写了，会报错
-const editor = new Editor();
+const editor = new Editor()
 ```
 
 `TypeScript`这样的现代静态类型语言，一般都具备两个放置语言实体的「空间」，即**类型空间**（type-level space）和**值空间**（value-level space）。**前者用于存放代码中的类型信息，在运行时会被完全擦除掉**。**而后者则存放了代码中的「值」，会保留到运行时**。
@@ -50,8 +50,8 @@ const editor = new Editor();
 > `class` 和 `enum` 是横跨两个空间的
 
 ```ts
-let foo: Foo; // 类型
-let foo = new Foo(); // 值
+let foo: Foo // 类型
+let foo = new Foo() // 值
 ```
 
 ### 小结
@@ -70,13 +70,13 @@ let foo = new Foo(); // 值
 ```ts
 // 使用泛型标注的加法函数，这里的 Type 就是一个类型变量
 function add<Type>(a: Type, b: Type): Type {
-  return a + b;
+  return a + b
 }
 
-add(1, 2); // 返回值类型可被推断为 number
-add("a", "b"); // 返回值类型可被推断为 string
+add(1, 2) // 返回值类型可被推断为 number
+add('a', 'b') // 返回值类型可被推断为 string
 
-add(1, "b"); // 形参类型不匹配，报错
+add(1, 'b') // 形参类型不匹配，报错
 ```
 
 在上面这个非常简单的例子里，通过`Type`这个类型变量，我们不仅在*输入参数*和*返回值的类型*之间建立了动态的联系，还在输入参数之间建立了约束，这是一种很强大的表达力。另外由于**这类变量在语义上几乎总是相当于占位符**，所以我们一般会把它们简写成`T`/`U`/`V`之类。
@@ -88,19 +88,19 @@ add(1, "b"); // 形参类型不匹配，报错
 ```ts
 // 定义一个表达坐标的 Point 结构
 interface Point {
-  x: number;
-  y: number;
+  x: number
+  y: number
 }
 
 // 取出 Point 中全部 key 的并集
-type PointKey = keyof Point;
+type PointKey = keyof Point
 
 // a 可以是任意一种 PointKey
-let a: PointKey;
+let a: PointKey
 
-a = "x"; // 通过
-a = "y"; // 通过
-a = { x: 0, y: 0 }; // 报错
+a = 'x' // 通过
+a = 'y' // 通过
+a = { x: 0, y: 0 } // 报错
 ```
 
 `Object.keys` 返回的是一个数组 => `['x', 'y']`
@@ -117,12 +117,12 @@ a = { x: 0, y: 0 }; // 报错
 // identity 就是返回原类型自身的简单函数
 // 这里的 T 就相当于被标注成了 Point 类型
 function identity1<T extends Point>(a: T): T {
-  return a;
+  return a
 }
 
 // 这里的 T 来自 Point2D | Point3D 这个表达式
 function identity2<T extends Point2D | Point3D>(a: T): T {
-  return a;
+  return a
 }
 ```
 
@@ -139,7 +139,7 @@ function identity2<T extends Point2D | Point3D>(a: T): T {
 当然，相信可能很多同学会指出，这种手法还无法对运行时动态的数据做校验。但其实只要通过运行时库，TypeScript 也可以用来写出语义化的运行时校验。笔者贡献过的 [Superstruct](https://github.com/ianstormtaylor/superstruct) 和[@工业聚](https://www.zhihu.com/people/6751e943236c0381facaf51cf6fa1f43)的 [Farrow](https://github.com/farrow-js/farrow) 都做到了这一点（Farrow 已经做成了全家桶式的 Web 框架，但个人认为其中最创新的地方是其中可单独使用的 Schema 部分）。比如这样：
 
 ```ts
-import { assert, object, number, string, array } from "superstruct";
+import { assert, object, number, string, array } from 'superstruct'
 
 // 定义出校验结构，相当于运行时的 interface
 const Article = object({
@@ -149,19 +149,19 @@ const Article = object({
   author: object({
     id: number(),
   }),
-});
+})
 
 const data = {
   id: 34,
-  title: "Hello World",
-  tags: ["news", "features"],
+  title: 'Hello World',
+  tags: ['news', 'features'],
   author: {
     id: 1,
   },
-};
+}
 
 // 这个 assert 发生在运行时而非编译时
-assert(data, Article);
+assert(data, Article)
 ```
 
 这样一来，我们就以 schema 为抓手，将**类型空间**的能力下沉到了**值空间**，拉通了端到端类型校验的全链路，形成了强类型闭环，赋能了运行时业务，打出了一套组合拳。

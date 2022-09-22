@@ -1,114 +1,120 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <script src="https://unpkg.com/echarts@4.1.0/dist/echarts.min.js"></script>
-  <script src="https://unpkg.com/jquery@3.4.1/dist/jquery.min.js"></script>
-  <script src="https://unpkg.com/vue@2.6.10/dist/vue.min.js"></script>
-  <script src="https://unpkg.com/lodash@4.17.11/lodash.min.js"></script>
-  <style>
-    html, body, #main {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      background: #0A0F37;
-    }
-  </style>
-</head>
-<body>
-  <div id='app'></div>
-  <script>
-    // A rough example of de-duplication of echarts fly lines
-function getLines(data, attackType) {
-  let resultO = {};
-  let result = [];
-  data.length && data.forEach(l => {
-      resultO[`${l.lng},${l.lat},${l.dst_lng},${l.dst_lat}`] = {
-        fromName: '',
-        toName: '',
-        coords: [
-          [l.lng, l.lat],
-          [l.dst_lng, l.dst_lat]
-        ]
-      };
-  });
-  Object.keys(resultO).forEach(key => {
-    result.push(resultO[key]);
-  });
-  return result;
-}
-  new Vue({
-    el: '#app',
-    template: `<div id="main"></div>`,
-    data() {
-      return {
-        // chart: null, // NOTE wrong! 实例不能处理为响应式数据
-        options: null
-      };
-    },
-    methods: {
-      draw() {
-        this.chart = echarts.init(document.getElementById('main'), null, {
-          // devicePixelRatio: window.devicePixelRatio
-          devicePixelRatio: 1
-        });
-        setInterval(() => {
-          this.refreshData();
-          this.chart.setOption(this.options); // NOTE 减少setOption次数
-        }, 5000);
-      },
-      getRandomData(data) {
-        let result = data.slice();
-        const _data =  result.slice(0, Math.round(Math.random() * (data.length - 1)));
-        return _data
-      },
-      refreshData() {
-        let option = _.cloneDeep(this.rawOptions);
-
-        let data4 = option.series[4].data;
-        let data5 = option.series[5].data;
-        let data6 = option.series[6].data;
-        option.series[4].data = getLines(this.getRandomData(data4)) ; //数据去重
-        option.series[5].data = this.getRandomData(data5);
-        option.series[6].data = this.getRandomData(data6);
-
-        this.options = option;
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0"
+    />
+    <script src="https://unpkg.com/echarts@4.1.0/dist/echarts.min.js"></script>
+    <script src="https://unpkg.com/jquery@3.4.1/dist/jquery.min.js"></script>
+    <script src="https://unpkg.com/vue@2.6.10/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/lodash@4.17.11/lodash.min.js"></script>
+    <style>
+      html,
+      body,
+      #main {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background: #0a0f37;
       }
-    },
-    created() {
-      // TODO use import instead of $.get in production.
-      $.get('https://unpkg.com/echarts@4.1.0/map/json/world.json', function (worldJson) {
-        // let concated = worldJson;
-        // concated.features = worldJson.features.concat(chinaJson.features);
-        echarts.registerMap('world', worldJson);
-      });
-    },
-    mounted() {
-      $.get('./options.json', option => {
-        // use different zlevel for performance
-        option.geo.zlevel = 1;
-        option.series.forEach((s, index) => {
-          s.zlevel = index + 2;
-          if (s.effect) {
-            s.effect.zlevel = index + option.series.length + 2;
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      // A rough example of de-duplication of echarts fly lines
+      function getLines(data, attackType) {
+        let resultO = {}
+        let result = []
+        data.length &&
+          data.forEach((l) => {
+            resultO[`${l.lng},${l.lat},${l.dst_lng},${l.dst_lat}`] = {
+              fromName: '',
+              toName: '',
+              coords: [
+                [l.lng, l.lat],
+                [l.dst_lng, l.dst_lat],
+              ],
+            }
+          })
+        Object.keys(resultO).forEach((key) => {
+          result.push(resultO[key])
+        })
+        return result
+      }
+      new Vue({
+        el: '#app',
+        template: `<div id="main"></div>`,
+        data() {
+          return {
+            // chart: null, // NOTE wrong! 实例不能处理为响应式数据
+            options: null,
           }
-          if (s.rippleEffect) {
-            s.rippleEffect.zlevel = index + option.series.length + 2;
-          }
-        });
+        },
+        methods: {
+          draw() {
+            this.chart = echarts.init(document.getElementById('main'), null, {
+              // devicePixelRatio: window.devicePixelRatio
+              devicePixelRatio: 1,
+            })
+            setInterval(() => {
+              this.refreshData()
+              this.chart.setOption(this.options) // NOTE 减少setOption次数
+            }, 5000)
+          },
+          getRandomData(data) {
+            let result = data.slice()
+            const _data = result.slice(0, Math.round(Math.random() * (data.length - 1)))
+            return _data
+          },
+          refreshData() {
+            let option = _.cloneDeep(this.rawOptions)
 
-        this.options = option;
-        this.rawOptions = option;
-        this.draw();
-      });
-    },
-    beforeDestroy() {
-      // TODO need dispose echart instance and unbind resize event manually.
-      this.chart.dispose()
-      this.chart = null
-    }
-});
-  </script>
-</body>
+            let data4 = option.series[4].data
+            let data5 = option.series[5].data
+            let data6 = option.series[6].data
+            option.series[4].data = getLines(this.getRandomData(data4)) //数据去重
+            option.series[5].data = this.getRandomData(data5)
+            option.series[6].data = this.getRandomData(data6)
+
+            this.options = option
+          },
+        },
+        created() {
+          // TODO use import instead of $.get in production.
+          $.get('https://unpkg.com/echarts@4.1.0/map/json/world.json', function (worldJson) {
+            // let concated = worldJson;
+            // concated.features = worldJson.features.concat(chinaJson.features);
+            echarts.registerMap('world', worldJson)
+          })
+        },
+        mounted() {
+          $.get('./options.json', (option) => {
+            // use different zlevel for performance
+            option.geo.zlevel = 1
+            option.series.forEach((s, index) => {
+              s.zlevel = index + 2
+              if (s.effect) {
+                s.effect.zlevel = index + option.series.length + 2
+              }
+              if (s.rippleEffect) {
+                s.rippleEffect.zlevel = index + option.series.length + 2
+              }
+            })
+
+            this.options = option
+            this.rawOptions = option
+            this.draw()
+          })
+        },
+        beforeDestroy() {
+          // TODO need dispose echart instance and unbind resize event manually.
+          this.chart.dispose()
+          this.chart = null
+        },
+      })
+    </script>
+  </body>
 </html>

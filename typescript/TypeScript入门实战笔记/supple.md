@@ -8,12 +8,12 @@
 // 使用namespace控制可见性
 // myAugmention.ts
 namespace MyNameSpaceExample {
-  export type id = number; // 此处非顶层 export
-  export type name = string;
+  export type id = number // 此处非顶层 export
+  export type name = string
 }
-type TSCourseUserInfoName = string;
+type TSCourseUserInfoName = string
 //在`module`使用`declare global`声明全局类型
 declare global {
-  type GlobalUserId = number;
+  type GlobalUserId = number
 }
 ```

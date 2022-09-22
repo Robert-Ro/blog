@@ -30,5 +30,6 @@ This lets your `tsconfig.json` focus on the unique choices for your project, and
 - [Svelte](https://www.npmjs.com/package/@tsconfig/svelte)
 
 ## misc
+
 - `tsconfig.build.json` prefer then `tsconfig.json` in build mode
 - `tsconfig.test.json` prefer then `tsconfig.json` in `ts-jest` mode

@@ -35,7 +35,7 @@ Behavior of this method is similar to `Array.prototype.filter`.
 This method is an alias of the following code.
 
 ```js
-wrapperArray.wrappers.forEach((wrapper) => wrapper.setChecked(checked));
+wrapperArray.wrappers.forEach((wrapper) => wrapper.setChecked(checked))
 ```
 
 ### setProps
