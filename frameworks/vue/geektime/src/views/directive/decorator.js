@@ -1,8 +1,8 @@
 export default {
   name: '',
-  bind() {},
-  insert() {},
-  update() {},
-  updateComponent() {},
-  unbind() {},
+  bind() { },
+  insert() { },
+  update() { },
+  updateComponent() { },
+  unbind() { },
 }
