@@ -1,3 +1,9 @@
 - [x] `typescript` setup with `eslint`: overrides
-- [ ] `types` `typeRoots` `paths` difference
-- [ ] `tsconfig.test.json` `tsconfig.build.json` meaning
+- [x] `types` `typeRoots` `paths` difference
+  - types：指明用到的哪些 types
+  - typeRoots： 指明 type 的根路径
+  - paths: 配置 package 别名
+- [x] `tsconfig.test.json` `tsconfig.build.json`, 不同功能的 tsconfig 配置
+- [ ] pnpm + monorepo + ts 下的类型解决方案
+  - 参考 crawel 库的解决方案
+  - 按 pnpm 开发全栈的思路搜索
