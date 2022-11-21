@@ -57,48 +57,48 @@ const {
 })
 ```
 
-**Options**
+**Options 选项**
 
 - `queryKey: unknown[]`
   - **Required**
   - The query key to use for this query.
   - The query key will be hashed into a stable hash. See [Query Keys](../guides/query-keys) for more information.
-  - The query will automatically update when this key changes (as long as `enabled` is not set to `false`).
+  - **The query will automatically update when this key changes** (as long as `enabled` is not set to `false`).
 - `queryFn: (context: QueryFunctionContext) => Promise<TData>`
   - **Required, but only if no default query function has been defined** See [Default Query Function](../guides/default-query-function) for more information.
   - The function that the query will use to request data.
   - Receives a [QueryFunctionContext](../guides/query-functions#queryfunctioncontext)
-  - Must return a promise that will either resolve data or throw an error. The data cannot be `undefined`.
-- `enabled: boolean`
+  - Must return a promise that will either resolve data or throw an error 必须返回一个`Promise`对象. The data cannot be `undefined`, resolve data 不能为`undefined`.
+- `enabled: boolean`是否启用
   - Set this to `false` to disable this query from automatically running.
   - Can be used for [Dependent Queries](../guides/dependent-queries).
-- `networkMode: 'online' | 'always' | 'offlineFirst`
+- `networkMode网络模式: 'online' | 'always' | 'offlineFirst`
   - optional
   - defaults to `'online'`
   - see [Network Mode](../guides/network-mode) for more information.
-- `retry: boolean | number | (failureCount: number, error: TError) => boolean`
-  - If `false`, failed queries will not retry by default.
-  - If `true`, failed queries will retry infinitely.
-  - If set to a `number`, e.g. `3`, failed queries will retry until the failed query count meets that number.
-- `retryOnMount: boolean`
+- `retry重试: boolean | number | (failureCount: number, error: TError) => boolean`
+  - If `false`, failed queries will not retry by default. `false`: 默认不重试
+  - If `true`, failed queries will retry infinitely. `true`: 失败的请求会无限重试
+  - If set to a `number`, e.g. `3`, failed queries will retry until the failed query count meets that number. 接收重试次数
+- `retryOnMount: boolean` 挂载时重试
   - If set to `false`, the query will not be retried on mount if it contains an error. Defaults to `true`.
-- `retryDelay: number | (retryAttempt: number, error: TError) => number`
+- `retryDelay重试延迟: number | (retryAttempt: number, error: TError) => number`
   - This function receives a `retryAttempt` integer and the actual Error and returns the delay to apply before the next attempt in milliseconds.
   - A function like `attempt => Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000)` applies exponential backoff.
   - A function like `attempt => attempt * 1000` applies linear backoff.
-- `staleTime: number | Infinity`
+- `staleTime: number | Infinity` 重新获取数据的时间间隔 默认0
   - Optional
   - Defaults to `0`
-  - The time in milliseconds after data is considered stale. This value only applies to the hook it is defined on.
-  - If set to `Infinity`, the data will never be considered stale
-- `cacheTime: number | Infinity`
-  - Defaults to `5 * 60 * 1000` (5 minutes) or `Infinity` during SSR
-  - The time in milliseconds that unused/inactive cache data remains in memory. When a query's cache becomes unused or inactive, that cache data will be garbage collected after this duration. When different cache times are specified, the longest one will be used.
+  - The time in milliseconds after data is considered stale // FIXME 数据失效的时间？. This value only applies to the hook it is defined on.
+  - If set to `Infinity`, the data will never be considered stale 设置为`Infinity`则数据永不过期
+- `cacheTime缓存时间: number | Infinity`
+  - Defaults to `5 * 60 * 1000` (5 minutes**默认 5 分钟**) or `Infinity` during SSR(**SSR 下永久**)
+  - The time in milliseconds that unused/inactive cache data remains in memory. When a query's cache becomes unused or inactive, that cache data will be garbage collected after this duration**缓存数据会被`GC`掉**. When different cache times are specified, the longest one will be used.
   - If set to `Infinity`, will disable garbage collection
 - `queryKeyHashFn: (queryKey: QueryKey) => string`
   - Optional
   - If specified, this function is used to hash the `queryKey` to a string.
-- `refetchInterval: number | false | ((data: TData | undefined, query: Query) => number | false)`
+- `refetchInterval重新获取数据的间隔: number | false | ((data: TData | undefined, query: Query) => number | false)`
   - Optional
   - If set to a number, all queries will continuously refetch at this frequency in milliseconds
   - If set to a function, the function will be executed with the latest data and query to compute a frequency
@@ -187,7 +187,7 @@ const {
 - `context?: React.Context<QueryClient | undefined>`
   - Use this to use a custom React Query context. Otherwise, `defaultContext` will be used.
 
-**Returns**
+**Returns 返回值**
 
 - `status: String`
   - Will be:
