@@ -13,7 +13,7 @@
   const fn = (v: boolean) => {
     if (v)
       return 1
-    else
+    else»
       return 2
   }
 
