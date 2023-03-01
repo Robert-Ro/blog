@@ -39,12 +39,8 @@ module.exports = defineConfig({
                     const matches = key.match(reg)
                     if (matches) {
                       el.attrsList.push({
-<<<<<<< HEAD:frameworks/vue/geektime/vue.config.js
                         name: `data-i18n`,
                         value: matches[1],
-=======
-                        name: `data-i18n`, value: matches[1]
->>>>>>> origin/nestjs:vue/geektime/vue.config.js
                       })
                     }
                   }
@@ -65,20 +61,12 @@ module.exports = defineConfig({
                    * @returns
                    */
                   const isIconButton = (_el) => {
-<<<<<<< HEAD:frameworks/vue/geektime/vue.config.js
                     return _el.tag === 'a-button' && _el.children.some((child) => child.tag === 'a-icon')
                   }
                   if (el.children.length === 1 || isIconButton(el)) {
                     const child = el.children.find((child) => child.type === 2)
                     if (child) {
                       // NOTE 父节点上有国际化，子节点上也有国际化->子节点覆盖父节点
-=======
-                    return _el.tag === 'a-button' && _el.children.some((child => child.tag === 'a-icon'))
-                  }
-                  if (el.children.length === 1 || isIconButton(el)) {
-                    const child = el.children.find(child => child.type === 2)
-                    if (child) { // NOTE 父节点上有国际化，子节点上也有国际化->子节点覆盖父节点
->>>>>>> origin/nestjs:vue/geektime/vue.config.js
                       const text = child.text
                       // FIXME 提取出 {{$t(<key>)}} 正则
                       const reg = new RegExp(`\{\{\\s?\\$t\\('([a-zA-Z0-9\\-\\.]+)'\\)\\s?\}\}`, 'gm')
