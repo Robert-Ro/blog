@@ -342,9 +342,9 @@ This ensures that the consumers of your Hook can optimize their own code when ne
 
 ---
 
-## Troubleshooting {/_troubleshooting_/}
+## Troubleshooting
 
-### Every time my component renders, `useCallback` returns a different function {/_every-time-my-component-renders-usecallback-returns-a-different-function_/}
+### Every time my component renders, `useCallback` returns a different function
 
 Make sure you've specified the dependency array as a second argument!
 
@@ -356,22 +356,27 @@ function ProductPage({ productId, referrer }) {
     post('/product/' + productId + '/buy', {
       referrer,
       orderDetails,
-    });
-  }); // 🔴 Returns a new function every time: no dependency array
+    })
+  }) // 🔴 Returns a new function every time: no dependency array
   // ...
+}
 ```
 
 This is the corrected version passing the dependency array as a second argument:
 
 ```js
 function ProductPage({ productId, referrer }) {
-  const handleSubmit = useCallback((orderDetails) => {
-    post('/product/' + productId + '/buy', {
-      referrer,
-      orderDetails,
-    });
-  }, [productId, referrer]); // ✅ Does not return a new function unnecessarily
+  const handleSubmit = useCallback(
+    (orderDetails) => {
+      post('/product/' + productId + '/buy', {
+        referrer,
+        orderDetails,
+      })
+    },
+    [productId, referrer]
+  ) // ✅ Does not return a new function unnecessarily
   // ...
+}
 ```
 
 If this doesn't help, then the problem is that at least one of your dependencies is different from the previous render. You can debug this problem by manually logging your dependencies to the console:
@@ -403,12 +408,12 @@ When you find which dependency is breaking memoization, either find a way to rem
 
 Suppose the `Chart` component is wrapped in [`memo`](/reference/react/memo). You want to skip re-rendering every `Chart` in the list when the `ReportList` component re-renders. However, you can't call `useCallback` in a loop:
 
-```js
+```jsx
 function ReportList({ items }) {
+  // You can't call useCallback in a loop like this:
   return (
     <article>
       {items.map((item) => {
-        // 🔴 You can't call useCallback in a loop like this:
         const handleClick = useCallback(() => {
           sendReport(item)
         }, [item])
@@ -425,6 +430,7 @@ function ReportList({ items }) {
 ```
 
 Instead, extract a component for an individual item, and put `useCallback` there:
+提取组件成为单独的一项，移动`useCallback`到里面去
 
 ```js
 function ReportList({ items }) {
