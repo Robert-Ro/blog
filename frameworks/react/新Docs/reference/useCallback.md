@@ -314,6 +314,8 @@ Now your code is simpler and doesn't need `useCallback`. [Learn more about remov
 
 ### Optimizing a custom Hook
 
+优化自定义 Hook
+
 If you're writing a [custom Hook,](/learn/reusing-logic-with-custom-hooks) it's recommended to wrap any functions that it returns into `useCallback`:
 
 ```js
@@ -340,9 +342,7 @@ function useRouter() {
 
 This ensures that the consumers of your Hook can optimize their own code when needed.
 
----
-
-## Troubleshooting
+## Troubleshooting 排难
 
 ### Every time my component renders, `useCallback` returns a different function
 
@@ -404,7 +404,7 @@ When you find which dependency is breaking memoization, either find a way to rem
 
 ### I need to call `useCallback` for each list item in a loop, but it's not allowed
 
-> ⭐️⭐️⭐️⭐️⭐️
+> ⭐️⭐️⭐️⭐️⭐️ 需要在列表中使用`useCallback`
 
 Suppose the `Chart` component is wrapped in [`memo`](/reference/react/memo). You want to skip re-rendering every `Chart` in the list when the `ReportList` component re-renders. However, you can't call `useCallback` in a loop:
 
@@ -430,7 +430,12 @@ function ReportList({ items }) {
 ```
 
 Instead, extract a component for an individual item, and put `useCallback` there:
+
 提取组件成为单独的一项，移动`useCallback`到里面去
+
+解决方案：提取一个单独的组件出来，并将`useCallback`移动到这里
+
+> > > > > > > fa8a509 (~)
 
 ```js
 function ReportList({ items }) {
@@ -461,6 +466,7 @@ function Report({ item }) {
 ```
 
 Alternatively, you could remove `useCallback` in the last snippet and instead wrap `Report` itself in [`memo`.](/reference/react/memo) If the `item` prop does not change, `Report` will skip re-rendering, so `Chart` will skip re-rendering too:
+另外，你可以不使用`useCallback`，使用`memo`包裹组件
 
 ```js
 function ReportList({ items }) {
