@@ -435,8 +435,6 @@ Instead, extract a component for an individual item, and put `useCallback` there
 
 解决方案：提取一个单独的组件出来，并将`useCallback`移动到这里
 
-> > > > > > > fa8a509 (~)
-
 ```js
 function ReportList({ items }) {
   return (
