@@ -95,35 +95,14 @@ Usually, this isn't a problem because most calculations are very fast. However, 
 
 #### Skipping recalculation with `useMemo`
 
-In this example, the `filterTodos` implementation is **artificially slowed down** so that you can see what happens when some JavaScript function you're calling during rendering is genuinely slow. Try switching the tabs and toggling the theme.
-
-Switching the tabs feels slow because it forces the slowed down `filterTodos` to re-execute. That's expected because the `tab` has changed, and so the entire calculation _needs_ to re-run. (If you're curious why it runs twice, it's explained [here.](#my-calculation-runs-twice-on-every-re-render))
-
-Next, try toggling the theme. **Thanks to `useMemo`, it's fast despite the artificial slowdown!** The slow `filterTodos` call was skipped because both `todos` and `tab` (which you pass as dependencies to `useMemo`) haven't changed since the last render.
-
 #### Always recalculating a value
 
-In this example, the `filterTodos` implementation is also **artificially slowed down** so that you can see what happens when some JavaScript function you're calling during rendering is genuinely slow. Try switching the tabs and toggling the theme.
-
-Unlike in the previous example, toggling the theme is also slow now! This is because **there is no `useMemo` call in this version,** so the artificially slowed down `filterTodos` gets called on every re-render. It is called even if only `theme` has changed.
-
-However, here is the same code **with the artificial slowdown removed.** Does the lack of `useMemo` feel noticeable or not?
-
-Quite often, code without memoization works fine. If your interactions are fast enough, you might not need memoization.
-
-You can try increasing the number of todo items in `utils.js` and see how the behavior changes. This particular calculation wasn't very expensive to begin with, but if the number of todos grows significantly, most of the overhead will be in re-rendering rather than in the filtering. Keep reading below to see how you can optimize re-rendering with `useMemo`.
-
-<Solution />
-
-</Recipes>
-
----
-
-### Skipping re-rendering of components {/_skipping-re-rendering-of-components_/}
+### Skipping re-rendering of components 跳过组件的重新渲染
 
 In some cases, `useMemo` can also help you optimize performance of re-rendering child components. To illustrate this, let's say this `TodoList` component passes the `visibleTodos` as a prop to the child `List` component:
+在一些情况下，`useMemo`可以帮助你优化子组件重新渲染的性能问题。
 
-```js {5}
+```js
 export default function TodoList({ todos, tab, theme }) {
   // ...
   return (
@@ -138,7 +117,7 @@ You've noticed that toggling the `theme` prop freezes the app for a moment, but 
 
 **By default, when a component re-renders, React re-renders all of its children recursively.** This is why, when `TodoList` re-renders with a different `theme`, the `List` component _also_ re-renders. This is fine for components that don't require much calculation to re-render. But if you've verified that a re-render is slow, you can tell `List` to skip re-rendering when its props are the same as on last render by wrapping it in [`memo`:](/reference/react/memo)
 
-```js {3,5}
+```js
 import { memo } from 'react'
 
 const List = memo(function List({ items }) {
@@ -163,7 +142,7 @@ export default function TodoList({ todos, tab, theme }) {
 
 **In the above example, the `filterTodos` function always creates a _different_ array,** similar to how the `{}` object literal always creates a new object. Normally, this wouldn't be a problem, but it means that `List` props will never be the same, and your [`memo`](/reference/react/memo) optimization won't work. This is where `useMemo` comes in handy:
 
-```js {2-3,5,9-10}
+```js
 export default function TodoList({ todos, tab, theme }) {
   // Tell React to cache your calculation between re-renders...
   const visibleTodos = useMemo(
@@ -183,31 +162,12 @@ export default function TodoList({ todos, tab, theme }) {
 
 <DeepDive>
 
-#### Memoizing individual JSX nodes {/_memoizing-individual-jsx-nodes_/}
+#### [Memoizing individual JSX nodes](./%5Bdeep%20dive%5DMemoizing%20individual%20JSX%20nodes.md)
 
-Instead of wrapping `List` in [`memo`](/reference/react/memo), you could wrap the `<List />` JSX node itself in `useMemo`:
+<DeepDive>
 
-```js {3,6}
-export default function TodoList({ todos, tab, theme }) {
-  const visibleTodos = useMemo(() => filterTodos(todos, tab), [todos, tab])
-  const children = useMemo(() => <List items={visibleTodos} />, [visibleTodos])
-  return <div className={theme}>{children}</div>
-}
-```
 
-The behavior would be the same. If the `visibleTodos` haven't changed, `List` won't be re-rendered.
-
-A JSX node like `<List items={visibleTodos} />` is an object like `{ type: List, props: { items: visibleTodos } }`. Creating this object is very cheap, but React doesn't know whether its contents is the same as last time or not. This is why by default, React will re-render the `List` component.
-
-However, if React sees the same exact JSX as during the previous render, it won't try to re-render your component. This is because JSX nodes are [immutable.](https://en.wikipedia.org/wiki/Immutable_object) A JSX node object could not have changed over time, so React knows it's safe to skip a re-render. However, for this to work, the node has to _actually be the same object_, not merely look the same in code. This is what `useMemo` does in this example.
-
-Manually wrapping JSX nodes into `useMemo` is not convenient. For example, you can't do this conditionally. This is usually why you would wrap components with [`memo`](/reference/react/memo) instead of wrapping JSX nodes.
-
-</DeepDive>
-
-<Recipes titleText="The difference between skipping re-renders and always re-rendering" titleId="examples-rerendering">
-
-#### Skipping re-rendering with `useMemo` and `memo` {/_skipping-re-rendering-with-usememo-and-memo_/}
+#### Skipping re-rendering with `useMemo` and `memo` 
 
 In this example, the `List` component is **artificially slowed down** so that you can see what happens when a React component you're rendering is genuinely slow. Try switching the tabs and toggling the theme.
 
@@ -215,386 +175,21 @@ Switching the tabs feels slow because it forces the slowed down `List` to re-ren
 
 Next, try toggling the theme. **Thanks to `useMemo` together with [`memo`](/reference/react/memo), it’s fast despite the artificial slowdown!** The `List` skipped re-rendering because the `visibleItems` array has not changed since the last render. The `visibleItems` array has not changed because both `todos` and `tab` (which you pass as dependencies to `useMemo`) haven't changed since the last render.
 
-<Sandpack>
 
-```js App.js
-import { useState } from 'react'
-import { createTodos } from './utils.js'
-import TodoList from './TodoList.js'
 
-const todos = createTodos()
-
-export default function App() {
-  const [tab, setTab] = useState('all')
-  const [isDark, setIsDark] = useState(false)
-  return (
-    <>
-      <button onClick={() => setTab('all')}>All</button>
-      <button onClick={() => setTab('active')}>Active</button>
-      <button onClick={() => setTab('completed')}>Completed</button>
-      <br />
-      <label>
-        <input
-          type="checkbox"
-          checked={isDark}
-          onChange={(e) => setIsDark(e.target.checked)}
-        />
-        Dark mode
-      </label>
-      <hr />
-      <TodoList
-        todos={todos}
-        tab={tab}
-        theme={isDark ? 'dark' : 'light'}
-      />
-    </>
-  )
-}
-```
-
-```js TodoList.js active
-import { useMemo } from 'react'
-import List from './List.js'
-import { filterTodos } from './utils.js'
-
-export default function TodoList({ todos, theme, tab }) {
-  const visibleTodos = useMemo(() => filterTodos(todos, tab), [todos, tab])
-  return (
-    <div className={theme}>
-      <p>
-        <b>
-          Note: <code>List</code> is artificially slowed down!
-        </b>
-      </p>
-      <List items={visibleTodos} />
-    </div>
-  )
-}
-```
-
-```js List.js
-import { memo } from 'react'
-
-const List = memo(function List({ items }) {
-  console.log('[ARTIFICIALLY SLOW] Rendering <List /> with ' + items.length + ' items')
-  let startTime = performance.now()
-  while (performance.now() - startTime < 500) {
-    // Do nothing for 500 ms to emulate extremely slow code
-  }
-
-  return (
-    <ul>
-      {items.map((item) => (
-        <li key={item.id}>{item.completed ? <s>{item.text}</s> : item.text}</li>
-      ))}
-    </ul>
-  )
-})
-
-export default List
-```
-
-```js utils.js
-export function createTodos() {
-  const todos = []
-  for (let i = 0; i < 50; i++) {
-    todos.push({
-      id: i,
-      text: 'Todo ' + (i + 1),
-      completed: Math.random() > 0.5,
-    })
-  }
-  return todos
-}
-
-export function filterTodos(todos, tab) {
-  return todos.filter((todo) => {
-    if (tab === 'all') {
-      return true
-    } else if (tab === 'active') {
-      return !todo.completed
-    } else if (tab === 'completed') {
-      return todo.completed
-    }
-  })
-}
-```
-
-```css
-label {
-  display: block;
-  margin-top: 10px;
-}
-
-.dark {
-  background-color: black;
-  color: white;
-}
-
-.light {
-  background-color: white;
-  color: black;
-}
-```
-
-</Sandpack>
-
-<Solution />
-
-#### Always re-rendering a component {/_always-re-rendering-a-component_/}
+#### Always re-rendering a component 
 
 In this example, the `List` implementation is also **artificially slowed down** so that you can see what happens when some React component you're rendering is genuinely slow. Try switching the tabs and toggling the theme.
 
 Unlike in the previous example, toggling the theme is also slow now! This is because **there is no `useMemo` call in this version,** so the `visibleTodos` is always a different array, and the slowed down `List` component can't skip re-rendering.
 
-<Sandpack>
-
-```js App.js
-import { useState } from 'react'
-import { createTodos } from './utils.js'
-import TodoList from './TodoList.js'
-
-const todos = createTodos()
-
-export default function App() {
-  const [tab, setTab] = useState('all')
-  const [isDark, setIsDark] = useState(false)
-  return (
-    <>
-      <button onClick={() => setTab('all')}>All</button>
-      <button onClick={() => setTab('active')}>Active</button>
-      <button onClick={() => setTab('completed')}>Completed</button>
-      <br />
-      <label>
-        <input
-          type="checkbox"
-          checked={isDark}
-          onChange={(e) => setIsDark(e.target.checked)}
-        />
-        Dark mode
-      </label>
-      <hr />
-      <TodoList
-        todos={todos}
-        tab={tab}
-        theme={isDark ? 'dark' : 'light'}
-      />
-    </>
-  )
-}
-```
-
-```js TodoList.js active
-import List from './List.js'
-import { filterTodos } from './utils.js'
-
-export default function TodoList({ todos, theme, tab }) {
-  const visibleTodos = filterTodos(todos, tab)
-  return (
-    <div className={theme}>
-      <p>
-        <b>
-          Note: <code>List</code> is artificially slowed down!
-        </b>
-      </p>
-      <List items={visibleTodos} />
-    </div>
-  )
-}
-```
-
-```js List.js
-import { memo } from 'react'
-
-const List = memo(function List({ items }) {
-  console.log('[ARTIFICIALLY SLOW] Rendering <List /> with ' + items.length + ' items')
-  let startTime = performance.now()
-  while (performance.now() - startTime < 500) {
-    // Do nothing for 500 ms to emulate extremely slow code
-  }
-
-  return (
-    <ul>
-      {items.map((item) => (
-        <li key={item.id}>{item.completed ? <s>{item.text}</s> : item.text}</li>
-      ))}
-    </ul>
-  )
-})
-
-export default List
-```
-
-```js utils.js
-export function createTodos() {
-  const todos = []
-  for (let i = 0; i < 50; i++) {
-    todos.push({
-      id: i,
-      text: 'Todo ' + (i + 1),
-      completed: Math.random() > 0.5,
-    })
-  }
-  return todos
-}
-
-export function filterTodos(todos, tab) {
-  return todos.filter((todo) => {
-    if (tab === 'all') {
-      return true
-    } else if (tab === 'active') {
-      return !todo.completed
-    } else if (tab === 'completed') {
-      return todo.completed
-    }
-  })
-}
-```
-
-```css
-label {
-  display: block;
-  margin-top: 10px;
-}
-
-.dark {
-  background-color: black;
-  color: white;
-}
-
-.light {
-  background-color: white;
-  color: black;
-}
-```
-
-</Sandpack>
-
 However, here is the same code **with the artificial slowdown removed.** Does the lack of `useMemo` feel noticeable or not?
-
-<Sandpack>
-
-```js App.js
-import { useState } from 'react'
-import { createTodos } from './utils.js'
-import TodoList from './TodoList.js'
-
-const todos = createTodos()
-
-export default function App() {
-  const [tab, setTab] = useState('all')
-  const [isDark, setIsDark] = useState(false)
-  return (
-    <>
-      <button onClick={() => setTab('all')}>All</button>
-      <button onClick={() => setTab('active')}>Active</button>
-      <button onClick={() => setTab('completed')}>Completed</button>
-      <br />
-      <label>
-        <input
-          type="checkbox"
-          checked={isDark}
-          onChange={(e) => setIsDark(e.target.checked)}
-        />
-        Dark mode
-      </label>
-      <hr />
-      <TodoList
-        todos={todos}
-        tab={tab}
-        theme={isDark ? 'dark' : 'light'}
-      />
-    </>
-  )
-}
-```
-
-```js TodoList.js active
-import List from './List.js'
-import { filterTodos } from './utils.js'
-
-export default function TodoList({ todos, theme, tab }) {
-  const visibleTodos = filterTodos(todos, tab)
-  return (
-    <div className={theme}>
-      <List items={visibleTodos} />
-    </div>
-  )
-}
-```
-
-```js List.js
-import { memo } from 'react'
-
-function List({ items }) {
-  return (
-    <ul>
-      {items.map((item) => (
-        <li key={item.id}>{item.completed ? <s>{item.text}</s> : item.text}</li>
-      ))}
-    </ul>
-  )
-}
-
-export default memo(List)
-```
-
-```js utils.js
-export function createTodos() {
-  const todos = []
-  for (let i = 0; i < 50; i++) {
-    todos.push({
-      id: i,
-      text: 'Todo ' + (i + 1),
-      completed: Math.random() > 0.5,
-    })
-  }
-  return todos
-}
-
-export function filterTodos(todos, tab) {
-  return todos.filter((todo) => {
-    if (tab === 'all') {
-      return true
-    } else if (tab === 'active') {
-      return !todo.completed
-    } else if (tab === 'completed') {
-      return todo.completed
-    }
-  })
-}
-```
-
-```css
-label {
-  display: block;
-  margin-top: 10px;
-}
-
-.dark {
-  background-color: black;
-  color: white;
-}
-
-.light {
-  background-color: white;
-  color: black;
-}
-```
-
-</Sandpack>
 
 Quite often, code without memoization works fine. If your interactions are fast enough, you don't need memoization.
 
 Keep in mind that you need to run React in production mode, disable [React Developer Tools](/learn/react-developer-tools), and use devices similar to the ones your app's users have in order to get a realistic sense of what's actually slowing down your app.
 
-<Solution />
-
-</Recipes>
-
----
-
-### Memoizing a dependency of another Hook {/_memoizing-a-dependency-of-another-hook_/}
+### Memoizing a dependency of another Hook 
 
 Suppose you have a calculation that depends on an object created directly in the component body:
 
@@ -606,13 +201,14 @@ function Dropdown({ allItems, text }) {
     return searchItems(allItems, searchOptions);
   }, [allItems, searchOptions]); // 🚩 Caution: Dependency on an object created in the component body
   // ...
+}
 ```
 
 Depending on an object like this defeats the point of memoization. When a component re-renders, all of the code directly inside the component body runs again. **The lines of code creating the `searchOptions` object will also run on every re-render.** Since `searchOptions` is a dependency of your `useMemo` call, and it's different every time, React will know the dependencies are different from the last time, and recalculate `searchItems` every time.
 
 To fix this, you could memoize the `searchOptions` object _itself_ before passing it as a dependency:
 
-```js {2-4}
+```js 
 function Dropdown({ allItems, text }) {
   const searchOptions = useMemo(() => {
     return { matchMode: 'whole-word', text };
@@ -638,9 +234,7 @@ function Dropdown({ allItems, text }) {
 **Now your calculation depends on `text` directly (which is a string and can't "accidentally" be new like an object).**
 You can use a similar approach to prevent [`useEffect`](/reference/react/useEffect) from firing again unnecessarily. Before you try to optimize dependencies with `useMemo`, see if you can make them unnecessary. [Read about removing Effect dependencies.](/learn/removing-effect-dependencies)
 
----
-
-### Memoizing a function {/_memoizing-a-function_/}
+### Memoizing a function 
 
 Suppose the `Form` component is wrapped in [`memo`.](/reference/react/memo) You want to pass a function to it as a prop:
 
@@ -661,7 +255,7 @@ Similar to how `{}` always creates a different object, function declarations lik
 
 To memoize a function with `useMemo`, your calculation function would have to return another function:
 
-```js {2-3,8-9}
+```js
 export default function Page({ productId, referrer }) {
   const handleSubmit = useMemo(() => {
     return (orderDetails) => {
@@ -695,8 +289,6 @@ export default function Page({ productId, referrer }) {
 ```
 
 The two examples above are completely equivalent. The only benefit to `useCallback` is that it lets you avoid writing an extra nested function inside. It doesn't do anything else. [Read more about `useCallback`.](/reference/react/useCallback)
-
----
 
 ## Troubleshooting
 
@@ -788,8 +380,6 @@ const searchOptions = useMemo(() => {
   }
 }, [text])
 ```
-
----
 
 ### Every time my component renders, the calculation in `useMemo` re-runs 每次组件渲染时，`useMemo`的计算函数都会执行
 
