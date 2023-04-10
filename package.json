@@ -15,7 +15,7 @@
     "webpack": "^4",
     "webpack-cli": "^4.9.2",
     "@liutsing/prettier-config": "0.0.1",
-    "@liutsing/eslint-config-typescript": "0.0.1"
+    "@liutsing/eslint-config": "0.0.7"
   },
   "scripts": {
     "test": "jest",

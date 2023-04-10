@@ -33,3 +33,30 @@ This lets your `tsconfig.json` focus on the unique choices for your project, and
 
 - `tsconfig.build.json` prefer then `tsconfig.json` in build mode
 - `tsconfig.test.json` prefer then `tsconfig.json` in `ts-jest` mode
+- `tsconfig.node.json` for ts-node ？//FIXME -
+
+## 决定类型编译的文件范围的因素
+
+### files
+
+> 少量的文件时
+
+Specifies an allowlist of files to include in the program. An error occurs if any of the files can’t be found.
+
+### include
+
+> 以文件夹的范围引入文件
+
+Specifies an array of filenames or patterns to include in the program. These filenames are resolved relative to the directory containing the `tsconfig.json` file.
+
+include and exclude support wildcard characters to make glob patterns:
+
+- - matches zero or more characters (excluding directory separators)
+- ? matches any one character (excluding directory separators)
+- \*\*/ matches any directory nested to any level
+
+If a glob pattern doesn’t include a file extension 文件拓展名, then only files with supported extensions are included (e.g. `.ts`, `.tsx`, and `.d.ts` by default, with `.js` and `.jsx` if `allowJs` is set to true).
+
+### exclude
+
+// https://www.typescriptlang.org/tsconfig#exclude
