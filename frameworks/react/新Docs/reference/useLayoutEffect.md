@@ -64,7 +64,7 @@ Most components don't need to know their position and size on the screen to deci
 大多数组件不需要知道它们在屏幕上的位置和大小来决定渲染什么。它们只返回一些带有 CSS 的 JSX。然后浏览器计算它们的布局（位置和大小）并重新绘制屏幕。
 
 Sometimes, that's not enough. Imagine a tooltip that appears next to some element on hover. If there's enough space, the tooltip should appear above the element, but if it doesn't fit, it should appear below. This means that in order to render the tooltip at the right final position, you need to know its height (i.e. whether it fits at the top).
-但有时候这样还不够。想象一下，在悬停某个元素时出现的`tooltip`提示。如果有足够的空间，`tooltip`提示应该出现在元素上方，但如果不适合，它应该出现在下方。这意味着为了在正确的最终位置渲染`tooltip`提示，您需要知道它的高度（即是否适合在顶部）。
+但有时候这样还不够。想象一下，在悬停某个元素时出现的`tooltip`提示。**如果有足够的空间**，`tooltip`提示应该出现在元素上方，**但如果不适合，它应该出现在下方**。这意味着为了在正确的最终位置渲染`tooltip`提示，您需要知道它的高度（即是否适合在顶部）。
 
 To do this, you need to render in two passes:
 
@@ -125,13 +125,13 @@ Edit this example to `useLayoutEffect` and observe that it blocks the paint even
 
 The purpose of `useLayoutEffect` is to let your component [use layout information for rendering:](#measuring-layout-before-the-browser-repaints-the-screen)
 
-1. Render the initial content.
-2. Measure the layout _before the browser repaints the screen._
-3. Render the final content using the layout information you've read.
+1. Render the initial content.渲染起始内容
+2. Measure the layout _before the browser repaints the screen._ 在屏幕重新绘制前测量布局信息
+3. Render the final content using the layout information you've read.使用布局信息渲染最终的内容
 
 When you or your framework uses [server rendering](/reference/react-dom/server), your React app renders to HTML on the server for the initial render. This lets you show the initial HTML before the JavaScript code loads.
 
-The problem is that on the server, there is no layout information.
+The problem is that on the server, there is no layout information. 服务端渲染的情况下没有布局信息
 
 In the [earlier example](#measuring-layout-before-the-browser-repaints-the-screen), the `useLayoutEffect` call in the `Tooltip` component lets it position itself correctly (either above or below content) depending on the content height. If you tried to render `Tooltip` as a part of the initial server HTML, this would be impossible to determine. On the server, there is no browser and no layout! So, even if you rendered it on the server, its position would "jump" on the client after the JavaScript loads and runs.
 
@@ -139,10 +139,10 @@ Usually, components that rely on layout information don't need to render on the 
 
 However, if you're running into this problem, you have a few options:
 
-1. You can replace `useLayoutEffect` with [`useEffect`.](/reference/react/useEffect) This tells React that it's okay to display the initial render result without blocking the paint (because the original HTML will become visible before your Effect runs).
+1. You can replace `useLayoutEffect` with [`useEffect`.](使用`useEffect`代替`useLayoutEffect`) This tells React that it's okay to display the initial render result without blocking the paint (because the original HTML will become visible before your Effect runs).
 
 2. You can [mark your component as client-only.](/reference/react/Suspense#providing-a-fallback-for-server-errors-and-server-only-content) This tells React to replace its content up to the closest [`<Suspense>`](/reference/react/Suspense) boundary with a loading fallback (for example, a spinner or a glimmer) during server rendering.
 
 3. You can display different components on the server and on the client. One way to do this is to keep a boolean `isMounted` state that's initialized to `false`, and set it to `true` inside a `useEffect` call. Your rendering logic can then be like `return isMounted ? <RealContent /> : <FallbackContent />`. On the server and during the hydration, the user will see `FallbackContent` which should not call `useLayoutEffect`. Then React will replace it with `RealContent` which runs on the client only and can include `useLayoutEffect` calls.
 
-4. If you synchronize your component with an external data store and rely on `useLayoutEffect` for different reasons than measuring layout, consider [`useSyncExternalStore`](/reference/react/useSyncExternalStore) instead which [supports server rendering.](/reference/react/useSyncExternalStore#adding-support-for-server-rendering)
+4. **If you synchronize your component with an external data store and rely on** `useLayoutEffect` for different reasons than measuring layout, consider **[`useSyncExternalStore`]**(/reference/react/useSyncExternalStore) instead which [supports server rendering.](/reference/react/useSyncExternalStore#adding-support-for-server-rendering)
