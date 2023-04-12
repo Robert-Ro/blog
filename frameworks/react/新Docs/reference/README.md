@@ -11,3 +11,5 @@
 - [useRef](./useRef.md)
 - [useMemo](./useMemo.md)
 - [useLayoutEffect](./useLayoutEffect.md)
+- [useImperativeHandle](./useImperativeHandle.md)
+- [useId](./useId.md)
