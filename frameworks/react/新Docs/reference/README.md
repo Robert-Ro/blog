@@ -6,10 +6,11 @@
 
 ### hooks
 
-- [useState](./useState.md)
-- [useCallback](./useCallback.md)
-- [useRef](./useRef.md)
-- [useMemo](./useMemo.md)
-- [useLayoutEffect](./useLayoutEffect.md)
-- [useImperativeHandle](./useImperativeHandle.md)
-- [useId](./useId.md)
+- [useState](./useState.md)✨✨✨✨✨
+- [useCallback](./useCallback.md)✨✨✨✨✨
+- [useRef](./useRef.md)✨✨✨✨
+- [useMemo](./useMemo.md)✨✨✨✨
+- [useLayoutEffect](./useLayoutEffect.md)✨✨✨
+- [useImperativeHandle](./useImperativeHandle.md) ✨✨✨✨
+- [useId](./useId.md) ✨✨
+- [useDebugValue](./useDebugValue.md)
