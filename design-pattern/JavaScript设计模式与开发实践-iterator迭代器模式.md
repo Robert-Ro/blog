@@ -20,10 +20,10 @@ var each = function (arr, callback) {
 each([1, 2, 3], (item, index) => alert(item))
 // example2 ES6迭代器
 function* values() {
-  let curr = linkedList.head
-  while (curr) {
-    yield curr.data
-    curr = curr.next
+  let current = linkedList.head
+  while (current) {
+    yield current.data
+    current = current.next
   }
 }
 ```
@@ -138,7 +138,7 @@ var getFlashUploadObj = function () {
   return false
 }
 
-var getFormUpladObj = function () {
+var getFormUploadObj = function () {
   var str = '<input name="file" type="file" class="ui-file"/>' // 表单上传
   return $(str).appendTo($('body'))
 }
@@ -158,7 +158,7 @@ var iteratorUploadObj = function () {
     }
   }
 }
-iteratorUploadObj(getActiveUploadObj, getFlashUploadObj, getFormUpladObj)
+iteratorUploadObj(getActiveUploadObj, getFlashUploadObj, getFormUploadObj)
 ```
 
 重构代码之后，我们可以看到，获取不同上传对象的方法被隔离在各自的函数里互不干扰，`try`、`catch` 和 `if` 分支不再纠缠在一起，使得我们可以很方便地的维护和扩展代码。比如，后来我们又给上传项目增加了 `Webkit` 控件上传和 `HTML5` 上传，我们要做的仅仅是下面一些工作。
@@ -183,10 +183,14 @@ var uploadObj = iteratorUploadObj(
   getWebkitUploadObj,
   getFlashUploadObj,
   getHtml5UploadObj,
-  getFormUpladObj
+  getFormUploadObj
 )
 ```
 
 ## 小结
 
 迭代器模式是一种相对简单的模式。目前大多数语言内部都内置了迭代器。
+
+## Resources
+
+- 原文: JavaScript 设计模式与开发实践
