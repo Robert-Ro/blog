@@ -14,3 +14,5 @@
 - [useImperativeHandle](./useImperativeHandle.md) ✨✨✨✨
 - [useId](./useId.md) ✨✨
 - [useDebugValue](./useDebugValue.md)
+- [useSyncExternalStore](./useSyncExternalStore.md)
+- [useContext](./useContext.md)
