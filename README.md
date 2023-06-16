@@ -8,6 +8,10 @@
 
 - 梦想说穿越回到过去重来，关键的抉择点会做的更好，现在也许就不是这个样子。殊不知，现在的你便是过往若干次穿越回去后最好的一次
 
+## 方法论
+
+- 当我们由浅入深地认知一样新事物的时候，往往需要遵循`“Why→What→How”`这样的一个认知过程。
+
 ## Learning RoadMap
 
 - **Tutorial**
@@ -24,77 +28,4 @@
 
 - **Source Code**
 
-> 终极资料
-
-## HTML
-
-## CSS
-
-## JavaScript
-
-### 基础原理
-
-### Vue
-
-- vue2
-- vue3
-
-### React
-
-### 工程化
-
-### Test
-
-### SSR
-
-- nuxt.js
-- next.js
-- nest.js
-
-### Electron
-
-### 浏览器
-
-### V8
-
-### puppetter
-
-### React Native
-
-## TypeScript
-
-## Design Pattern
-
-## Vscode
-
-- 快捷键
-- 开发提速：snippets
-- 插件开发
-
-## Node.js
-
-## Rust
-
-## lua
-
-## nginx/openresty
-
-- 前端灰度
-
-## C/C++
-
-## Python
-
-## PHP
-
-## Database
-
-### Mongodb
-
-### Mysql
-
-### Redis
-
-## Docker
-
-## Linux
+> 追本溯源

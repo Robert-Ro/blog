@@ -30,13 +30,9 @@
 - [Push](./easy/3057.md)
 - [Unshift](./easy/3060.md)
 - [Parameters](./easy/3312.md)
-<<<<<<< HEAD
-### medium
-=======
 
 ### medium
 
->>>>>>> 1c405b0... chore: 格式化、目录整理等
 - [Get Return Type](./medium/2.ts)
 
 ## Reference
