@@ -15,16 +15,24 @@ if (process.env.NODE_ENV !== 'production') {
     'use strict'
 
     /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
+    // 在 React 开发者工具中注册模块的起始位置
     if (
       typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== 'undefined' &&
       typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === 'function'
     ) {
       __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error())
     }
+    // 引入 React 库
     var React = require('react')
-
+    /**
+     * 这里获取了 React 的内部共享对象，用于后续的代码中访问 React 的内部方法和属性
+     */
     var ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED
 
+    /**
+     * 打印错误消息
+     * @param {*} format
+     */
     function error(format) {
       {
         {
@@ -40,7 +48,10 @@ if (process.env.NODE_ENV !== 'production') {
         }
       }
     }
-
+    /**
+     * 打印警告消息
+     * @param {*} format
+     */
     function printWarning(level, format, args) {
       // When changing this logic, you might want to also
       // update consoleWithStackDev.www.js as well.
@@ -66,6 +77,7 @@ if (process.env.NODE_ENV !== 'production') {
     }
 
     /**
+     * 用于比较两个值是否相等
      * inlined Object.is polyfill to avoid requiring consumers ship their own
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
      */
@@ -83,6 +95,9 @@ if (process.env.NODE_ENV !== 'production') {
       useEffect = React.useEffect,
       useLayoutEffect = React.useLayoutEffect,
       useDebugValue = React.useDebugValue
+    /**
+     * 环境变量
+     */
     var didWarnOld18Alpha = false
     var didWarnUncachedGetSnapshot = false // Disclaimer: This shim breaks many of the rules of React, and only works
     // because of a very particular set of implementation details and assumptions
@@ -94,7 +109,20 @@ if (process.env.NODE_ENV !== 'production') {
     //
     // Do not assume that the clever hacks used by this hook also work in general.
     // The point of this shim is to replace the need for hacks by other libraries.
-
+    // 免责声明：这个 shim 违反了 React 的许多规则，仅仅因为一组特定的实现细节和假设才能工作
+    // -- 如果改变其中任何一个，它都会崩溃。最重要的假设是更新总是同步进行的，
+    // 因为并发渲染只在具有内置 useSyncExternalStore API 的 React 版本中可用。
+    // 而我们只在没有内置API时使用这个 shim。
+    //
+    // 不要认为此钩子使用的聪明技巧也适用于一般情况下。此 shim 的目的是通过其他库替换对 hack 的需要。
+    /**
+     * useSyncExternalStore函数定义
+     * 该函数的作用是实现组件与外部存储的同步，并返回存储的快照
+     * @param {*} subscribe
+     * @param {*} getSnapshot
+     * @param {*} getServerSnapshot
+     * @returns
+     */
     function useSyncExternalStore(
       subscribe,
       getSnapshot, // Note: The shim does not use getServerSnapshot, because pre-18 versions of
@@ -104,6 +132,7 @@ if (process.env.NODE_ENV !== 'production') {
       getServerSnapshot
     ) {
       {
+        // use-sync-external-store shim不能在react18下工作
         if (!didWarnOld18Alpha) {
           if (React.startTransition !== undefined) {
             didWarnOld18Alpha = true
@@ -116,14 +145,15 @@ if (process.env.NODE_ENV !== 'production') {
             )
           }
         }
-      } // Read the current snapshot from the store on every render. Again, this
+      }
+      // Read the current snapshot from the store on every render. Again, this
       // breaks the rules of React, and only works here because of specific
       // implementation details, most importantly that updates are
       // always synchronous.
-
       var value = getSnapshot()
 
       {
+        // 检测 getSnapshot 函数的返回值是否被缓存，以避免产生无限循环
         if (!didWarnUncachedGetSnapshot) {
           var cachedValue = getSnapshot()
 
@@ -133,7 +163,8 @@ if (process.env.NODE_ENV !== 'production') {
             didWarnUncachedGetSnapshot = true
           }
         }
-      } // Because updates are synchronous, we don't queue them. Instead we force a
+      }
+      // Because updates are synchronous, we don't queue them. Instead we force a
       // re-render whenever the subscribed state changes by updating an some
       // arbitrary useState hook. Then, during render, we call getSnapshot to read
       // the current value.
@@ -148,6 +179,12 @@ if (process.env.NODE_ENV !== 'production') {
       // To force a re-render, we call forceUpdate({inst}). That works because the
       // new object always fails an equality check.
 
+      // 这段注释解释了为什么在使用 useSyncExternalStore 时不使用常规的 setState 队列来触发更新，而是利用一个任意的 useState 钩子来强制重新渲染组件。
+      // 因为在使用 useSyncExternalStore 中的更新是同步的，所以没有必要将它们排队。相反，我们通过更新一个任意的 useState 钩子来强制重新渲染组件，
+      // 从而在订阅的状态发生变化时触发重新渲染。然后，在渲染过程中，我们调用 getSnapshot 来读取当前的值。
+      // 由于实际上我们并不使用 useState 钩子返回的状态，因此我们可以在该钩子中存储其他数据，从而节省一些内存。
+      // 为了实现提前退出（early bailout），我们需要在一个可变的对象上跟踪一些内容。通常情况下，我们会使用 useRef 钩子来实现这个目的，但是在这里，我们可以将它存储在 useState 钩子中。
+      // 为了触发重新渲染，我们调用 forceUpdate({inst})。这是有效的，因为新对象始终无法通过相等性检查。通过这种方式，我们实现了在订阅状态发生变化时强制重新渲染组件的机制。
       var _useState = useState({
           inst: {
             value: value,
@@ -155,14 +192,16 @@ if (process.env.NODE_ENV !== 'production') {
           },
         }),
         inst = _useState[0].inst,
-        forceUpdate = _useState[1] // Track the latest getSnapshot function with a ref. This needs to be updated
+        forceUpdate = _useState[1]
+      // Track the latest getSnapshot function with a ref. This needs to be updated
       // in the layout phase so we can access it during the tearing check that
       // happens on subscribe.
 
       useLayoutEffect(
         function () {
           inst.value = value
-          inst.getSnapshot = getSnapshot // Whenever getSnapshot or subscribe changes, we need to check in the
+          inst.getSnapshot = getSnapshot
+          // Whenever getSnapshot or subscribe changes, we need to check in the
           // commit phase if there was an interleaved mutation. In concurrent mode
           // this can happen all the time, but even in synchronous mode, an earlier
           // effect may have mutated the store.
@@ -230,6 +269,7 @@ if (process.env.NODE_ENV !== 'production') {
       return getSnapshot()
     }
 
+    // 环境判断
     var canUseDOM = !!(
       typeof window !== 'undefined' &&
       typeof window.document !== 'undefined' &&
@@ -242,7 +282,9 @@ if (process.env.NODE_ENV !== 'production') {
     var useSyncExternalStore$2 = React.useSyncExternalStore !== undefined ? React.useSyncExternalStore : shim
 
     exports.useSyncExternalStore = useSyncExternalStore$2
+
     /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
+    // 在 React 开发者工具中注册模块的起始位置
     if (
       typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== 'undefined' &&
       typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop === 'function'
