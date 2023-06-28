@@ -296,3 +296,4 @@ Socket.IO 在实际应用中被广泛使用，以下是一些例子：
 - [socket.io docs](https://socket.io/docs/), socket.io 文档
 - [socket.io server-api](https://socket.io/docs/v4/server-api/)
 - [socket.io client-api](https://socket.io/docs/v4/client-api/)
+- [socket.io-tester](https://www.piesocket.com/socketio-tester), Socket.IO 在线测试工具
