@@ -38,6 +38,48 @@ None (undefined).
 - NetworkError
 - TypeError
 
+## Events
+
+### bufferedamountlow
+
+> 用于指示数据通道内的缓冲区剩余空间已经达到了预设的最低阈值。控制数据传输质量
+
+A bufferedamountlow event is sent to an RTCDataChannel when the number of bytes currently in the outbound data transfer buffer falls below the threshold specified in bufferedAmountLowThreshold. bufferedamountlow events aren't sent if bufferedAmountLowThreshold is 0
+
+当 RTCDataChannel 中的出站数据传输缓冲区中的字节数低于 bufferedAmountLowThreshold 中指定的阈值时，将向其发送一个 bufferedamountlow 事件。如果 bufferedAmountLowThreshold 为 0，则不会发送 bufferedamountlow 事件。
+简单来说，当 RTCDataChannel 中待发送的数据量低于设定的阈值时，会触发 bufferedamountlow 事件。这个事件可以用来监测数据传输的状态，以便在需要时采取相应的操作。
+注意，bufferedamountlow 事件只在 RTCDataChannel 中发送，用于 WebRTC 数据通信。它提供了一种机制，使开发人员能够根据数据传输的缓冲区状态来优化数据传输的效率和性能。
+
+---
+
+RTCDataChannel 是 WebRTC API 提供的一种用于点对点通信的数据通道。bufferedamountlow 事件是 RTCDataChannel 对象上的一个事件，用于指示数据通道内的缓冲区剩余空间已经达到了预设的最低阈值。
+
+当数据通道内的缓冲区剩余空间达到预设的最低阈值时，将触发 bufferedamountlow 事件。通过监听这个事件，应用程序可以及时了解数据通道的缓冲状态，从而对数据的发送和处理进行优化，避免出现缓冲区溢出的情况。
+
+从这个意义上讲，bufferedamountlow 事件可以说是一种神，因为它可以帮助应用程序更好地控制数据通道的缓冲状态，从而提高数据传输的效率和稳定性。当缓冲区的剩余空间达到最低阈值时，应用程序可以通过暂停发送数据或降低发送频率等方式来避免缓冲区溢出，从而确保数据的传输质量。
+
+因此，通过监听和处理 bufferedamountlow 事件，应用程序可以更好地控制数据传输过程中的缓冲状态，从而提高数据传输的效率和稳定性。
+
+### close
+
+通道关闭
+
+### closing
+
+通道关闭中
+
+### error
+
+通道出现错误
+
+### message
+
+处理收到的消息
+
+### open
+
+通道打开
+
 ## Resources
 
 - https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel

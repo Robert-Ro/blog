@@ -18,3 +18,29 @@ RTCPeerConnection 的 addTrack()方法将一个新的媒体轨道添加到将传
 ```ts
 addTrack(track: MediaStreamTrack, ...streams: MediaStream[])
 ```
+
+## Events
+
+### icecandidate
+
+有候选者信息过来
+
+### datachannel
+
+有 peer 通过 datachannel 发送数据了
+
+### track
+
+新的 track 添加到 connection 中
+
+### iceconnectionstatechange
+
+### connectionstatechange
+
+### icecandidateerror
+
+### icegatheringstatechange
+
+### negotiationneeded
+
+### signalingstatechange
