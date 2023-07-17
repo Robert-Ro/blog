@@ -270,6 +270,31 @@ Similar to a design system, you might find it helpful to start extracting common
 >
 > **We’re still working out the details**, but we expect that in the future, you’ll write data fetching like this: `import { use } from 'react' // Not available yet!`
 
+## There is more than one way to do it
+
+// TODO 在 codeSandbox 里面添加/code workspaces
+
+## Recap
+
+1. Custom Hooks let you share logic between components.
+   自定义钩子允许您在组件之间共享逻辑。
+2. Custom Hooks must be named starting with use followed by a capital letter.
+   自定义钩子的命名必须以 use 开头，后面跟着一个大写字母。
+3. Custom Hooks only share stateful logic, not state itself.
+   自定义钩子只共享有状态的逻辑，而不是状态本身。
+4. You can pass reactive values from one Hook to another, and they stay up-to-date.
+   您可以将响应式值从一个钩子传递到另一个钩子，并且它们保持最新状态。
+5. All Hooks re-run every time your component re-renders.
+   每当组件重新渲染时，所有钩子都会重新运行。
+6. The code of your custom Hooks should be pure, like your component’s code.
+   您的自定义钩子的代码应该是纯净的，就像组件的代码一样。
+7. Wrap event handlers received by custom Hooks into Effect Events.
+   将自定义钩子接收到的事件处理程序包装到 Effect Events 中。
+8. Don’t create custom Hooks like useMount. Keep their purpose specific.
+   不要像 useMount 这样创建通用的自定义钩子。保持它们的目的具体化。
+9. It’s up to you how and where to choose the boundaries of your code.
+   如何选择代码的边界以及位置由您决定。
+
 ## Resources
 
 - [reusing-logic-with-custom-hooks](https://react.dev/learn/reusing-logic-with-custom-hooks)
