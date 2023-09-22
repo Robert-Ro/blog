@@ -29,7 +29,20 @@
 - 跨组件逻辑复用
   - 解决 class 组件嵌套太深和组件太大的问题
 
+## Custom Hook
+
+**自定 `hook` 开发中注意多个 `hook` 同时调用的场景**
+
 ## Reference
 
 - [链接](https://juejin.cn/post/7007048306438176799)
 - [hooks-reference](https://reactjs.org/docs/hooks-reference.html)
+
+## Resources
+
+- [awesome-react-hooks](https://github.com/rehooks/awesome-react-hooks)
+- [usehooks](https://github.com/uidotdev/usehooks)
+- [ahooks](https://github.com/alibaba/hooks)
+- [react-use](https://github.com/streamich/react-use)
+- [react-hooks](https://github.com/kentcdodds/react-hooks), kentcdodds
+- [advanced-react-hooks](https://github.com/kentcdodds/advanced-react-hooks), kentcdodds

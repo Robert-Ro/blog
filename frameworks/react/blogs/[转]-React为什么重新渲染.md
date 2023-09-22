@@ -2,7 +2,7 @@
 
 ![](../../../assets/image/66b99021df66578b.png.webp)
 
-更新（重新渲染）是 `React` 的重要特性 —— 当用户与应用交互的时候，`React` 需要**重新渲染**、**更新 UI**，**以响应用户的输入**。但是，`React` 为什么会重新渲染呢？如果不知道 `React` 为什么会重新渲染，我们如何才能避免额外的重新渲染呢？
+更新（重新渲染）是 `React` 的重要特性 —— 当用户与应用交互的时候，`React` 需要**重新渲染**、**更新UI**，**以响应用户的输入**。但是，`React` 为什么会重新渲染呢？如果不知道 `React` 为什么会重新渲染，我们如何才能避免额外的重新渲染呢？
 
 ## TL; DR
 
@@ -19,7 +19,7 @@
 `React` 的「更新」 包含三个阶段：
 
 - **渲染（Render）**，使用 **`createElement`** 或 **`jsx-runtime`** 产生全新的`React Element`对象、组装出一颗`React` 树；
-- `Reconcilation`，`React Reconciler` 比较 新生成的 `React` 树 和 当前的 `React` 树，判断如何用最高效的方法实现「更新」；
+- `Reconcilation`，`React Reconciler` 比较新生成的 `React` 树和 当前的 `React` 树，判断如何用最高效的方法实现「更新」；
 - `Commit`，操作 `Host`（如 `DOM`、`Native` 等），使新的 `UI` 呈现在用户面前。
 
 大部分开发者会把「更新」和「重新渲染」混为一谈，因为在上述三个阶段中，**只有「渲染」这一阶段是开发者可以控制的**（「`Reconcilation`」和「`Commit`」分别由 `react-reconciler` 和 `React Host` 控制）。本文接下来的部分中，「重新渲染」一律指代 `React` 组件在「更新」时的「渲染」阶段，而「更新」则一律指代（重新）渲染、`Reconcilation` 和 `Commit` 整个过程。

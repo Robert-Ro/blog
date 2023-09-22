@@ -1,8 +1,28 @@
-# Reusing Logic with Custom Hooks
+<!-- vscode-markdown-toc -->
+
+- 1. [Custom Hooks: Sharing logic between components 自定义 Hooks：在组件之间共享逻辑](#CustomHooks:SharinglogicbetweencomponentsHooks)
+  - 1.1. [Extracting your own custom Hook from a component 从组件中提取你自己的自定义 Hook](#ExtractingyourowncustomHookfromacomponentHook)
+  - 1.2. [Hook names always start with `use`](#Hooknamesalwaysstartwithuse)
+  - 1.3. [Custom Hooks let you share stateful logic, not state itself](#CustomHooksletyousharestatefullogicnotstateitself)
+- 2. [Passing reactive values between Hooks 在 Hooks 之间传递响应式值](#PassingreactivevaluesbetweenHooksHooks)
+- 3. [Passing event handlers to custom Hooks 传递事件处理函数给自定义 Hooks✨✨✨](#PassingeventhandlerstocustomHooksHooks)
+- 4. [When to use custom Hooks 何时使用自定义 hooks](#WhentousecustomHookshooks)
+  - 4.1. [Custom Hooks help you migrate to better patterns 自定义 hooks 帮助你迁移到更好的设计模式](#CustomHookshelpyoumigratetobetterpatternshooks)
+- 5. [There is more than one way to do it 不止一种方式去实现需求](#Thereismorethanonewaytodoit)
+- 6. [Recap 总结](#Recap)
+- 7. [Resources](#Resources)
+
+<!-- vscode-markdown-toc-config
+	numbering=true
+	autoSave=true
+	/vscode-markdown-toc-config -->
+<!-- /vscode-markdown-toc -->
+
+# Reusing Logic with Custom Hooks 使用自定义 hooks 来复用逻辑
 
 React comes with several built-in Hooks like useState, useContext, and useEffect. Sometimes, you’ll wish that there was a Hook for some more specific purpose: for example, _to fetch data_, _to keep track of whether the user is online_, or _to connect to a chat room_. You might not find these Hooks in React, but you **can create your own Hooks for your application’s needs**.
 
-## Custom Hooks: Sharing logic between components 自定义 Hooks：在组件之间共享逻辑
+## 1. <a name='CustomHooks:SharinglogicbetweencomponentsHooks'></a>Custom Hooks: Sharing logic between components 自定义 Hooks：在组件之间共享逻辑
 
 Imagine you’re developing an app that heavily relies on the network (as most apps do). You want to warn the user if their network connection has accidentally gone off while they were using your app. How would you go about it? It seems like you’ll need two things in your component:
 假设你正在开发一个严重依赖网络的应用程序（大多数应用程序都是如此）。你希望在用户使用你的应用程序时，如果网络连接意外断开，能够向用户发出警告。你需要在组件中做两件事情：
@@ -20,7 +40,7 @@ This will keep your component synchronized with the network status. You might st
 These two components work fine, but the duplication in logic between them is unfortunate. It seems like even though they have different visual appearance, you want to reuse the logic between them.
 这两个组件工作得很好，但是它们之间的逻辑重复是不幸的。尽管它们具有不同的视觉外观，但你希望在它们之间重用逻辑。
 
-### Extracting your own custom Hook from a component 从组件中提取你自己的自定义 Hook
+### 1.1. <a name='ExtractingyourowncustomHookfromacomponentHook'></a>Extracting your own custom Hook from a component 从组件中提取你自己的自定义 Hook
 
 Imagine for a moment that, similar to `useState` and `useEffect`, there was a built-in `useOnlineStatus` Hook. Then both of these components could be simplified and you could remove the duplication between them:
 
@@ -57,7 +77,7 @@ When you extract logic into custom Hooks, you can hide the gnarly details of how
 
 当你将逻辑提取到自定义 `Hooks` 中时，你可以隐藏处理外部系统或浏览器 API 的复杂细节。你的组件代码表达了你的意图，而不是具体的实现方式。
 
-### Hook names always start with `use`
+### 1.2. <a name='Hooknamesalwaysstartwithuse'></a>Hook names always start with `use`
 
 React applications are built from components. Components are built from Hooks, whether built-in or custom. You’ll likely often use custom Hooks created by others, but occasionally you might write one yourself!
 React 应用程序由组件构建，而组件则由 Hooks 构建，无论是内置的 Hooks 还是自定义的 Hooks。你可能经常使用其他人创建的自定义 Hooks，但偶尔你也可能自己编写一个！
@@ -76,7 +96,7 @@ This convention guarantees that you can always look at a component and know wher
 
 > **Only Hooks and components can call other Hooks**!
 
-### Custom Hooks let you share stateful logic, not state itself
+### 1.3. <a name='CustomHooksletyousharestatefullogicnotstateitself'></a>Custom Hooks let you share stateful logic, not state itself
 
 自定义 Hooks 确实允许你在多个组件之间共享有状态的逻辑，而不是直接共享状态本身。这是在 React 中使用自定义 Hooks 的一个关键优势。
 
@@ -115,7 +135,7 @@ This is why it works like declaring two separate state variables!
 When you need to share the state itself between multiple components, lift it up and pass it down instead.
 当你需要在多个组件之间共享状态本身时，请将其提升并通过传递属性进行传递。
 
-## Passing reactive values between Hooks 在 Hooks 之间传递响应式值
+## 2. <a name='PassingreactivevaluesbetweenHooksHooks'></a>Passing reactive values between Hooks 在 Hooks 之间传递响应式值
 
 The code inside your **custom Hooks** will **re-run during every re-render of your component**. This is why, like components, custom Hooks need to be pure. Think of custom Hooks’ code as part of your component’s body!
 
@@ -133,7 +153,7 @@ Notice that the logic still responds to prop and state changes. Try editing the 
 
 Every time your `ChatRoom` component re-renders, it passes the latest `roomId` and `serverUrl` to your Hook. This is why your Effect re-connects to the chat whenever their values are different after a re-render. (If you ever worked with audio or video processing software, chaining Hooks like this might remind you of chaining visual or audio effects. It’s as if the output of `useState` “feeds into” the input of the `useChatRoom`.)
 
-## Passing event handlers to custom Hooks 传递事件处理函数给自定义 Hooks✨✨✨
+## 3. <a name='PassingeventhandlerstocustomHooksHooks'></a>Passing event handlers to custom Hooks 传递事件处理函数给自定义 Hooks✨✨✨
 
 > This section describes an experimental API that has not yet been released in a stable version of React.
 
@@ -221,7 +241,7 @@ Now the chat won’t re-connect every time that the ChatRoom component re-render
 
 Notice how you no longer need to know how useChatRoom works in order to use it. You could add it to any other component, pass any other options, and it would work the same way. That’s the power of custom Hooks.
 
-## When to use custom Hooks
+## 4. <a name='WhentousecustomHookshooks'></a>When to use custom Hooks 何时使用自定义 hooks
 
 You don’t need to extract a custom Hook for every little duplicated bit of code. Some duplication is fine. For example, extracting a useFormInput Hook to wrap a single useState call like earlier is probably unnecessary.
 你不需要为每个重复的代码片段提取一个自定义 Hook。有些重复是可以接受的。例如，像之前一样提取一个 useFormInput Hook 来封装单个 useState 调用可能是不必要的。
@@ -244,10 +264,10 @@ Now you can replace both Effects in the ShippingForm components with calls to us
 Extracting a custom Hook makes the data flow explicit. You feed the url in and you get the data out. By “hiding” your Effect inside useData, you also prevent someone working on the ShippingForm component from adding unnecessary dependencies to it. **With time, most of your app’s Effects will be in custom Hooks**.
 提取一个自定义 Hook 使数据流变得明确。你输入一个 URL，然后获取数据输出。通过将 Effect “隐藏” 在 useData 中，你还可以防止在 ShippingForm 组件中添加不必要的依赖关系。随着时间的推移，你应用程序中的大多数 Effect 将存在于自定义的 Hooks 中。
 
-### Custom Hooks help you migrate to better patterns
+### 4.1. <a name='CustomHookshelpyoumigratetobetterpatternshooks'></a>Custom Hooks help you migrate to better patterns 自定义 hooks 帮助你迁移到更好的设计模式
 
 Effects are an “escape hatch”: you use them when you need to “step outside React” and when there is no better built-in solution for your use case. With time, the React team’s goal is to reduce the number of the Effects in your app to the minimum by providing more specific solutions to more specific problems. Wrapping your Effects in custom Hooks makes it easier to upgrade your code when these solutions become available.
-Effects 是一种“逃生通道”：当你需要“走出 React”且没有更好的内置解决方案适用于你的用例时，你可以使用它们。随着时间的推移，React 团队的目标是通过提供更具体的解决方案来将应用程序中的 Effect 数量减少到最小。将你的 Effects 包装在自定义 Hooks 中使得在这些解决方案可用时更容易升级你的代码。
+Effects 是一种**逃生通道**：当你需要“走出 React”且没有更好的内置解决方案适用于你的用例时，你可以使用它们。随着时间的推移，React 团队的目标是通过提供更具体的解决方案来将应用程序中的 Effect 数量减少到最小。将你的 Effects 包装在自定义 Hooks 中使得在这些解决方案可用时更容易升级你的代码。
 
 In the above example, useOnlineStatus is implemented with a pair of useState and useEffect. However, this isn’t the best possible solution. There is a number of edge cases it doesn’t consider. For example, it assumes that when the component mounts, isOnline is already true, but this may be wrong if the network already went offline. You can use the browser navigator.onLine API to check for that, but using it directly would not work on the server for generating the initial HTML. In short, this code could be improved.
 在上面的示例中，useOnlineStatus 是使用一对 useState 和 useEffect 实现的。然而，这并不是最佳解决方案。它存在一些未考虑到的边缘情况。例如，它假设组件挂载时 isOnline 已经为 true，但如果网络已经离线，这可能是错误的。你可以使用浏览器的 navigator.onLine API 来检查，但直接使用它在服务器端生成初始 HTML 时将无法工作。简而言之，这段代码可以改进。
@@ -270,11 +290,32 @@ Similar to a design system, you might find it helpful to start extracting common
 >
 > **We’re still working out the details**, but we expect that in the future, you’ll write data fetching like this: `import { use } from 'react' // Not available yet!`
 
-## There is more than one way to do it
+## 5. <a name='Thereismorethanonewaytodoit'></a>There is more than one way to do it 不止一种方式去实现需求
 
-// TODO 在 codeSandbox 里面添加/code workspaces
+> react hooks 的使用边界问题
+>
+> 使用钩子/进一步封装钩子/不使用钩子，使用 js 类/使用 css 处理动画(场景限制)
 
-## Recap
+However, you didn’t have to do that. As with regular functions, ultimately you decide where to draw the boundaries between different parts of your code. You could also take a very different approach. Instead of keeping the logic in the Effect, you could move most of the imperative logic inside a JavaScript class:
+然而，你并不一定非得这样做。就像普通函数一样，最终你决定在代码的不同部分之间划定边界的位置。你也可以采用完全不同的方法。与其将逻辑保留在 Effect 中，你可以将大部分命令式逻辑放在 JavaScript 类中：
+
+```js
+// 代码略
+```
+
+**Effects let you connect React to external systems**. The more coordination between Effects is needed (for example, to chain multiple animations), the more it makes sense to extract that logic out of Effects and Hooks completely like in the sandbox above. Then, the code you extracted becomes the “external system”. This lets your Effects stay simple because they only need to send messages to the system you’ve moved outside React.
+`Effects` 让你将 `React` 连接到外部系统。当需要更多 `Effect` 之间的协调（例如链式多个动画）时，将逻辑完全从 `Effect` 和 `Hook` 中提取出来就变得更有意义，就像上面的示例中一样。然后，你提取出的代码成为“外部系统”。这样，你的 `Effects` 保持简单，因为它们只需要向你在 `React` 之外移动的系统发送消息。
+
+The examples above assume that the fade-in logic needs to be written in JavaScript. However, this particular fade-in animation is both simpler and much more efficient to implement with a plain CSS Animation:
+上面的示例假设淡入逻辑需要用 JavaScript 编写。然而，对于这种特定的淡入动画，使用纯 CSS 动画实现既更简单，又更高效：
+
+```js
+// 代码略
+```
+
+Sometimes, you don’t even need a Hook!
+
+## 6. <a name='Recap'></a>Recap 总结
 
 1. Custom Hooks let you share logic between components.
    自定义钩子允许您在组件之间共享逻辑。
@@ -295,6 +336,7 @@ Similar to a design system, you might find it helpful to start extracting common
 9. It’s up to you how and where to choose the boundaries of your code.
    如何选择代码的边界以及位置由您决定。
 
-## Resources
+## 7. <a name='Resources'></a>Resources
 
 - [reusing-logic-with-custom-hooks](https://react.dev/learn/reusing-logic-with-custom-hooks)
+- [示例代码](https://stackblitz.com/edit/stackblitz-starters-kx6mmw?file=src%2Findex.tsx)
