@@ -16,3 +16,13 @@ React Query is often described as the missing data-fetching library for React, b
 ## API
 
 [link](./api/README.md)
+
+
+## 待整理
+
+- https://tanstack.com/query/latest/docs/react/community/tkdodos-blog#9-placeholder-and-initial-data-in-react-query
+- https://tkdodo.eu/blog/inside-react-query
+- https://tkdodo.eu/blog/using-web-sockets-with-react-query
+- https://codesandbox.io/s/react-query-websockets-ep1op?file=/src/queries.ts
+- https://tkdodo.eu/blog/dont-over-use-state
+- https://github.com/TanStack/query/blob/main/examples/react/prefetching/pages/index.js
