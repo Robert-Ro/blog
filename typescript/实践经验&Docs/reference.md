@@ -1,6 +1,6 @@
 # `tsconfig` 中的 `reference`
 
-> Project references are a new feature in TypeScript 3.0 that allow you to structure your TypeScript programs into smaller pieces 工程引用是 TypeScript 3.0 的新特性，它支持将 TypeScript 程序的结构分割成更小的组成部分。
+> Project references are a new feature in TypeScript 3.0 that allow you to structure your TypeScript programs into smaller pieces 工程引用是 `TypeScript` 3.0 的新特性，它支持将 `TypeScript` 程序的结构分割成更小的组成部分。
 
 ## 出现原因
 
@@ -25,7 +25,7 @@
 
 ### 何为工程引用？
 
-tsconfig.json 增加了一个新的顶层属性 references。它是一个对象的数组，指明要引用的工程：
+`tsconfig.json` 增加了一个新的顶层属性 `references`。它是一个对象的数组，指明要引用的工程：
 
 ```json
 {
@@ -58,7 +58,7 @@ tsconfig.json 增加了一个新的顶层属性 references。它是一个对象�
 
 我们增加了对 `declaration` source maps 的支持。 如果启用`--declarationMap`，在某些编辑器上，你可以使用诸如“Go to Definition”，重命名以及跨工程编辑文件等编辑器特性。
 
-### 带 prepend 的 outFile
+### 带 `prepend` 的 `outFile`
 
 你可以在引用中使用 `prepend` 选项来启用前置某个依赖的输出：
 
@@ -75,7 +75,7 @@ tsconfig.json 增加了一个新的顶层属性 references。它是一个对象�
 - 应用场景
 - 与`extend`的应用区别
 
-## Resouces
+## Resources
 
 - https://www.typescriptlang.org/docs/handbook/project-references.html
 - https://www.tslang.cn/docs/handbook/project-references.html
