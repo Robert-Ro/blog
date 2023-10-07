@@ -20,24 +20,30 @@ const [something, setSomething] = useState(initialState)
 ```
 
 - Parameters
-  - `initialValue`: The value you want the state to be initially. It can be a value of any type, but there is a special behavior for functions. This arguments is **ignored** after the initial render. [两种参数形式: 非函数和函数]
-    - If you pass functions as `initialValue`, it will be treated as an **initializer function**. It should be pure, should take no arguments, and should return a value of any type. **React will call your initializer function when initializing the component, and store its value as the initial state**
+  - `initialValue`: The value you want the state to be initially. It can be a value of any type, but there is a special behavior for functions. This arguments is **ignored** after the initial render(初始化render). [两种参数形式: 非函数和函数]
+    - If you pass functions as `initialValue`, it will be treated as an **initializer function**. It 
+      - should be pure, 
+      - should take no arguments, and 
+      - should return a value of any type. 
+    **React will call your initializer function when initializing the component, and store its value as the initial state**
 - Returns
   `useState` returns an array with exactly two values:
-  1. The current state. During the **first render**, it will match the `initialState` you have passed.
-  2. The `set` function that lets you update the state to a different value and **trigger** a re-render.
+  1. The current state(当前的状态). During the **first render**, it will match the `initialState` you have passed。(在第一次渲染后，它的值是传入的`initialState`)。
+  2. The `set` function that lets you update the state to a different value and **trigger** a re-render(第二个set函数将会触发更新状态，并触发再次**重新render**).
 - Caveats 说明
   - UseState is a hook, should match the rule of hook usage
-  - In **Strict Mode**, React will call your initializer function twice in order to find accidental impurities(提前发现是否存在渲染副作用，性能瓶颈等, 仅在开发模式下起作用). If your initializer function is pure(as it should be), this should not affect the logic of your component.
+  - In **Strict Mode严格模式**, React will call your initializer function twice in order to find accidental impurities(调用两次初始化函数，提前发现是否存在渲染副作用，性能瓶颈等, 仅在开发模式下起作用). If your initializer function is pure(as it should be), this should not affect the logic of your component.
 - `set` functions, like `setSomething(nextState)`
-  The `set` functions returned by `useState` let you update the state to a different value and trigger a re-render. You can pass the next state directly, or a function that calculates it from previous state:
+  The `set` functions returned by `useState` let you update the state to a different value and trigger a re-render. You can 
+  - pass the next state directly(直接传递下一个状态), 
+  - or a function that calculates it from previous state(或根据之前的状态计算新的状态的函数):
   ```js
   setXX((prevState) => prevState + 1)
   ```
-  - If you pass a function as `nextState`, it will be treated as an _updater function_. It must be pure, should take the pending state as its only argument, and should return the next state. React **will put your updater function in a queue and re-render your component**. During the next render, React will calculate the next state by applying all of the queued updaters to previous state.
+  - If you pass a function as `nextState`, it will be treated as an _updater function_被当做updater函数. **It must be pure, should take the pending state as its only argument, and should return the next state**. React **will put your updater function in a queue and re-render your component**. During the next render, React will calculate the next state by applying all of the queued updaters to previous state.
   - no return value
   - Caveats
-    - The set function only updates the state variable for next render. If you read the state variable after calling the set function, **you will get the old value**
+    - The set function only updates the state variable for next render.set函数仅为下一次render更新状态。 If you read the state variable after calling the set function, **you will get the old value**如果你在set函数后直接读取state，你将得到老的值。
     - If the new value you provide is identical to the current `state`, as determined by an `Object.is` comparision(浅比较), React will skip re-rendering the component and its children. **This is an optimization**
     - React **batches state updates**(批量更新). It updates the screen after all the event handlers have run and have called their `set` functions. This **prevents** multiple re-renders during a single event(类似数据插入数据，推荐批量插入数据，尽可能少地建立数据库连接). _In the rare case[极其罕见的场景] that you need to force React to update the screen earlier, you can use [flushSync](https://beta.reactjs.org/reference/react-dom/flushSync)_
     - Calling the `set` function _during rending_ is only allowed from within the currently rending component. // FIXME ?不太明白
@@ -123,17 +129,19 @@ Typically, you might encounter the `key` attribute when `rendering lists`. Howev
 通常 key 在列表渲染中起重要作用，同时，它还有其他的作用。
 
 You can reset a component's state by passing a different `key` to a component. In this example, the Reset button changes the `version` state variable, which we pass as a key to the Form. When the key changes, React re-creates the Form component, so its state get reset.
-
+> **Key**是一个特殊的属性字段
 #### Storing information from previous renders
 
-Usually, you will update state in event handlers. However, in rare cases you might want to adjust state in response to rendering -- for example, you might want to change a state variable when a prop changes.
-比如想要改变状态当属性改变
+Usually, you will update state in event handlers(通常大多数时候是在事件回调函数里面来更新状态). However, in rare cases you might want to adjust state in response to rendering -- for example, you might want to change a state variable when a prop changes.
+<!-- 例外：
+1. 比如想要改变`state`当`props`改变
+2. useEffect中在某种条件下更新`state` -->
 
 In most cases, you don't need this:
 
-- if the value you need can be computed entirely form the current props or other state, remove the redundant state althogether. If you're worried about recomputing too ofter, the `useMemo` Hook can help. 基于当前属性或者其他的状态，可以使用`useMemo`来处理
+- if the value you need can be computed entirely form the current props or other state, remove the redundant state althogether. If you're worried about recomputing too ofter, the `useMemo` Hook can help. 如果某个状态是基于当前props或者其他的state计算而来的话，你需要移除这个冗余的状态，使用`useMemo`来处理。
 - If you want to reset the entire component tree's state, pass a different key for your component. 使用不同的 key 来重置组件的状态
-- If you can, update all the relevant state in the event handlers
+- If you can, update all the relevant state in the event handlers在事件回调函数中更新所有的相关状态
 
 ```jsx
 import { useState } from 'react'
@@ -154,8 +162,8 @@ export default function CountLabel({ count }) {
 }
 ```
 
-This pattern can be hard to understand and is usually best avoided. However, it’s better than updating state in an effect. When you call the set function during render, React will re-render that component immediately after your component exits with a return statement, and before rendering the children. This way, children don’t need to render twice. The rest of your component function will still execute (and the result will be thrown away), but if your condition is below all the calls to Hooks, you may add an early return; inside it to restart rendering earlier.
-这种模式难以理解，最好不去使用这模式。但是这种还是好过在 effect hook 中更新状态。当在 render 过程中调用 set 函数，React 将会立即重新更新组件， 。。。这种情况下，子组件能够避免被更新两次 //FIXME -
+This pattern can be hard to understand and is usually best avoided. However, it’s better than updating state in an effect. When you call the set function during render, React will re-render that component immediately after your component exits with a return statement, and before rendering the children. This way, children don’t need to render twice. The rest of your component function will still execute (and the result will be thrown away), but if your condition is below all the calls to Hooks, you may add an early return`提前return`; inside it to restart rendering earlier.
+这种模式难以理解，最好不去使用这模式。但是这种还是好过在 `effect hook` 中更新状态。当在 `render` 过程中调用 `set`` 函数，`React` 将会立即重新更新组件， 。。。这种情况下，子组件能够避免被更新两次
 
 ### Troubleshooting
 

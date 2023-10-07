@@ -16,3 +16,4 @@
 - [你知道 monorepo 居然有那么多坑么？](https://blog.csdn.net/qiwoo_weekly/article/details/115713366)
 - https://javascript.plainenglish.io/monorepo-setup-with-npm-and-typescript-90b329ba7275
 - https://2ality.com/2021/07/simple-monorepos.html
+- [前端 Monorepo 在字节跳动的实践](https://juejin.cn/post/7251110648104845370)
