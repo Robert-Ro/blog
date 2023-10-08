@@ -31,5 +31,6 @@
     "use-sync-external-store": "^1.2.0",
     "vue": "2"
   },
-  "prettier": "@liutsing/prettier-config"
+  "prettier": "@liutsing/prettier-config",
+  "packageManager": "pnpm@8.6.11"
 }
