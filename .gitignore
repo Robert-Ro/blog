@@ -3,3 +3,4 @@ coverage
 .vscode
 out
 index.log
+dist
