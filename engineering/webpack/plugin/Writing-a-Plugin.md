@@ -190,3 +190,7 @@ Various types of hooks supported are :
 - [webpack contribute: writing-a-plugin](https://webpack.js.org/contribute/writing-a-plugin/)
 - [webpack tapable](https://github.com/webpack/tapable)
 - [compiler-hooks](https://webpack.js.org/api/compiler-hooks/)
+
+## 实践
+
+- 字体简化插件
