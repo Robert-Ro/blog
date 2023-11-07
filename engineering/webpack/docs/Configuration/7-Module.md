@@ -1,0 +1,1429 @@
+# Module
+
+These options determine how the [different types of modules](https://webpack.js.org/concepts/modules) within a project will be treated.
+这些选项决定了如何处理项目中的不同类型的模块。
+
+## module.defaultRules
+
+An array of rules applied by default for modules.
+
+See [source code](https://github.com/webpack/webpack/blob/dc4d97429b2013f7770ba785721b65cf82c2ef04/lib/config/defaults.js#L608) for details.
+
+```js
+module.exports = {
+  module: {
+    defaultRules: [
+      '...', // you can use "..." to reference those rules applied by webpack by default
+    ],
+  },
+}
+```
+
+Starting with webpack 5.87.0, falsy values including `0`, `""`, `false`, `null` and `undefined` are allowed to pass to `module.defaultRules` to conditionally disable specific rules.
+
+```js
+module.exports = {
+  module: {
+    defaultRules: [
+      false &&
+        {
+          // this rule will be disabled
+        },
+    ],
+  },
+}
+```
+
+## module.generator
+
+<Badge text="5.12.0+" />
+
+It's possible to configure all generators' options in one place with a `module.generator`.
+可以使用 `module.generator` 在一个地方配置所有生成器的选项。
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    generator: {
+      asset: {
+        // Generator options for asset modules
+
+        // Customize publicPath for asset modules, available since webpack 5.28.0
+        publicPath: 'https://cdn/assets/',
+
+        // Emit the asset in the specified folder relative to 'output.path', available since webpack 5.67.0
+        outputPath: 'cdn-assets/',
+      },
+      'asset/inline': {
+        // Generator options for asset/inline modules
+      },
+      'asset/resource': {
+        // Generator options for asset/resource modules
+
+        // Customize publicPath for asset/resource modules, available since webpack 5.28.0
+        publicPath: 'https://cdn/assets/',
+
+        // Emit the asset in the specified folder relative to 'output.path', available since webpack 5.67.0
+        outputPath: 'cdn-assets/',
+      },
+      javascript: {
+        // No generator options are supported for this module type yet
+      },
+      'javascript/auto': {
+        // ditto
+      },
+      'javascript/dynamic': {
+        // ditto
+      },
+      'javascript/esm': {
+        // ditto
+      },
+      // others…
+    },
+  },
+}
+```
+
+## module.parser
+
+<Badge text="5.12.0+" />
+
+Similar to the [`module.generator`](#modulegenerator), you can configure all parsers' options in one place with a `module.parser`.
+类似于 `module.generator`，你可以用 `module.parser` 在一个地方配置所有解析器的选项。
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    parser: {
+      asset: {
+        // Parser options for asset modules
+      },
+      'asset/inline': {
+        // No parser options are supported for this module type yet
+      },
+      'asset/resource': {
+        // ditto
+      },
+      'asset/source': {
+        // ditto
+      },
+      javascript: {
+        // Parser options for javascript modules
+        // e.g, enable parsing of require.ensure syntax
+        requireEnsure: true,
+      },
+      'javascript/auto': {
+        // ditto
+      },
+      'javascript/dynamic': {
+        // ditto
+      },
+      'javascript/esm': {
+        // ditto
+      },
+      // others…
+    },
+  },
+}
+```
+
+### module.parser.javascript
+
+Configure options for JavaScript parser.
+JavaScript parser 的配置项。
+
+```js
+module.exports = {
+  module: {
+    parser: {
+      javascript: {
+        // ...
+        commonjsMagicComments: true,
+      },
+    },
+  },
+}
+```
+
+It's allowed to configure those options in [`Rule.parser`](/configuration/module/#ruleparser) as well to target specific modules.
+
+#### module.parser.javascript.commonjsMagicComments
+
+Enable [magic comments](/api/module-methods/#magic-comments) support for CommonJS.
+
+- Type: `boolean`
+- Available: 5.17.0+
+- Example:
+
+  ```js
+  module.exports = {
+    module: {
+      parser: {
+        javascript: {
+          commonjsMagicComments: true,
+        },
+      },
+    },
+  }
+  ```
+
+Note that only `webpackIgnore` comment is supported at the moment:
+
+```js
+const x = require(/* webpackIgnore: true */ 'x')
+```
+
+#### module.parser.javascript.dynamicImportFetchPriority
+
+Specify the global [fetchPriority](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/fetchPriority) for dynamic import.
+
+- Type: `'low' | 'high' | 'auto' | false`
+- Available: 5.87.0+
+- Example:
+
+  ```js
+  module.exports = {
+    module: {
+      parser: {
+        javascript: {
+          dynamicImportFetchPriority: 'high',
+        },
+      },
+    },
+  }
+  ```
+
+#### module.parser.javascript.dynamicImportMode
+
+Specifies global mode for dynamic import.
+
+- Type: `'eager' | 'weak' | 'lazy' | 'lazy-once'`
+- Available: 5.73.0+
+- Example:
+
+  ```js
+  module.exports = {
+    module: {
+      parser: {
+        javascript: {
+          dynamicImportMode: 'lazy',
+        },
+      },
+    },
+  }
+  ```
+
+#### module.parser.javascript.dynamicImportPrefetch
+
+Specifies global prefetch for dynamic import.
+
+- Type: ` number | boolean`
+- Available: 5.73.0+
+- Example:
+
+  ```js
+  module.exports = {
+    module: {
+      parser: {
+        javascript: {
+          dynamicImportPrefetch: false,
+        },
+      },
+    },
+  }
+  ```
+
+#### module.parser.javascript.dynamicImportPreload
+
+Specifies global preload for dynamic import.
+
+- Type: ` number | boolean`
+- Available: 5.73.0+
+- Example:
+
+  ```js
+  module.exports = {
+    module: {
+      parser: {
+        javascript: {
+          dynamicImportPreload: false,
+        },
+      },
+    },
+  }
+  ```
+
+#### module.parser.javascript.exportsPresence
+
+Specifies the behavior of invalid export names in `\"import ... from ...\"` and `\"export ... from ...\"`.
+
+- Type: `'error' | 'warn' | 'auto' | false`
+- Available: 5.62.0+
+- Example:
+
+  ```js
+  module.exports = {
+    module: {
+      parser: {
+        javascript: {
+          exportsPresence: 'error',
+        },
+      },
+    },
+  }
+  ```
+
+#### module.parser.javascript.importExportsPresence
+
+Specifies the behavior of invalid export names in `\"import ... from ...\"`.
+
+- Type: `'error' | 'warn' | 'auto' | false`
+- Available: 5.62.0+
+- Example:
+
+  ```js
+  module.exports = {
+    module: {
+      parser: {
+        javascript: {
+          importExportsPresence: 'error',
+        },
+      },
+    },
+  }
+  ```
+
+#### module.parser.javascript.importMeta
+
+Enable or disable evaluating `import.meta`.
+
+- Type: `boolean = true`
+- Available: 5.68.0+
+- Example:
+
+  ```js
+  module.exports = {
+    module: {
+      parser: {
+        javascript: {
+          importMeta: false,
+        },
+      },
+    },
+  }
+  ```
+
+#### module.parser.javascript.importMetaContext
+
+Enable/disable evaluating [`import.meta.webpackContext`](/api/module-variables/#importmetawebpackcontext).
+
+- Type: `boolean`
+- Available: 5.70.0+
+- Example:
+
+  ```js
+  module.exports = {
+    module: {
+      parser: {
+        javascript: {
+          importMetaContext: true,
+        },
+      },
+    },
+  }
+  ```
+
+#### module.parser.javascript.reexportExportsPresence
+
+Specifies the behavior of invalid export names in `\"export ... from ...\"`. This might be useful to disable during the migration from `\"export ... from ...\"` to `\"export type ... from ...\"` when reexporting types in TypeScript.
+
+- Type: `'error' | 'warn' | 'auto' | false`
+- Available: 5.62.0+
+- Example:
+
+  ```js
+  module.exports = {
+    module: {
+      parser: {
+        javascript: {
+          reexportExportsPresence: 'error',
+        },
+      },
+    },
+  }
+  ```
+
+#### module.parser.javascript.url
+
+Enable parsing of `new URL()` syntax.
+
+- Type: `boolean = true` | `'relative'`
+- Example:
+
+  ```js
+  module.exports = {
+    module: {
+      parser: {
+        javascript: {
+          url: false, // disable parsing of `new URL()` syntax
+        },
+      },
+    },
+  }
+  ```
+
+The `'relative'` value for `module.parser.javascript.url` is available since webpack <Badge text='5.23.0' />. When used, webpack would generate relative URLs for `new URL()` syntax, i.e., there's no base URL included in the result URL:
+
+```html
+<!-- with 'relative' -->
+<img src="c43188443804f1b1f534.svg" />
+
+<!-- without 'relative' -->
+<img src="file:///path/to/project/dist/c43188443804f1b1f534.svg" />
+```
+
+1. This is useful for SSR (Server side rendering) when base URL is not known by server (and it saves a few bytes). To be identical it must also be used for the client build.
+2. Also for static site generators, mini-css-plugin and html-plugin, etc. where server side rendering is commonly needed.
+
+## module.noParse
+
+`RegExp` `[RegExp]` `function(resource)` `string` `[string]`
+
+Prevent webpack from parsing any files matching the given regular expression(s). Ignored files **should not** have calls to `import`, `require`, `define` or any other importing mechanism. This can boost build performance when ignoring large libraries.
+
+**webpack.config.js**
+
+```javascript
+module.exports = {
+  //...
+  module: {
+    noParse: /jquery|lodash/,
+  },
+}
+```
+
+```javascript
+module.exports = {
+  //...
+  module: {
+    noParse: (content) => /jquery|lodash/.test(content),
+  },
+}
+```
+
+## module.unsafeCache
+
+`boolean` `function (module)`
+
+Cache the resolution of module requests. There are a couple of defaults for `module.unsafeCache`:
+
+- `false` if [`cache`](/configuration/cache) is disabled.
+- `true` if [`cache`](/configuration/cache) is enabled and the module appears to come from node modules, `false` otherwise.
+
+**webpack.config.js**
+
+```javascript
+module.exports = {
+  //...
+  module: {
+    unsafeCache: false,
+  },
+}
+```
+
+## module.rules ✨✨✨
+
+`(Rule | undefined | null | false | "" | 0 | "...")[]`
+
+An array of [Rules](#rule) which are matched to requests when modules are created. These rules can modify how the module is created. They can apply loaders to the module, or modify the parser.
+
+As of webpack 5.87.0, falsy values such as `false`, `undefined`, `null` and `0` can be used to conditionally disable a rule.
+
+## Rule
+
+`object`
+
+A Rule can be separated into three parts — Conditions, Results and nested Rules.
+
+### Rule Conditions
+
+There are two input values for the conditions:
+
+1. The resource: An absolute path to the file requested. It's already resolved according to the [`resolve` rules](/configuration/resolve).
+
+2. The issuer: An absolute path to the file of the module which requested the resource. It's the location of the import.
+
+**Example:** When we `import './style.css'` within `app.js`, the resource is `/path/to/style.css` and the issuer is `/path/to/app.js`.
+
+In a Rule the properties [`test`](#ruletest), [`include`](#ruleinclude), [`exclude`](#ruleexclude) and [`resource`](#ruleresource) are matched with the resource and the property [`issuer`](#ruleissuer) is matched with the issuer.
+
+When using multiple conditions, all conditions must match.
+
+W> Be careful! The resource is the _resolved_ path of the file, which means symlinked resources are the real path _not_ the symlink location. This is good to remember when using tools that symlink packages (like `npm link`), common conditions like `/node_modules/` may inadvertently miss symlinked files. Note that you can turn off symlink resolving (so that resources are resolved to the symlink path) via [`resolve.symlinks`](/configuration/resolve/#resolvesymlinks).
+
+### Rule results
+
+Rule results are used only when the Rule condition matches.
+规则结果只在规则条件匹配时使用。
+
+There are two output values of a Rule:
+规则有两种输入值：
+
+1. Applied loaders: An array of loaders applied to the resource 应用的 loader：应用在 resource 上的 loader 数组.
+2. Parser options: An options object which should be used to create the parser for this module. Parser 选项：用于为模块创建解析器的选项对象.
+
+These properties affect the loaders: [`loader`](#ruleloader), [`options`](#ruleoptions--rulequery), [`use`](#ruleuse).
+
+For compatibility also these properties: [`query`](#ruleoptions--rulequery), [`loaders`](#ruleloaders).
+
+The [`enforce`](#ruleenforce) property affects the loader category. Whether it's a normal, pre- or post- loader.
+
+The [`parser`](#ruleparser) property affects the parser options.
+
+## Nested rules
+
+Nested rules can be specified under the properties [`rules`](#rulerules) and [`oneOf`](#ruleoneof).
+可以使用属性 rules 和 oneOf 指定嵌套规则。
+These rules are evaluated only when the parent Rule condition matches. Each nested rule can contain its own conditions.
+这些规则用于在规则条件(rule condition)匹配时进行取值。每个嵌套规则包含它自己的条件。
+
+The order of evaluation is as follows:
+被解析的顺序基于以下规则：
+
+1. The parent rule 父规则
+2. [`rules`](#rulerules)
+3. [`oneOf`](#ruleoneof)
+
+## Rule.enforce ✨✨✨
+
+`string`
+
+Possible values: `'pre' | 'post'`
+可能的值有：`"pre" | "post"`
+Specifies the category of the loader. No value means normal loader.
+指定 loader 种类。没有值表示是普通 loader
+There is also an additional category "inlined loader" which are loaders applied inline of the import/require.
+还有一个额外的种类"行内 loader"，loader 被应用在 import/require 行内。
+There are two phases that all loaders enter one after the other:
+所有一个接一个地进入的 loader，都有两个阶段：
+
+1. **Pitching** phase: the pitch method on loaders is called in the order `post, inline, normal, pre`. See [Pitching Loader](/api/loaders/#pitching-loader) for details. Pitching 阶段: loader 上的 **pitch** 方法，`按照 后置(post)、行内(inline)、普通(normal)、前置(pre)` 的顺序调用。更多详细信息，请查看 Pitching Loader。
+2. **Normal** phase: the normal method on loaders is executed in the order `pre, normal, inline, post`. Transformation on the source code of a module happens in this phase. Normal 阶段: loader 上的 **常规**方法，按照 `前置(pre)、普通(normal)、行内(inline)、后置(post)` 的顺序调用。模块源码的转换， 发生在这个阶段。
+
+All normal loaders can be omitted (overridden) by prefixing `!` in the request.
+
+All normal and pre loaders can be omitted (overridden) by prefixing `-!` in the request.
+
+All normal, post and pre loaders can be omitted (overridden) by prefixing `!!` in the request.
+
+```javascript
+// Disable normal loaders
+import { a } from '!./file1.js'
+
+// Disable preloaders and normal loaders
+import { b } from '-!./file2.js'
+
+// Disable all loaders
+import { c } from '!!./file3.js'
+```
+
+Inline loaders and `!` prefixes should not be used as they are non-standard. They may be used by loader generated code.
+**不应使用内联 loader 和 `!` 前缀，因为它是非标准的。它们可能会被 loader 生成代码使用**。
+
+## Rule.exclude ✨✨✨
+
+Exclude all modules matching any of these conditions. If you supply a `Rule.exclude` option, you cannot also supply a `Rule.resource`. See [`Rule.resource`](#ruleresource) and [`Condition.exclude`](#condition) for details.
+
+## Rule.include ✨✨✨
+
+Include all modules matching any of these conditions. If you supply a `Rule.include` option, you cannot also supply a `Rule.resource`. See [`Rule.resource`](#ruleresource) and [`Condition.include`](#condition) for details.
+
+## Rule.issuer
+
+> FIXME 场景
+
+A [`Condition`](#condition) to match against the module that issued the request. In the following example, the `issuer` for the `a.js` request would be the path to the `index.js` file.
+一个条件，用来与被发出的 request 对应的模块项匹配。在以下示例中，a.js request 的发出者(issuer) 是 index.js 文件的路径。
+
+**index.js**
+
+```javascript
+import A from './a.js'
+```
+
+This option can be used to apply loaders to the dependencies of a specific module or set of modules.
+
+## Rule.issuerLayer
+
+Allows to filter/match by layer of the issuer.
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      {
+        issuerLayer: 'other-layer',
+      },
+    ],
+  },
+}
+```
+
+## Rule.layer
+
+> // FIXME 场景
+
+`string`
+
+Specify the layer in which the module should be placed in. A group of modules could be united in one layer which could then be used in [split chunks](/plugins/split-chunks-plugin/#splitchunkslayer), [stats](/configuration/stats/#statsgroupmodulesbylayer) or [entry options](/configuration/entry-context/#entry-descriptor).
+指定模块应放置在哪个 layer。一组模块可以统一在一个 layer 中，然后可以被用在 `split chunks`、`stats` 或者 `entry options`。
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      {
+        test: /module-layer-change/,
+        layer: 'layer',
+      },
+    ],
+  },
+}
+```
+
+## Rule.loader ✨✨✨
+
+`Rule.loader` is a shortcut to `Rule.use: [ { loader } ]`. See [`Rule.use`](#ruleuse) and [`UseEntry.loader`](#useentry) for details.
+`Rule.loader` 是 `Rule.use: [ { loader } ]` 的简写。详细请查看 `Rule.use` 和 `UseEntry.loader`。
+
+## Rule.loaders
+
+W> This option is **deprecated** in favor of `Rule.use`.
+
+`Rule.loaders` is an alias to `Rule.use`. See [`Rule.use`](#ruleuse) for details.
+
+## Rule.mimetype
+
+You can match config rules to data uri with `mimetype`.
+你可以使用 `mimetype` 使 rules 配置与 data 的 uri 进行匹配。
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      {
+        mimetype: 'application/json',
+        type: 'json',
+      },
+    ],
+  },
+}
+```
+
+`application/json`, `text/javascript`, `application/javascript`, `application/node` and `application/wasm` are already included by default as mimetype.
+
+## Rule.oneOf
+
+An array of [`Rules`](#rule) from which only the first matching Rule is used when the Rule matches.
+`规则`数组，当规则匹配时，只使用第一个匹配规则。
+
+**webpack.config.js**
+
+```javascript
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        oneOf: [
+          {
+            resourceQuery: /inline/, // foo.css?inline
+            type: 'asset/inline',
+          },
+          {
+            resourceQuery: /external/, // foo.css?external
+            type: 'asset/resource',
+          },
+        ],
+      },
+    ],
+  },
+}
+```
+
+T> See [`Nested rules`](#nested-rules) for more information.
+
+## Rule.options / Rule.query
+
+`Rule.options` and `Rule.query` are shortcuts to `Rule.use: [ { options } ]`. See [`Rule.use`](#ruleuse) and [`UseEntry.options`](#useentry) for details.
+
+W> `Rule.query` is deprecated in favor of `Rule.options` and `UseEntry.options`.
+
+## Rule.parser
+
+An object with parser options. All applied parser options are merged.
+解析选项对象。所有应用的解析选项都将合并。
+
+Parsers may inspect these options and disable or reconfigure themselves accordingly. Most of the default plugins interpret the values as follows:
+
+- Setting the option to `false` disables the parser.
+- Setting the option to `true` or leaving it `undefined` enables the parser.
+
+However, parser plugins may accept more than only a boolean. For example, the internal `NodeStuffPlugin` can accept an object instead of `true` to add additional options for a particular Rule.
+
+**Examples** (parser options by the default plugins):
+
+```js
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        //...
+        parser: {
+          amd: false, // disable AMD
+          commonjs: false, // disable CommonJS
+          system: false, // disable SystemJS
+          harmony: false, // disable ES2015 Harmony import/export
+          requireInclude: false, // disable require.include
+          requireEnsure: false, // disable require.ensure
+          requireContext: false, // disable require.context
+          browserify: false, // disable special handling of Browserify bundles
+          requireJs: false, // disable requirejs.*
+          node: false, // disable __dirname, __filename, module, require.extensions, require.main, etc.
+          commonjsMagicComments: false, // disable magic comments support for CommonJS
+          node: {}, // reconfigure node layer on module level
+          worker: ['default from web-worker', '...'], // Customize the WebWorker handling for javascript files, "..." refers to the defaults.
+        },
+      },
+    ],
+  },
+}
+```
+
+If `Rule.type` is an `asset` then `Rules.parser` option may be an object or a function that describes a condition whether to encode file contents to Base64 or emit it as a separate file into the output directory.
+
+If `Rule.type` is an `asset` or `asset/inline` then `Rule.generator` option may be an object that describes the encoding of the module source or a function that encodes module's source by a custom algorithm.
+
+See [Asset Modules guide](/guides/asset-modules/) for additional information and use cases.
+
+## Rule.parser.dataUrlCondition
+
+`object = { maxSize number = 8096 }` `function (source, { filename, module }) => boolean`
+
+If a module source size is less than `maxSize` then module will be injected into the bundle as a Base64-encoded string, otherwise module file will be emitted into the output directory.
+如果一个模块源码大小小于 maxSize，那么模块会被作为一个 Base64 编码的字符串注入到包中， 否则模块文件会被生成到输出的目标目录中。
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        //...
+        parser: {
+          dataUrlCondition: {
+            maxSize: 4 * 1024,
+          },
+        },
+      },
+    ],
+  },
+}
+```
+
+When a function is given, returning `true` tells webpack to inject the module into the bundle as Base64-encoded string, otherwise module file will be emitted into the output directory.
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        //...
+        parser: {
+          dataUrlCondition: (source, { filename, module }) => {
+            const content = source.toString()
+            return content.includes('some marker')
+          },
+        },
+      },
+    ],
+  },
+}
+```
+
+## Rule.generator
+
+> // FIXME 作用， 转换后的文件生成相关？适用于资源文件？
+
+### Rule.generator.dataUrl
+
+`object = { encoding string = 'base64' | false, mimetype string = undefined | false }` `function (content, { filename, module }) => string`
+
+When `Rule.generator.dataUrl` is used as an object, you can configure two properties:
+
+- encoding: When set to `'base64'`, module source will be encoded using Base64 algorithm. Setting `encoding` to false will disable encoding.
+- mimetype: A mimetype for data URI. Resolves from module resource extension by default.
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        //...
+        generator: {
+          dataUrl: {
+            encoding: 'base64',
+            mimetype: 'mimetype/png',
+          },
+        },
+      },
+    ],
+  },
+}
+```
+
+When used a a function, it executes for every module and must return a data URI string.
+
+```js
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        //...
+        generator: {
+          dataUrl: (content) => {
+            const svgToMiniDataURI = require('mini-svg-data-uri')
+            if (typeof content !== 'string') {
+              content = content.toString()
+            }
+            return svgToMiniDataURI(content)
+          },
+        },
+      },
+    ],
+  },
+}
+```
+
+### Rule.generator.emit
+
+Opt out of writing assets from [Asset Modules](/guides/asset-modules/), you might want to use it in Server side rendering cases.
+
+- Type: `boolean = true`
+- Available: <Badge text='5.25.0+' />
+- Example:
+
+  ```js
+  module.exports = {
+    // …
+    module: {
+      rules: [
+        {
+          test: /\.png$/i,
+          type: 'asset/resource',
+          generator: {
+            emit: false,
+          },
+        },
+      ],
+    },
+  }
+  ```
+
+### Rule.generator.filename
+
+> 重写文件名
+> The same as [`output.assetModuleFilename`](/configuration/output/#outputassetmodulefilename) but for specific rule. Overrides `output.assetModuleFilename` and works only with `asset` and `asset/resource` module types.
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  //...
+  output: {
+    assetModuleFilename: 'images/[hash][ext][query]',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.png/,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.html/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'static/[hash][ext]',
+        },
+      },
+    ],
+  },
+}
+```
+
+### Rule.generator.publicPath
+
+Customize `publicPath` for specific Asset Modules.
+对指定的资源模式指定 publicPath
+
+- Type: `string | ((pathData: PathData, assetInfo?: AssetInfo) => string)`
+- Available: <Badge text='5.28.0+' />
+
+```js
+module.exports = {
+  //...
+  output: {
+    publicPath: 'static/',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.png$/i,
+        type: 'asset/resource',
+        generator: {
+          publicPath: 'assets/',
+        },
+      },
+    ],
+  },
+}
+```
+
+### Rule.generator.outputPath
+
+Emit the asset in the specified folder relative to 'output.path'. This should only be needed when custom 'publicPath' is specified to match the folder structure there.
+将静态资源输出到相对于 `'output.path'` 的指定文件夹中。只有当 `'publicPath'` 被用来匹配文件夹结构时才会需要设置该配置。
+
+- Type: `string | ((pathData: PathData, assetInfo?: AssetInfo) => string)`
+- Available: <Badge text='5.67.0+' />
+
+```js
+module.exports = {
+  //...
+  output: {
+    publicPath: 'static/',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.png$/i,
+        type: 'asset/resource',
+        generator: {
+          publicPath: 'https://cdn/assets/',
+          outputPath: 'cdn-assets/',
+        },
+      },
+    ],
+  },
+}
+```
+
+## Rule.resource
+
+A [`Condition`](#condition) matched with the resource. See details in [`Rule` conditions](#rule-conditions).
+
+## Rule.resourceQuery
+
+A [`Condition`](#condition) matched with the resource query. This option is used to test against the query section of a request string (i.e. from the question mark onwards). If you were to `import Foo from './foo.css?inline'`, the following condition would match:
+与资源查询相匹配的 Condition。此选项用于测试请求字符串的查询部分（即从问号开始）。如果你需要通过 `import Foo from './foo.css?inline'` 导入 Foo，则需符合以下条件：
+
+**webpack.config.js**
+
+```javascript
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        resourceQuery: /inline/,
+        type: 'asset/inline',
+      },
+    ],
+  },
+}
+```
+
+## Rule.parser.parse
+
+`function(input) => string | object`
+
+If `Rule.type` is set to `'json'` then `Rules.parser.parse` option may be a function that implements custom logic to parse module's source and convert it to a JavaScript `object`. It may be useful to import `toml`, `yaml` and other non-JSON files as JSON, without specific loaders:
+如果 `Rule.type` 被设置成 `'json'`，那么 `Rules.parser.parse` 选择可能会是一个方法，该方法实现自定义的逻辑，以解析模块的源和并将它转换成 JavaScript 对象。 它可能在没有特定加载器的时候，对将 `toml`, `yaml` 和其它非 JSON 文件导入成导入非常有用：
+
+**webpack.config.js**
+
+```javascript
+const toml = require('toml')
+
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        test: /\.toml/,
+        type: 'json',
+        parser: {
+          parse: toml.parse,
+        },
+      },
+    ],
+  },
+}
+```
+
+## Rule.rules
+
+An array of [`Rules`](#rule) that is also used when the Rule matches.
+
+T> See [`Nested rules`](#nested-rules) for more information.
+
+## Rule.scheme
+
+Match the used schema, e.g., `data`, `http`.
+
+- Type: `string | RegExp | ((value: string) => boolean) | RuleSetLogicalConditions | RuleSetCondition[]`
+- Available: <Badge text='5.38.0+' />
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        scheme: 'data',
+        type: 'asset/resource',
+      },
+    ],
+  },
+}
+```
+
+## Rule.sideEffects✨
+
+`bool`
+
+Indicate what parts of the module contain side effects. See [Tree Shaking](/guides/tree-shaking/#mark-the-file-as-side-effect-free) for details.
+
+## Rule.test ✨
+
+Include all modules that pass test assertion. If you supply a `Rule.test` option, you cannot also supply a `Rule.resource`. See [`Rule.resource`](#ruleresource) and [`Condition`](#condition) for details.
+
+## Rule.type✨✨
+
+`string`
+
+Possible values: `'javascript/auto' | 'javascript/dynamic' | 'javascript/esm' | 'json' | 'webassembly/sync' | 'webassembly/async' | 'asset' | 'asset/source' | 'asset/resource' | 'asset/inline' | 'css/auto'`
+
+`Rule.type` sets the type for a matching module. This prevents defaultRules and their default importing behaviors from occurring. For example, if you want to load a `.json` file through a custom loader, you'd need to set the `type` to `javascript/auto` to bypass webpack's built-in json importing. (See [v4.0 changelog](https://github.com/webpack/webpack/releases/tag/v4.0.0) for more details)
+
+**webpack.config.js**
+
+```javascript
+module.exports = {
+  //...
+  module: {
+    rules: [
+      //...
+      {
+        test: /\.json$/,
+        type: 'javascript/auto',
+        loader: 'custom-json-loader',
+      },
+    ],
+  },
+}
+```
+
+> See [Asset Modules guide](/guides/asset-modules/) for more about `asset*` type.
+
+### css/auto
+
+<Badge text="5.87.0+" />
+
+See use case of `css/auto` module type [here](https://github.com/webpack/webpack/issues/16572). Make sure to enable [`experiments.css`](/configuration/experiments/#experimentscss) to use `css/auto`.
+
+```js
+module.exports = {
+  target: 'web',
+  mode: 'development',
+  experiments: {
+    css: true,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: 'less-loader',
+        type: 'css/auto',
+      },
+    ],
+  },
+}
+```
+
+## Rule.use
+
+`[UseEntry]` `function(info)`
+
+Starting with webpack 5.87.0 falsy values such as `undefined` `null` can be used to conditionally disable specific use entry.
+
+**`[UseEntry]`**
+
+`Rule.use` can be an array of [UseEntry](#useentry) which are applied to modules. Each entry specifies a loader to be used.
+
+Passing a string (i.e. `use: [ 'style-loader' ]`) is a shortcut to the loader property (i.e. `use: [ { loader: 'style-loader '} ]`).
+
+Loaders can be chained by passing multiple loaders, which will be applied from right to left (last to first configured).
+
+**webpack.config.js**
+
+```javascript
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        //...
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              noIeCompat: true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+```
+
+**`function(info)`**
+
+`Rule.use` can also be a function which receives the object argument describing the module being loaded, and must return an array of `UseEntry` items.
+
+The `info` object parameter has the following fields:
+
+- `compiler`: The current webpack compiler (can be undefined)
+- `issuer`: The path to the module that is importing the module being loaded
+- `realResource`: Always the path to the module being loaded
+- `resource`: The path to the module being loaded, it is usually equal to `realResource` except when the resource name is overwritten via `!=!` in request string
+
+The same shortcut as an array can be used for the return value (i.e. `use: [ 'style-loader' ]`).
+
+**webpack.config.js**
+
+```javascript
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        use: (info) => [
+          {
+            loader: 'custom-svg-loader',
+          },
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [
+                {
+                  cleanupIDs: {
+                    prefix: basename(info.resource),
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+```
+
+See [UseEntry](#useentry) for details.
+
+## Rule.resolve
+
+W> `Rule.resolve` is Available since webpack 4.36.1
+
+Resolving can be configured on module level. See all available options on [resolve configuration page](/configuration/resolve/#resolve).
+All applied resolve options get deeply merged with higher level [resolve](/configuration/resolve/#resolve).
+
+For example, let's imagine we have an entry in `./src/index.js`, `./src/footer/default.js` and a `./src/footer/overridden.js` to demonstrate the module level resolve.
+
+**./src/index.js**
+
+```javascript
+import footer from 'footer'
+console.log(footer)
+```
+
+**./src/footer/default.js**
+
+```javascript
+export default 'default footer'
+```
+
+**./src/footer/overridden.js**
+
+```javascript
+export default 'overridden footer'
+```
+
+**webpack.js.org**
+
+```javascript
+module.exports = {
+  resolve: {
+    alias: {
+      footer: './footer/default.js',
+    },
+  },
+}
+```
+
+When creating a bundle with this configuration, `console.log(footer)` will output 'default footer'. Let's set `Rule.resolve` for `.js` files, and alias `footer` to `overridden.js`.
+
+**webpack.js.org**
+
+```javascript
+module.exports = {
+  resolve: {
+    alias: {
+      footer: './footer/default.js',
+    },
+  },
+  module: {
+    rules: [
+      {
+        resolve: {
+          alias: {
+            footer: './footer/overridden.js',
+          },
+        },
+      },
+    ],
+  },
+}
+```
+
+When creating a bundle with updated configuration, `console.log(footer)` will output 'overridden footer'.
+
+### resolve.fullySpecified
+
+`boolean = true`
+
+When enabled, you should provide the file extension when `import`ing a module in `.mjs` files or any other `.js` files when their nearest parent `package.json` file contains a `"type"` field with a value of `"module"`, otherwise webpack would fail the compiling with a `Module not found` error. And webpack won't resolve directories with filenames defined in the [`resolve.mainFiles`](/configuration/resolve/#resolvemainfiles), you have to specify the filename yourself.
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        resolve: {
+          fullySpecified: false, // disable the behaviour
+        },
+      },
+    ],
+  },
+}
+```
+
+W> `resolve.fullySpecified` doesn't affect requests from [mainFields](/configuration/resolve/#resolvemainfields), [aliasFields](/configuration/resolve/#resolvealiasfields) or [aliases](/configuration/resolve/#resolvealias).
+
+## Condition ✨
+
+Conditions can be one of these:
+条件可以是这些之一
+
+- A string: To match the input must start with the provided string. I. e. an absolute directory path, or absolute path to the file.
+- A RegExp: It's tested with the input.
+- A function: It's called with the input and must return a truthy value to match.
+- An array of Conditions: At least one of the Conditions must match.
+- An object: All properties must match. Each property has a defined behavior.
+
+`{ and: [Condition] }`: All Conditions must match.
+
+`{ or: [Condition] }`: Any Condition must match.
+
+`{ not: [Condition] }`: All Conditions must NOT match.
+
+**Example:**
+
+```javascript
+const path = require('path')
+
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        include: [
+          // will include any paths relative to the current directory starting with `app/styles`
+          // e.g. `app/styles.css`, `app/styles/styles.css`, `app/stylesheet.css`
+          path.resolve(__dirname, 'app/styles'),
+          // add an extra slash to only include the content of the directory `vendor/styles/`
+          path.join(__dirname, 'vendor/styles/'),
+        ],
+      },
+    ],
+  },
+}
+```
+
+## UseEntry
+
+`object` `function(info)`
+
+**`object`**
+
+It must have a `loader` property being a string. It is resolved relative to the configuration [`context`](/configuration/entry-context/#context) with the loader resolving options ([resolveLoader](/configuration/resolve/#resolveloader)).
+
+It can have an `options` property being a string or object. This value is passed to the loader, which should interpret it as loader options.
+
+For compatibility a `query` property is also possible, which is an alias for the `options` property. Use the `options` property instead.
+
+Note that webpack needs to generate a unique module identifier from the resource and all loaders including options. It tries to do this with a `JSON.stringify` of the options object. This is fine in 99.9% of cases, but may be not unique if you apply the same loaders with different options to the resource and the options have some stringified values.
+
+It also breaks if the options object cannot be stringified (i.e. circular JSON). Because of this you can have a `ident` property in the options object which is used as unique identifier.
+
+**webpack.config.js**
+
+```javascript
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        loader: 'css-loader',
+        options: {
+          modules: true,
+        },
+      },
+    ],
+  },
+}
+```
+
+**`function(info)`**
+
+A `UseEntry` can also be a function which receives the object argument describing the module being loaded, and must return a non-function `UseEntry` object. This can be used to vary the loader options on a per-module basis.
+
+The `info` object parameter has the following fields:
+
+- `compiler`: The current webpack compiler (can be undefined)
+- `issuer`: The path to the module that is importing the module being loaded
+- `realResource`: Always the path to the module being loaded
+- `resource`: The path to the module being loaded, it is usually equal to `realResource` except when the resource name is overwritten via `!=!` in request string
+
+**webpack.config.js**
+
+```javascript
+module.exports = {
+  //...
+  module: {
+    rules: [
+      {
+        test: /\.svg$/,
+        type: 'asset',
+        use: (info) => ({
+          loader: 'svgo-loader',
+          options: {
+            plugins: [
+              {
+                cleanupIDs: { prefix: basename(info.resource) },
+              },
+            ],
+          },
+        }),
+      },
+    ],
+  },
+}
+```
+
+## Module Contexts
+
+These options describe the default settings for the context created when a dynamic dependency is encountered.
+
+Example for an `unknown` dynamic dependency: `require`.
+
+Example for an `expr` dynamic dependency: `require(expr)`.
+
+Example for an `wrapped` dynamic dependency: `require('./templates/' + expr)`.
+
+Here are the available options with their [defaults](https://github.com/webpack/webpack/blob/main/lib/config/defaults.js):
+
+**webpack.config.js**
+
+```javascript
+module.exports = {
+  //...
+  module: {
+    exprContextCritical: true,
+    exprContextRecursive: true,
+    exprContextRegExp: false,
+    exprContextRequest: '.',
+    unknownContextCritical: true,
+    unknownContextRecursive: true,
+    unknownContextRegExp: false,
+    unknownContextRequest: '.',
+    wrappedContextCritical: false,
+    wrappedContextRecursive: true,
+    wrappedContextRegExp: /.*/,
+    strictExportPresence: false,
+  },
+}
+```
+
+T> You can use the `ContextReplacementPlugin` to modify these values for individual dependencies. This also removes the warning.
+
+A few use cases:
+
+- Warn for dynamic dependencies: `wrappedContextCritical: true`.
+- `require(expr)` should include the whole directory: `exprContextRegExp: /^\.\//`
+- `require('./templates/' + expr)` should not include subdirectories by default: `wrappedContextRecursive: false`
+- `strictExportPresence` makes missing exports an error instead of warning
+- Set the inner regular expression for partial dynamic dependencies : `wrappedContextRegExp: /\\.\\*/`
+
+W> `strictExportPresence` is deprecated in favor of [`exportsPresence`](#moduleparserjavascriptexportspresence) option.
