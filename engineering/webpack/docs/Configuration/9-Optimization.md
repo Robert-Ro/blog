@@ -452,8 +452,6 @@ module.exports = {
 
 ## optimization.runtimeChunk✨
 
-> // FIXME runtime 是什么
-
 `object` `string` `boolean`
 
 Setting `optimization.runtimeChunk` to `true` or `'multiple'` adds an additional chunk containing only the runtime to each entrypoint. This setting is an alias for:
@@ -493,7 +491,7 @@ Default is `false`: each entry chunk embeds runtime.
 默认值是 false：每个入口 chunk 中直接嵌入 runtime。
 
 > Imported modules are initialized for each runtime chunk separately, so if you include multiple entry points on a page, beware of this behavior. You will probably want to set it to `single` or use another configuration that allows you to only have one runtime instance.
-> 对于每个 runtime chunk，导入的模块会被分别初始化，因此如果你在同一个页面中引用多个入口起点，请注意此行为。你或许应该将其设置为 single，或者使用其他只有一个 runtime 实例的配置。
+> 对于每个 runtime chunk，导入的模块会被分别初始化，因此如果你在同一个页面中引用多个入口起点，请注意此行为。你或许应该将其设置为`single`，或者使用其他只有一个 runtime 实例的配置。
 
 **webpack.config.js**
 
