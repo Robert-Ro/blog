@@ -58,4 +58,12 @@
   const person = { name: 'John', age: 30 }
   const nameValue = getValue(person, 'name') // 类型为 string
   const ageValue = getValue(person, 'age') // 类型为 number
+  //   // FIXME 泛型类型推导
+  //   function getValue<T>(obj: T, key: keyof T) {
+  //     return obj[key]
+  //   }
+
+  const person = { name: 'John', age: 30 }
+  const nameValue = getValue(person, 'name') // 类型为 string
+  const ageValue = getValue(person, 'age') // 类型为 number
 }

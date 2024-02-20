@@ -61,3 +61,19 @@
 - https://bobbyhadz.com/blog/react-jsx-element-type-does-not-have-any-construct
 - https://bobbyhadz.com/blog/typescript-element-implicitly-any-type-not-number
 - https://flow.org/en/docs/react/types/
+- type-challenge 练习
+- 日常实践：函数重载、类型复用、复杂的类型定义
+
+ts 类型问题
+
+- https://bobbyhadz.com/blog/react-jsx-element-type-does-not-have-any-construct
+- https://bobbyhadz.com/blog/typescript-element-implicitly-any-type-not-number
+
+react type 汇总
+
+- https://flow.org/en/docs/react/types/
+
+## courses
+
+- https://www.totaltypescript.com/tips
+- https://www.totaltypescript.com/tutorials
