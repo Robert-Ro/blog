@@ -59,7 +59,4 @@
 - https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html
 - https://bobbyhadz.com/blog/react-jsx-element-type-does-not-have-any-construct
 - https://bobbyhadz.com/blog/typescript-element-implicitly-any-type-not-number
-
-react type 汇总
-
 - https://flow.org/en/docs/react/types/
