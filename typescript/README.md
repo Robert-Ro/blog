@@ -9,6 +9,13 @@
 - [awesome-typescript](https://github.com/dzharii/awesome-typescript): A collection of awesome TypeScript resources for client-side and server-side development. Write your awesome JavaScript in TypeScript
 - [mini-typescript](https://github.com/sandersn/mini-typescript): A miniature model of the Typescript compiler, intended to teach the structure of the real Typescript compiler
 
+### blogs
+
+- https://byby.dev/t/typescript/p/1
+- https://blog.logrocket.com/author/yansun/
+- https://www.totaltypescript.com/tips
+- https://www.totaltypescript.com/tutorials
+
 ### books
 
 - [effective-typescript](https://github.com/danvk/effective-typescript): Effective TypeScript: 62 Specific Ways to Improve Your TypeScript
@@ -45,19 +52,14 @@
 - https://github.com/swyxio/brain
 - https://fettblog.eu/tidy-typescript-avoid-enums/
 - https://react.dev/reference/react-dom/createPortal
-- type-challenge 练习
-- 日常实践：函数重载、类型复用、复杂的类型定义
-
-ts 类型问题
-
+- https://blog.logrocket.com/types-vs-interfaces-typescript/
+- https://blog.logrocket.com/writing-constructor-typescript/
+- https://www.typescriptlang.org/docs/handbook/namespaces.html
+- https://www.typescriptlang.org/docs/handbook/modules/introduction.html
+- https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html
 - https://bobbyhadz.com/blog/react-jsx-element-type-does-not-have-any-construct
 - https://bobbyhadz.com/blog/typescript-element-implicitly-any-type-not-number
 
 react type 汇总
 
 - https://flow.org/en/docs/react/types/
-
-## courses
-
-- https://www.totaltypescript.com/tips
-- https://www.totaltypescript.com/tutorials
