@@ -15,6 +15,7 @@
 - https://blog.logrocket.com/author/yansun/
 - https://www.totaltypescript.com/tips
 - https://www.totaltypescript.com/tutorials
+- https://bobbyhadz.com/ ts 博主
 
 ### books
 
