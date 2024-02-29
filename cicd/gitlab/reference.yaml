@@ -1,0 +1,315 @@
+stages:
+  - build
+  - dockerbuild
+  - deploy
+variables:
+  GIT_STRATEGY: none
+  gitlab_url: http://Ecar_devops:Ecar_dev0ps@192.168.110.136:8090
+  C_CONFIG: -Dfile.encoding=utf-8 -Dspring.cloud.nacos.config.server-addr=192.168.110.136:8848 -Dspring.cloud.nacos.discovery.server-addr=192.168.110.136:8848 -Dspring.cloud.nacos.discovery.namespace=dev -Dspring.cloud.nacos.config.namespace=dev -Dspring.profiles.active=dev
+  dev_path: ${dev_code}/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME
+  branch_name: master
+  #研发环境分支名称
+  #dev_build_path: ${dev_code}/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/${bin}
+  image_name: $CI_PROJECT_NAME:${CI_COMMIT_BRANCH}
+  docker_login: login
+  docker_operation_platform: operation_platform
+  docker_remote_driving: remote_driving
+  docker_security_patrol: security_patrol
+  docker_vehicle_lifecycle_h5: vehicle_lifecycle_h5
+  docker_sanitation: intelligent_sanitation
+  # port1: 6971
+  #自行修改，容器映射端口
+  ng_port: 80
+
+build-login-dev:
+  stage: build
+  script:
+    - pwd
+    - if [ ! -d $dev_path ]; then
+      git clone $gitlab_url/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME.git $dev_path;
+      fi
+    - cd $dev_path
+    - git pull
+    - git checkout ${CI_COMMIT_TAG}
+    - npm config set registry https://registry.npmmirror.com
+    - pnpm install
+    - cd $dev_path/apps/login
+    - rm -rf node_modules/.cache
+    - pnpm run build:dev
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/login/**/*
+  tags:
+    - frontend
+
+build-operation-platform-dev:
+  stage: build
+  script:
+    - pwd
+    - if [ ! -d $dev_path ]; then
+      git clone $gitlab_url/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME.git $dev_path;
+      fi
+    - cd $dev_path
+    - git pull
+    - git checkout ${CI_COMMIT_TAG}
+    - npm config set registry https://registry.npmmirror.com
+    - pnpm install
+    - cd $dev_path/apps/operation-platform
+    - rm -rf node_modules/.cache
+    - pnpm run build:dev
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/operation-platform/**/*
+  tags:
+    - frontend
+
+build-remote-driving-dev:
+  stage: build
+  script:
+    - pwd
+    - if [ ! -d $dev_path ]; then
+      git clone $gitlab_url/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME.git $dev_path;
+      fi
+    - cd $dev_path
+    - git pull
+    - git checkout ${CI_COMMIT_TAG}
+    - npm config set registry https://registry.npmmirror.com
+    - pnpm install
+    - cd $dev_path/apps/remote-driving
+    - rm -rf node_modules/.cache
+    - pnpm run build:dev
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/remote-driving/**/*
+  tags:
+    - frontend
+
+build-security-patrol-dev:
+  stage: build
+  script:
+    - pwd
+    - if [ ! -d $dev_path ]; then
+      git clone $gitlab_url/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME.git $dev_path;
+      fi
+    - cd $dev_path
+    - git pull
+    - git checkout ${CI_COMMIT_TAG}
+    - npm config set registry https://registry.npmmirror.com
+    - pnpm install
+    - cd $dev_path/apps/security-patrol
+    - rm -rf node_modules/.cache
+    - pnpm run build:dev
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/security-patrol/**/*
+  tags:
+    - frontend
+
+build-vehicle-lifecycle-h5-dev:
+  stage: build
+  script:
+    - pwd
+    - if [ ! -d $dev_path ]; then
+      git clone $gitlab_url/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME.git $dev_path;
+      fi
+    - cd $dev_path
+    - git pull
+    - git checkout ${CI_COMMIT_TAG}
+    - npm config set registry https://registry.npmmirror.com
+    - pnpm install
+    - cd $dev_path/apps/vehicle-lifecycle-h5
+    - pnpm run build:dev
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/vehicle-lifecycle-h5/**/*
+  tags:
+    - frontend
+
+dockerbuild-login-dev:
+  stage: dockerbuild
+  script:
+    - cd $dev_path/apps/login
+    - pwd
+    - docker build -t ${image_name}_${docker_login} .
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/login/**/*
+  tags:
+    - frontend
+
+dockerbuild-operation-platform-dev:
+  stage: dockerbuild
+  script:
+    - cd $dev_path/apps/operation-platform
+    - pwd
+    - docker build -t ${image_name}_${docker_operation_platform} .
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/operation-platform/**/*
+  tags:
+    - frontend
+
+dockerbuild-remote-driving-dev:
+  stage: dockerbuild
+  script:
+    - cd $dev_path/apps/remote-driving
+    - pwd
+    - docker build -t ${image_name}_${docker_remote_driving} .
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/remote-driving/**/*
+  tags:
+    - frontend
+
+dockerbuild-security-patrol-dev:
+  stage: dockerbuild
+  script:
+    - cd $dev_path/apps/security-patrol
+    - pwd
+    - docker build -t ${image_name}_${docker_security_patrol} .
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/security-patrol/**/*
+  tags:
+    - frontend
+
+dockerbuild-vehicle-lifecycle-h5-dev:
+  stage: dockerbuild
+  script:
+    - cd $dev_path/apps/vehicle-lifecycle-h5
+    - pwd
+    - docker build -t ${image_name}_${docker_vehicle_lifecycle_h5} .
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/vehicle-lifecycle-h5/**/*
+  tags:
+    - frontend
+
+deploy-login-dev:
+  stage: deploy
+  script:
+    - pwd
+    - docker stop ${CI_PROJECT_NAME}_${docker_login} || true
+    - docker rm ${CI_PROJECT_NAME}_${docker_login} || true
+    - docker run -d -p  6968:$ng_port --name ${CI_PROJECT_NAME}_${docker_login} --network=dnet --restart always ${image_name}_${docker_login}
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/login/**/*
+  tags:
+    - frontend
+
+deploy-operation-platform-dev:
+  stage: deploy
+  script:
+    - pwd
+    - docker stop ${CI_PROJECT_NAME}_${docker_operation_platform} || true
+    - docker rm ${CI_PROJECT_NAME}_${docker_operation_platform} || true
+    - docker run -d -p  6973:$ng_port --name ${CI_PROJECT_NAME}_${docker_operation_platform} --network=dnet --restart always ${image_name}_${docker_operation_platform}
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/operation-platform/**/*
+  tags:
+    - frontend
+
+deploy-remote_driving-dev:
+  stage: deploy
+  script:
+    - pwd
+    - docker stop ${CI_PROJECT_NAME}_${docker_remote_driving} || true
+    - docker rm ${CI_PROJECT_NAME}_${docker_remote_driving} || true
+    - docker run -d -p  6972:$ng_port --name ${CI_PROJECT_NAME}_${docker_remote_driving} --network=dnet --restart always ${image_name}_${docker_remote_driving}
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/remote-driving/**/*
+  tags:
+    - frontend
+
+deploy-security-patrol-dev:
+  stage: deploy
+  script:
+    - pwd
+    - docker stop ${CI_PROJECT_NAME}_${docker_security_patrol} || true
+    - docker rm ${CI_PROJECT_NAME}_${docker_security_patrol} || true
+    - docker run -d -p  6971:$ng_port --name ${CI_PROJECT_NAME}_${docker_security_patrol} --network=dnet --restart always ${image_name}_${docker_security_patrol}
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/security-patrol/**/*
+  tags:
+    - frontend
+
+deploy-vehicle-lifecycle-h5-dev:
+  stage: deploy
+  script:
+    - pwd
+    - docker stop ${CI_PROJECT_NAME}_${docker_vehicle_lifecycle_h5} || true
+    - docker rm ${CI_PROJECT_NAME}_${docker_vehicle_lifecycle_h5} || true
+    - docker run -d -p  7001:$ng_port --name ${CI_PROJECT_NAME}_${docker_vehicle_lifecycle_h5} --network=dnet --restart always ${image_name}_${docker_vehicle_lifecycle_h5}
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/vehicle-lifecycle-h5/**/*
+  tags:
+    - frontend
+
+build-sanitation-dev:
+  stage: build
+  script:
+    - pwd
+    - if [ ! -d $dev_path ]; then
+      git clone $gitlab_url/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME.git $dev_path;
+      fi
+    - cd $dev_path
+    - git pull
+    - git checkout ${CI_COMMIT_TAG}
+    - npm config set registry https://registry.npmmirror.com
+    - pnpm install
+    - cd $dev_path/apps/intelligent-sanitation
+    - rm -rf node_modules/.cache
+    - pnpm run build:dev
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/intelligent-sanitation/**/*
+  tags:
+    - frontend
+
+dockerbuild-sanitation-dev:
+  stage: dockerbuild
+  script:
+    - cd $dev_path/apps/intelligent-sanitation
+    - pwd
+    - docker build -t ${image_name}_${docker_sanitation} .
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/intelligent-sanitation/**/*
+  tags:
+    - frontend
+
+deploy-sanitation-dev:
+  stage: deploy
+  script:
+    - pwd
+    - docker stop ${CI_PROJECT_NAME}_${docker_sanitation} || true
+    - docker rm ${CI_PROJECT_NAME}_${docker_sanitation} || true
+    - docker run -d -p  6974:$ng_port --name ${CI_PROJECT_NAME}_${docker_sanitation} --network=dnet --restart always ${image_name}_${docker_sanitation}
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      changes:
+        - apps/intelligent-sanitation/**/*
+  tags:
+    - frontend
