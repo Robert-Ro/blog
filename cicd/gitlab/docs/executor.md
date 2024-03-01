@@ -7,6 +7,7 @@
 **Shell** is the simplest executor to configure. All required dependencies for your builds need to be installed manually on the same machine that GitLab Runner is installed on.
 
 ## Docker executor
+> runner(中介)接收到任务后，会基于runner里面设置的docker镜像，启动一个新的镜像实例，执行相应的脚本
 
 You can use **Docker** for a clean build environment. All dependencies for building the project can be put in the Docker image, which makes dependency management more straight-forward. You can use the Docker executor to create a build environment with dependent services, like MySQL.
 
