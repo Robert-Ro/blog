@@ -64,4 +64,4 @@
   type a = ExtractString<Person>
 }
 
-// https://juejin.cn/post/7054941539876732964#heading-0
+// https://juejin.cn/post/7054941539876732964

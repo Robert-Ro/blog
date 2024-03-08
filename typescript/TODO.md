@@ -7,3 +7,4 @@
 - [ ] pnpm + monorepo + ts 下的类型解决方案
   - 参考 crawel 库的解决方案
   - 按 pnpm 开发全栈的思路搜索
+  - zusband 库

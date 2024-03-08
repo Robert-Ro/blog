@@ -174,4 +174,4 @@ assert(data, Article)
 - [TypeScript: Documentation - Creating Types from Types](https://www.typescriptlang.org/docs/handbook/2/types-from-types.html)
 - [TypeScript: Documentation - Generics](https://www.typescriptlang.org/docs/handbook/2/generics.html)
 - [TypeScript: Documentation - Keyof Type Operator](https://www.typescriptlang.org/docs/handbook/2/keyof-types.html)
-- [来玩 TypeScript 啊，机都给你开好了](https://www.zhihu.com/column/c_206498766)
+- [来玩 TypeScript 啊，机都给你开好了](https://www.zhihu.com/column/c_206498766)✨✨✨
