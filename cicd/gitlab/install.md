@@ -20,6 +20,8 @@ C:\Users\liuts\gitlab\logs
 docker run --detach --hostname gitlab.mapleimage.com --publish 443:443 --publish 80:80 --publish 22:22 --name maple-gitlab --restart always --volume C:\Users\liuts\gitlab\config:/etc/gitlab --volume C:\Users\liuts\gitlab\logs:/var/log/gitlab --volume C:\Users\liuts\gitlab\data:/var/opt/gitlab --shm-size 256m gitlab/gitlab-ce:latest
 ```
 
+### `docker-compose`的方式安装
+
 ## 访问 web 端
 
 ### 获取管理员密码
@@ -36,10 +38,12 @@ grep 'Password:' /etc/gitlab/initial_root_password
 
 ```bash
 # 运行实例
-docker run -d --name shared-gitlab-runner --restart always -v /var/run/docker.sock:/var/run/docker.sock --network=host  -v gitlab-runner-config:/etc/gitlab-runner   gitlab/gitlab-runner:latest
+docker run -d --name shared-gitlab-runner --restart always -v /var/run/docker.sock:/var/run/docker.sock -v $pwd/gitlab-runnerN:/etc/gitlab-runner --network=host  gitlab/gitlab-runner:latest
+# 或
+docker run --hostname=docker-desktop --env=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin --volume=/var/run/docker.sock:/var/run/docker.sock --volume=C:\Users\liuts\gitlab-runnerN:/etc/gitlab-runner --volume=/etc/gitlab-runner --volume=/home/gitlab-runner --network=host --name=gitlab-runnerN --restart=always --label='org.opencontainers.image.ref.name=ubuntu' --label='org.opencontainers.image.version=20.04' --runtime=runc -d gitlab/gitlab-runner:latest
+
 # 注册runner
 gitlab-runner register  --url <gitlab url>  --token <token>
-
 ```
 
 ## 资源
