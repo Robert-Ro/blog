@@ -43,3 +43,5 @@
 
 - 本地 llm 来翻译？
 - 喂给 gpt 的工具
+- google: @google-cloud/translate
+- azure: @azure-rest/ai-translation-text
