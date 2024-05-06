@@ -1,15 +1,10 @@
 {
+  "extends": "@liutsing/tsconfig",
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
     "rootDir": ".",
-    "outDir": "out",
-    "strict": true,
-    "noImplicitThis": false,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "sourceMap": true
+    "outDir": "out"
   },
-  "exclude": ["TypeScript/**/*.ts",]
+  "exclude": ["TypeScript/**/*.ts"]
 }

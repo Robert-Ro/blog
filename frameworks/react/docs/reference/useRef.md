@@ -27,7 +27,7 @@ function MyComponent() {
 
 #### Parameters 参数
 
-- `initialValue`: The value you want the ref object's `current` property to be initially. It can be a value of any type. This argument is ignored after the initial render. 初始值，可以是任何类型的值。在第一次渲染之后，这个初始值参数就不再使用了
+- `initialValue`✨✨✨: The value you want the ref object's `current` property to be initially. It can be a value of any type. This argument is ignored after the initial render. 初始值，可以是任何类型的值。在第一次渲染之后，这个初始值参数就不再使用了
 
 #### Returns 返回值
 
@@ -35,13 +35,13 @@ function MyComponent() {
 
 - `current`: Initially, it's set to the `initialValue` you have passed. You can later set it to something else. If you pass the ref object to React as a `ref` attribute to a JSX node, React will set its `current` property.初始化时，初始化参数会给到`current`。之后你可以给`current`赋其他任何值。如果将返回值传值给`React`组件的`ref` `attribute`上，`React`将会设置`current`属性值。
 
-On the next renders, `useRef` will return the same object.在之后的渲染中，`useRef`将会返回同一个对象
+On the next renders, `useRef` will return the same object.在之后的渲染中，`useRef`将会返回同一个对象 ✨
 
 #### Caveats 说明
 
-- You can mutate the `ref.current` property. Unlike state, it is mutable. However, if it holds an object that is used for rendering (for example, a piece of your state), then you shouldn't mutate that object.你可以改变`ref.current`的值。与`state`不同的是，它是可变的。但是如果它持有一个用于`rendering`的对象的话(如果是`state`的一部分)，那么你就不能改变这个对象。
+- You can mutate the `ref.current` property. Unlike state, it is mutable. However, if it holds an object that is used for rendering (for example, a piece of your state), then you shouldn't mutate that object. 你可以改变`ref.current`的值。与`state`不同的是，它是可变的。但是如果它持有一个用于`rendering`的对象的话(如果是`state`的一部分)，那么你就不能改变这个对象。
 - When you change the `ref.current` property, React does not re-render your component. React is not aware of when you change it because a ref is a plain JavaScript object.当你改变`ref.current`对象，React 不会重新渲染你的组件。`React`不会追踪引用了一个普通 js 对象的变化。
-- Do not write _or read_ `ref.current` during rendering, except for [initialization.](#avoiding-recreating-the-ref-contents) This makes your component's behavior unpredictable.不能在`rendering`过程中对`ref.current`进行读写，除了初始化，因为这会导致你的组件的行为变得很奇怪。
+- Do not write _or read_ `ref.current` during rendering, except for [initialization.](#avoiding-recreating-the-ref-contents) This makes your component's behavior unpredictable.不能在`rendering`过程中对`ref.current`进行读写，除了初始化，因为这会导致你的组件的行为变得很奇怪✨。
 - In Strict Mode, React will **call your component function twice** in order to [help you find accidental impurities.](#my-initializer-or-updater-function-runs-twice) This is development-only behavior and does not affect production. This means that each ref object will be created twice, and one of the versions will be discarded. If your component function is pure (as it should be), this should not affect the logic of your component. 在严格模式下， React 会两次调用组件函数，为了尽早地发现组件`accidental impurities`。这意味着任何`ref`对象将会被创建两次，老的对象将会被丢弃。如果你的组件函数是`pure`，这就不会对你的组件的逻辑有任何影响。
 
 ## Usage 使用场景
