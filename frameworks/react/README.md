@@ -19,9 +19,17 @@
 - [深入浅出搞定 React](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=510#/content)
 - [网易微专业]()
 
+## repos
+
+### hooks
+
+### routes
+
+### state management
 
 ## 待整理
 
+- useSyncExternalStore 内部实现
 
 https://overreacted.io/zh-hans/react-as-a-ui-runtime/
 https://github.com/facebook/react/tree/main/packages/react-reconciler
@@ -31,13 +39,12 @@ https://blog.skk.moe/post/react-re-renders-101/
 https://kaiwu.lagou.com/course/courseInfo.htm?courseId=510#/content
 https://overreacted.io/a-complete-guide-to-useeffect/
 
-
 https://zhuanlan.zhihu.com/p/536624672
 https://www.zhihu.com/question/350523308/answer/858145147
 https://github.com/hepengwei/visualization-collection
 https://github.com/ossrs/srs
 
-react组件开发
+react 组件开发
 
 - https://github.com/bigyanpoudel/react-global-modal
 - https://articles.wesionary.team/react-component-library-with-vite-and-deploy-in-npm-579c2880d6ff
