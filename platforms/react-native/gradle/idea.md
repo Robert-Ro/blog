@@ -1,0 +1,3 @@
+- gradle bin 路径：C:\Users\liuts\.gradle\wrapper\dists\gradle-8.2.1-all
+- https://github.com/Meituan-Dianping/walle
+- https://github.com/meituan
