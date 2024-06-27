@@ -148,11 +148,22 @@ Displays a circular loading indicator.
 - [Shadow Props](https://reactnative.dev/docs/shadow-props), 阴影属性参考
 - [Text Style Props](https://reactnative.dev/docs/text-style-props), 文本属性参考
 - [View Style Props](https://reactnative.dev/docs/view-style-props), View 属性参考
-- https://github.com/Robert-Ro/react-native-builder-bob 开发第三方 RN 组件库
+
+## Resources
+
+- https://github.com/Robert-Ro/react-native-builder-bob 开发第三方 RN 组件库 ✨✨✨✨✨
 - MMKV
+- https://www.npmjs.com/package/react-native-config
+- https://www.npmjs.com/package/react-native-quick-sqlite
 
 ## TODO
 
-- gradle 插件开发
-  - 打包多个产物，并移动到特别的位置
-  - 产物名称加 commitid 值
+- [ ] awaresome react-native
+- [ ] gradle 插件开发
+  - [x] 打包多个产物
+  - [x] 产物名称加 commitid 值
+- [ ] 编写自定义 view 给 js 层使用 ✨✨✨
+  - [ ] 仿 IOS 的 picker
+- [ ] android 自定义 view 的画法
+- [ ] ios 开发入门
+- https://developer.android.com/build/configure-apk-splits
