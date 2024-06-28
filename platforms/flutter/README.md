@@ -10,3 +10,7 @@ dart：全栈语言
 
 - [dart 文档](https://dart.dev/guides)
 - [《Flutter 实战 第二版》 书稿](https://github.com/flutterchina/flutter_in_action_2nd)
+
+## reading list
+
+- https://juejin.cn/post/6911639201297465352
