@@ -155,6 +155,10 @@ Displays a circular loading indicator.
 - MMKV
 - https://www.npmjs.com/package/react-native-config
 - https://www.npmjs.com/package/react-native-quick-sqlite
+- [网易云音乐 RN 新架构升级实践](https://juejin.cn/post/7312176750591934516)
+- [业界 React Native 实践集录](https://juejin.cn/post/7319181238374858789)
+- [React Native 性能瓶颈之 JS 引擎](https://juejin.cn/post/7295651353853870095)
+- [react native 比 H5 快在哪里？](https://juejin.cn/post/7348617988138844201)
 
 ## TODO
 
