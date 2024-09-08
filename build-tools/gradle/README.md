@@ -11,14 +11,24 @@
 
 ![alt text](img_v3_02c5_45685628-9169-439f-97a4-46ffb5c0b97g.jpg)
 
-```log
-distributionBase=GRADLE_USER_HOME
-distributionPath=wrapper/dists
+```conf
 distributionUrl=file:///C:/Users/liuts/gradle/gradle-8.2.1-all.zip
-networkTimeout=10000
-validateDistributionUrl=true
-zipStoreBase=GRADLE_USER_HOME
-zipStorePath=wrapper/dists
+distributionUrl=https\://mirrors.cloud.tencent.com/gradle/gradle-8.0.1-all.zip
+```
+
+## FAQs
+
+```groovy
+// 代码片段
+gradle.beforeSettings {
+    pluginManagement.repositories.enableMirror()
+    dependencyResolutionManagement.repositories.enableMirror()
+}
+// 
+settingsEvaluated {
+
+}
+// setting.gradle 文件的作用
 ```
 
 ## Resources
@@ -32,4 +42,4 @@ zipStorePath=wrapper/dists
 - [AndroidTotal/Android 中 Gradle 的基础构建.md at master · LoganZy/AndroidTotal · GitHub](https://github.com/LoganZy/AndroidTotal/blob/master/Android%E4%B8%ADGradle%E7%9A%84%E5%9F%BA%E7%A1%80%E6%9E%84%E5%BB%BA.md)
 - [史上最全 Android build.gradle 配置详解，你懂的！ - 掘金](https://juejin.cn/post/6844903933584883720)
 - [gradle distributions](https://services.gradle.org/distributions/)下载
-- https://docs.gradle.org/8.0.1/userguide/userguide.html
+- [userguide](https://docs.gradle.org/8.0.1/userguide/userguide.html)

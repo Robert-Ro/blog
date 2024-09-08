@@ -42,8 +42,6 @@ docker run -d --name shared-gitlab-runner --restart always -v /var/run/docker.so
 # 或
 docker run --hostname=docker-desktop --env=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin --volume=/var/run/docker.sock:/var/run/docker.sock --volume=C:\Users\liuts\gitlab-runnerN:/etc/gitlab-runner --volume=/etc/gitlab-runner --volume=/home/gitlab-runner --network=host --name=gitlab-runnerN --restart=always --label='org.opencontainers.image.ref.name=ubuntu' --label='org.opencontainers.image.version=20.04' --runtime=runc -d gitlab/gitlab-runner:latest
 
-# 注册runner
-gitlab-runner register  --url <gitlab url>  --token <token>
 ```
 
 ## 资源

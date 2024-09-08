@@ -1,4 +1,8 @@
-# gitlab cicd
+# gitlab CICD
+
+## 预设变量
+
+## 配置语法
 
 ## gitlab runner 的执行原理
 
@@ -24,3 +28,8 @@
 - [ci yaml 配置参考](https://docs.gitlab.com/ee/ci/yaml/index.html)
 - [jenkins-vs-gitlab](https://www.browserstack.com/guide/jenkins-vs-gitlab)
 - [Migrating from Jenkins](https://docs.gitlab.com/ee/ci/migration/jenkins.html)
+
+### 实践参考
+
+- [超简单配置 Android 持续集成自动化打包流程 - GitHub+GitLab-CI+蒲公英+钉钉](https://juejin.cn/post/6844903865083510792)
+- [基于 GitLab CI 的前端工程 CI/CD 实践](https://juejin.cn/post/6844903869739171848), cicd 实践 📌📌📌
