@@ -224,3 +224,18 @@ flutter doctor
 ### cicd
 
 ## 运行原理 ✨✨✨
+
+flutter
+
+- 热更新
+- 怎么发布一个 flutter 包
+- flutter 运行原理
+- 用户版本分析
+- 点击防抖
+- 开发框架
+
+android
+
+- 配置项管理
+  - manifest
+  - buildConfig
