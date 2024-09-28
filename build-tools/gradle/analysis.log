@@ -1,0 +1,14 @@
+line-28533: > Task :app:lintVitalAnalyzeRelease, 耗时: 1097ms
+line-5331: > Task :permission_handler_android:extractReleaseAnnotations, 耗时: 1497ms
+line-9080: > Task :umeng_push_sdk:minifyReleaseWithR8, 耗时: 1498ms
+line-198: Created user preferences directory., 耗时: 1500ms
+line-3715: > Task :device_info_plus:compileReleaseKotlin, 耗时: 1597ms
+line-189: > Task :gradle:compileGroovy, 耗时: 1600ms
+line-229: > Configure project :app, 耗时: 1800ms
+line-31932: > Task :app:minifyReleaseWithR8, 耗时: 1999ms
+line-30609: Resolve mutations for :app:lintVitalReportRelease (Thread[Execution worker Thread 2,5,main]) started..., 耗时: 4949ms
+line-36005: > Task :app:minifyReleaseWithR8, 耗时: 5599ms
+line-10538: android_aot_release_android-arm: Complete, 耗时: 5699ms
+line-10538: android_aot_release_android-arm: Complete, 耗时: 5756ms
+line-10523: kernel_snapshot: Complete, 耗时: 8198ms
+line-10523: kernel_snapshot: Complete, 耗时: 9734ms

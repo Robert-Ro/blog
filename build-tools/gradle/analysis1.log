@@ -1,0 +1,21 @@
+line-28531: > Task :app:lintVitalAnalyzeRelease, 耗时: 1090ms
+line-726: Checking the license for package Android Emulator in /opt/android-sdk-linux/licenses, 耗时: 1199ms
+line-31979: WARNING:/builds/etlink/frontend/app/ecar-tracing-vehicle-parts/.gradle/caches/transforms-3/cae0b792b..., 耗时: 1199ms
+line-198: Created user preferences directory., 耗时: 1299ms
+line-5403: Resolve mutations for :audioplayers_android:extractReleaseAnnotations (Thread[included builds Thread..., 耗时: 1398ms
+line-229: > Configure project :app, 耗时: 1399ms
+line-9152: > Task :umeng_push_sdk:minifyReleaseWithR8, 耗时: 1399ms
+line-189: > Task :gradle:compileGroovy, 耗时: 1700ms
+line-3787: > Task :device_info_plus:compileReleaseKotlin, 耗时: 1898ms
+line-31841: > Task :app:minifyReleaseWithR8, 耗时: 1999ms
+line-30601: Resolve mutations for :app:lintVitalReportRelease (Thread[Execution worker,5,main]) started., 耗时: 3973ms
+line-35993: > Task :app:minifyReleaseWithR8, 耗时: 5199ms
+line-10591: android_aot_release_android-arm: Complete, 耗时: 5999ms
+line-10591: android_aot_release_android-arm: Complete, 耗时: 6063ms
+line-10576: kernel_snapshot: Complete, 耗时: 7998ms
+line-10576: kernel_snapshot: Complete, 耗时: 9609ms
+line-743: "Install Android SDK Build-Tools 30.0.3 (revision: 30.0.3)" ready., 耗时: 7899ms
+line-758: "Install Android SDK Platform 33 (revision: 3)" ready., 耗时: 10899ms
+line-774: "Install Android SDK Platform 29 (revision: 5)" ready., 耗时: 12200ms
+line-736: "Install Android SDK Tools (revision: 26.1.1)" ready., 耗时: 30099ms
+line-729: "Install Android Emulator (revision: 35.1.21)" ready., 耗时: 50100ms

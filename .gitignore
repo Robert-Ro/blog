@@ -5,3 +5,4 @@ out
 index.log
 dist
 .DS_Store
+venv

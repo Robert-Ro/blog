@@ -56,3 +56,19 @@
 - 构建自己的知识库
 - 与计算机视觉结合
 - 构建上层应用
+
+## misc
+
+### 激活用于分析 python env
+
+```py
+# 1. 项目中执行命令，创建虚拟环境
+python -m venv venv
+# 2. 激活虚拟环境
+venv\Scripts\activate
+# 3. 安装依赖
+pip install package-name
+# 4. 运行项目
+# 5. 退出虚拟环境
+deactivate
+```

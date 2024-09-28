@@ -1,5 +1,7 @@
 # Gradle
 
+打包工具，有点类似 `webpack`，需要配合各种插件使用，比如 `android` 插件
+
 ## gradle plugin
 
 [文档说明](https://developer.android.google.cn/build/releases/gradle-plugin)
@@ -18,18 +20,7 @@ distributionUrl=https\://mirrors.cloud.tencent.com/gradle/gradle-8.0.1-all.zip
 
 ## FAQs
 
-```groovy
-// 代码片段
-gradle.beforeSettings {
-    pluginManagement.repositories.enableMirror()
-    dependencyResolutionManagement.repositories.enableMirror()
-}
-// 
-settingsEvaluated {
-
-}
-// setting.gradle 文件的作用
-```
+[链接](./faq.md)
 
 ## Resources
 
