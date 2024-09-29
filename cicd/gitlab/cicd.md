@@ -28,6 +28,16 @@
 - echo $CI_PROJECT_ROOT_NAMESPACE # walle
 ```
 
+## ci 脚本复用
+
+- include
+- extends
+- reference
+
 ## misc
 
 - 使用`time`对某个命令的执行时间进行统计
+
+## Resources
+
+- [how-reference-variables-in-job-rules-in-gitlab-ci](https://stackoverflow.com/questions/70380844/how-reference-variables-in-job-rules-in-gitlab-ci)，在 ci 脚本中使用引用

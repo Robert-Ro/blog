@@ -64,7 +64,7 @@
   - 流媒体
   - Puppetter
   - React-Native 移动端跨端开发
-  - Electron、Tari 桌面跨端开发
+  - Electron、Tauri 桌面跨端开发
   - Rust 语言
   - Go 语言
   - PHP 语言

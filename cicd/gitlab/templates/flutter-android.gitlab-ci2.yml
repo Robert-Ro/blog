@@ -1,0 +1,92 @@
+image: mapleimage123/cirruslabs-flutter:3.22.2
+# 复用
+
+.pub-cache: &pub-cache
+    - export PUB_HOSTED_URL=https://pub.flutter-io.cn
+    - export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
+    - mkdir -p `pwd`/.pub-cache
+    - export PUB_CACHE=`pwd`/.pub-cache
+
+stages:
+    - build
+    - upload
+    - notify
+
+build_job:
+    cache:
+        key:
+            files:
+                - pubspec.lock
+        paths:
+            - .gradle/caches
+            - .gradle/wrapper
+            - .pub-cache
+        policy: pull-push
+    before_script:
+        # 配置环境变量
+        - !reference [.pub-cache]
+        - mkdir -p `pwd`/.gradle
+        - export GRADLE_USER_HOME=`pwd`/.gradle
+        # 添加特定的gradle配置
+        - cp cicd/gradle.properties $GRADLE_USER_HOME/gradle.properties
+        - cp cicd/init.gradle.kts $GRADLE_USER_HOME/init.gradle.kts
+        # 改源
+        - sed -i "s/google()/maven { url 'https:\/\/maven.aliyun.com\/repository\/google' }/g" android/build.gradle
+        - sed -i "s/jcenter()/maven { url 'https:\/\/maven.aliyun.com\/repository\/jcenter' }/g" android/build.gradle
+        - sed -i "s/google()/maven { url 'https:\/\/maven.aliyun.com\/repository\/google' }/g" ${FLUTTER_HOME}/packages/flutter_tools/gradle/flutter.gradle
+        - sed -i "s/jcenter()/maven { url 'https:\/\/maven.aliyun.com\/repository\/jcenter' }/g" ${FLUTTER_HOME}/packages/flutter_tools/gradle/flutter.gradle
+        - sed -i "s/https:\/\/storage.googleapis.com/https:\/\/mirrors.tuna.tsinghua.edu.cn\/git\/flutter\/download.flutter.io/g" ${FLUTTER_HOME}/packages/flutter_tools/gradle/flutter.gradle
+    stage: build
+    tags:
+        - flutter-android
+    script:
+        - pwd
+        - echo "build on commit:" $CI_COMMIT_SHORT_SHA
+        - time flutter pub get > dependencies.log
+        # 执行flutter编译apk的指令，指定仅编译arm指令的apk，并且禁用代码压缩以避免某些原生插件的异常行为
+        - time flutter -v build apk --no-shrink --target-platform=android-arm > build.log
+
+    artifacts:
+        paths:
+            - build/app/outputs/apk/release/
+            - build.log
+        expire_in: 1 day
+    only:
+        - cicd
+
+upload_job:
+    stage: upload
+    cache:
+        key:
+            files:
+                - pubspec.lock
+        paths:
+            - .pub-cache
+        policy: pull # 只拉缓存
+    script:
+        # 配置环境变量
+        - !reference [.pub-cache]
+        - apk_file=$(ls `pwd`/build/app/outputs/apk/release/ | grep .apk)
+        - echo $apk_file
+        - time flutter pub get > dependencies.log
+        - cd scripts
+        - time dart upload.dart $apk_file
+    dependencies:
+        - build_job
+    tags:
+        - flutter-android
+    only:
+        - cicd
+notify_job:
+    stage: notify
+    script:
+        - >
+            curl -X POST -H "Content-Type: application/json"
+            -d '{"msg_type":"text","content":{"text":"ET工厂助手发版成功"}}'
+            https://open.feishu.cn/open-apis/bot/v2/hook/5df78751-55ba-4843-afe8-6e29af14eecc
+    dependencies:
+        - upload_job
+    tags:
+        - flutter-android
+    only:
+        - cicd

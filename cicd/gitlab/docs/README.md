@@ -1,5 +1,9 @@
 # gitlab docs
 
+## 语法参考 ✨✨✨
+
+[CICD yaml 语法参考](./yaml-syntax-reference-yaml语法参考.md)
+
 ## 最佳实践
 
 > 致力于解决实际开发中的存在的问题，减少心智负担
@@ -113,18 +117,18 @@ services:
 
 --docker-pull-policy "if-not-present"
 
-
 ## ideas
 
 > 需要做什么，该做什么，
 
 - feature 分支检测，没有问题，没有问题就发起合并请求到主分支，主分支再构建发布开发环境，代码推送用到的是 ssh 密钥可以使用 variables 来配置
 - shell 命令
-    - find
-    - xargs
-    - echo
-    - time
-    - sed
+  - find
+  - xargs
+  - echo
+  - time
+  - sed
+
 ## Resources
 
 - [official docs](https://gitlab.com/-/ide/project/gitlab-org/gitlab)

@@ -186,10 +186,8 @@ And optionally:
   - In [GitLab 15.10 and later](https://gitlab.com/gitlab-org/gitlab/-/issues/367150) you can have up to 150 includes.
     In nested includes, the same file can be included multiple times, but duplicated includes
     count towards the limit.
-  - From [GitLab 14.9 to GitLab 15.9](https://gitlab.com/gitlab-org/gitlab/-/issues/28987), you can have up to 100 includes.
-    The same file can be included multiple times in nested includes, but duplicates are ignored.
-  - In GitLab 14.9 and earlier you can have up to 100 includes, but the same file can not
-    be included multiple times.
+  - From [GitLab 14.9 to GitLab 15.9](https://gitlab.com/gitlab-org/gitlab/-/issues/28987), you can have up to 100 includes. The same file can be included multiple times in nested includes, but duplicates are ignored.
+  - In GitLab 14.9 and earlier you can have up to 100 includes, but the same file can not be included multiple times.
 
 **Related topics**:
 
@@ -418,14 +416,14 @@ In this example:
 
 - [Set input values when using `include`](inputs.md#set-input-values-when-using-include).
 
-### `stages` 阶段✨✨✨✨✨
+### `stages` 阶段 ✨✨✨✨✨
 
 > - Support for nested array of strings [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/439451) in GitLab 16.9.
 
 Use `stages` to define stages that contain groups of jobs. Use [`stage`](#stage)
 in a job to configure the job to run in a specific stage.
 
-If `stages` is not defined in the `.gitlab-ci.yml` file, the default pipeline stages are(默认的pipeline阶段):
+If `stages` is not defined in the `.gitlab-ci.yml` file, the default pipeline stages are(默认的 pipeline 阶段):
 
 - [`.pre`](#stage-pre)
 - `build`
@@ -1182,8 +1180,7 @@ By default, jobs in later stages automatically download all the artifacts create
 by jobs in earlier stages. You can control artifact download behavior in jobs with
 [`dependencies`](#dependencies).
 
-When using the [`needs`](#needs) keyword, jobs can only download
-artifacts from the jobs defined in the `needs` configuration.
+When using the [`needs`](#needs) keyword, jobs can only download artifacts from the jobs defined in the `needs` configuration.
 
 Job artifacts are only collected for successful jobs by default, and
 artifacts are restored after [caches](#cache).
@@ -2046,13 +2043,13 @@ to select a specific site profile and scanner profile.
 - [Site profile](../../user/application_security/dast/on-demand_scan.md#site-profile).
 - [Scanner profile](../../user/application_security/dast/on-demand_scan.md#scanner-profile).
 
-### `dependencies`
+### `dependencies`📌
 
-Use the `dependencies` keyword to define a list of specific jobs to fetch [artifacts](#artifacts)
-from. The specified jobs must all be in earlier stages. You can also set a job to download no artifacts at all.
+> 依赖于下载早前步骤的`artifacts`
 
-When `dependencies` is not defined in a job, all jobs in earlier stages are considered dependent
-and the job fetches all artifacts from those jobs.
+Use the `dependencies` keyword to define a list of specific jobs to fetch [artifacts](#artifacts) from. The specified jobs must all be in earlier stages. You can also set a job to download no artifacts at all. 使用此关键字可以下载指定的作业的工件。指定的作业必须在更早的阶段。您还可以将作业配置为不下载任何工件。
+
+When `dependencies` is not defined in a job, all jobs in earlier stages are considered dependent and the job fetches all artifacts from those jobs.
 
 **Keyword type**: Job keyword. You can use it only as part of a job.
 
@@ -2870,18 +2867,18 @@ In this example, a new pipeline causes a running pipeline to be:
   - If [`workflow:auto_cancel`](#workflowauto_cancelon_new_commit) is set to `interruptible`,
     a trigger job with `interruptible: true` can be automatically cancelled.
 
-### `needs`
+### `needs` 📍
 
 > - [Introduced](https://gitlab.com/gitlab-org/gitlab-foss/-/issues/47063) in GitLab 12.2.
 > - In GitLab 12.3, maximum number of jobs in `needs` array raised from five to 50.
 > - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/30631) in GitLab 12.8, `needs: []` lets jobs start immediately.
 > - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/30632) in GitLab 14.2, you can refer to jobs in the same stage as the job you are configuring.
 
-Use `needs` to execute jobs out-of-order. Relationships between jobs
-that use `needs` can be visualized as a [directed acyclic graph](../directed_acyclic_graph/index.md).
+Use `needs` to execute jobs out-of-order. Relationships between jobs that use `needs` can be visualized as a [directed acyclic graph](../directed_acyclic_graph/index.md).
+使用 `needs` 可以让 job 按照指定的顺序执行。使用 `needs` 可以实现 [有向无环图](../directed_acyclic_graph/index.md)。
 
-You can ignore stage ordering and run some jobs without waiting for others to complete.
-Jobs in multiple stages can run concurrently.
+You can ignore stage ordering and run some jobs without waiting for others to complete. Jobs in multiple stages can run concurrently.
+你可以忽略 stage 顺序，不等待其他 job 完成就可以开始执行 job。多个 stage 的 job 可以并发执行。
 
 **Keyword type**: Job keyword. You can use it only as part of a job.
 
@@ -2924,14 +2921,10 @@ production:
 
 This example creates four paths of execution:
 
-- Linter: The `lint` job runs immediately without waiting for the `build` stage
-  to complete because it has no needs (`needs: []`).
-- Linux path: The `linux:rspec` job runs as soon as the `linux:build`
-  job finishes, without waiting for `mac:build` to finish.
-- macOS path: The `mac:rspec` jobs runs as soon as the `mac:build`
-  job finishes, without waiting for `linux:build` to finish.
-- The `production` job runs as soon as all previous jobs finish:
-  `linux:build`, `linux:rspec`, `mac:build`, `mac:rspec`.
+- Linter: The `lint` job runs immediately without waiting for the `build` stage to complete because it has no needs (`needs: []`).
+- Linux path: The `linux:rspec` job runs as soon as the `linux:build` job finishes, without waiting for `mac:build` to finish.
+- macOS path: The `mac:rspec` jobs runs as soon as the `mac:build` job finishes, without waiting for `linux:build` to finish.
+- The `production` job runs as soon as all previous jobs finish: `linux:build`, `linux:rspec`, `mac:build`, `mac:rspec`.
 
 **Additional details**:
 
@@ -2939,35 +2932,23 @@ This example creates four paths of execution:
   - For GitLab.com, the limit is 50. For more information, see
     [issue 350398](https://gitlab.com/gitlab-org/gitlab/-/issues/350398).
   - For self-managed instances, the default limit is 50. This limit [can be changed](../../administration/cicd.md#set-the-needs-job-limit).
-- If `needs` refers to a job that uses the [`parallel`](#parallel) keyword,
-  it depends on all jobs created in parallel, not just one job. It also downloads
-  artifacts from all the parallel jobs by default. If the artifacts have the same
-  name, they overwrite each other and only the last one downloaded is saved.
-  - To have `needs` refer to a subset of parallelized jobs (and not all of the parallelized jobs),
-    use the [`needs:parallel:matrix`](#needsparallelmatrix) keyword.
-- In [GitLab 14.1 and later](https://gitlab.com/gitlab-org/gitlab/-/issues/30632) you
-  can refer to jobs in the same stage as the job you are configuring. This feature is
-  enabled on GitLab.com and ready for production use. On self-managed [GitLab 14.2 and later](https://gitlab.com/gitlab-org/gitlab/-/issues/30632)
-  this feature is available by default.
-- In GitLab 14.0 and older, you can only refer to jobs in earlier stages. Stages must be
-  explicitly defined for all jobs that use the `needs` keyword, or are referenced
-  in a job's `needs` section.
+- If `needs` refers to a job that uses the [`parallel`](#parallel) keyword, it depends on all jobs created in parallel, not just one job. It also downloads artifacts from all the parallel jobs by default. If the artifacts have the same name, they overwrite each other and only the last one downloaded is saved.
+  - To have `needs` refer to a subset of parallelized jobs (and not all of the parallelized jobs), use the [`needs:parallel:matrix`](#needsparallelmatrix) keyword.
+- In [GitLab 14.1 and later](https://gitlab.com/gitlab-org/gitlab/-/issues/30632) you can refer to jobs in the same stage as the job you are configuring. This feature is enabled on GitLab.com and ready for production use. On self-managed [GitLab 14.2 and later](https://gitlab.com/gitlab-org/gitlab/-/issues/30632) this feature is available by default.
+- In GitLab 14.0 and older, you can only refer to jobs in earlier stages. Stages must be explicitly defined for all jobs that use the `needs` keyword, or are referenced in a job's `needs` section.
 - In GitLab 13.9 and older, if `needs` refers to a job that might not be added to
-  a pipeline because of `only`, `except`, or `rules`, the pipeline might fail to create. In GitLab 13.10 and later, use the [`needs:optional`](#needsoptional) keyword to resolve a failed pipeline creation.
-- If a pipeline has jobs with `needs: []` and jobs in the [`.pre`](#stage-pre) stage, they will
-  all start as soon as the pipeline is created. Jobs with `needs: []` start immediately,
-  and jobs in the `.pre` stage also start immediately.
+  a pipeline because of `only`, `except`, or `rules`, the pipeline might fail to create. In GitLab 13.10 and later, use the [`needs:optional`](#needsoptional) keyword to resolve failed pipeline creation.
+- If a pipeline has jobs with `needs: []` and jobs in the [`.pre`](#stage-pre) stage, they will all start as soon as the pipeline is created. Jobs with `needs: []` start immediately, and jobs in the `.pre` stage also start immediately.
 
 #### `needs:artifacts`
 
 > - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/14311) in GitLab 12.6.
 
-When a job uses `needs`, it no longer downloads all artifacts from previous stages
-by default, because jobs with `needs` can start before earlier stages complete. With
-`needs` you can only download artifacts from the jobs listed in the `needs` configuration.
+When a job uses `needs`, it no longer downloads all artifacts from previous stages by default, because jobs with `needs` can start before earlier stages complete. With `needs` you can only download artifacts from the jobs listed in the `needs` configuration.
+当一个 job 使用 `needs` 时，它不再默认下载之前 stage 的所有 artifacts，因为 `needs` 只能下载 `needs` 配置的 jobs 的 artifacts。
 
-Use `artifacts: true` (default) or `artifacts: false` to control when artifacts are
-downloaded in jobs that use `needs`.
+Use `artifacts: true` (default) or `artifacts: false` to control when artifacts are downloaded in jobs that use `needs`.
+使用 `artifacts: true` (默认) 或 `artifacts: false` 来控制 jobs 中使用 `needs` 时是否下载 artifacts。
 
 **Keyword type**: Job keyword. You can use it only as part of a job. Must be used with `needs:job`.
 
@@ -4606,8 +4587,10 @@ job:
 
 ### `services`
 
+> 指定脚本运行所需的外部服务
+
 Use `services` to specify any additional Docker images that your scripts require to run successfully. The [`services` image](../services/index.md) is linked
-to the image specified in the [`image`](#image) keyword.
+to the image specified in the [`image`](#image) keyword. 使用 `services` 关键字来指定脚本运行所需的外部服务。`services` 镜像链接到 `image` 关键字指定的镜像。
 
 **Keyword type**: Job keyword. You can use it only as part of a job or in the
 [`default` section](#default).
@@ -4646,7 +4629,7 @@ In this example, GitLab launches two containers for the job:
 
 - A Ruby container that runs the `script` commands.
 - A PostgreSQL container. The `script` commands in the Ruby container can connect to
-  the PostgreSQL database at the `db-postgrest` hostname.
+  the PostgreSQL database at the `db-postgrest` hostname. 一个`PostgreSQL`容器。`script`命令在 Ruby 容器中运行的命令可以连接到`db-postgrest`主机名的 PostgreSQL 数据库。
 
 **Related topics**:
 
