@@ -19,8 +19,8 @@
 仅对 index.html 设置缓存策略
 
 ```conf
-location  ~^ /index.html{
-   add_header Cache-Control "no-cache no-store private max-age=0";
+location ^~ /index.html{
+   add_header Cache-Control "private, must-revalidate, no-cache, no-store, max-age=0";
 }
 ```
 
