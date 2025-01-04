@@ -49,7 +49,7 @@ The best way to explain the difference between launch and attach is to think of 
 VS Code makes commonly used paths and other values available as `variables` and supports `variable substitution` inside strings in `launch.json`.
 
 - `${workspaceFolder}`: gives the root path of a workspace folder
-- `${file}`: the file open in the active editor(调试代码方便)
+- `${file}✨✨✨`: the file open in the active editor(调试代码方便)
 - `${env:Name}`: the **environment variable** 'Name'
 
 full list of predefined variables in the [Variables Reference](https://code.visualstudio.com/docs/editor/variables-reference) or by invoking intelliSence insider the `launch.json` string attributes.
@@ -128,7 +128,7 @@ A function breakpoint is created by pressing the + button in the **BREAKPOINTS**
 
 If a debugger supports data breakpoints, they can be set from the **VARIABLES** view and will get hit when the value of the underlying variable changes. Data breakpoints are shown with a red hexagon(红色的六边形) in the **BREAKPOINTS** section.
 
-## Debug Consoe REPL
+## Debug Console REPL
 
 可在`Debug Console`中执行代码，跟`chrome dev-tools`中一样
 
@@ -200,7 +200,7 @@ example:
 
 ## Remote debugging
 
-> Other lanuage should use plugins
+> Other language should use plugins
 
 Vscode only support: the `Node.js` debugger included in VS Code supports remote debugging. See the [Node.js Debugging](https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_remote-debugging) topic to learn how to configure this.
 
