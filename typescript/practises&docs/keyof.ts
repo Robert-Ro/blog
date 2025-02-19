@@ -113,17 +113,26 @@
 }
 
 {
+  // console.log(Object.keys(user)) // output: ["name", "age"]
   const user = {
     name: 'John',
     age: 32,
-  }
-  console.log(Object.keys(user)) // output: ["name", "age"]
+  } as const
 
-  Object.keys(user).forEach((key) => {
-    console.log(user[key]) // error is shown
-    //   Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ name: string; age: number; }'.
-    //   No index signature with a parameter of type 'string' was found on type '{ name: string; age: number; }'.
+  type UserKeys = keyof typeof user
+  // 方法1：Using a type assertion to resolve the issue
+  ;(Object.keys(user) as UserKeys[]).forEach((key: UserKeys) => {
+    console.log(key, user[key])
   })
+  //  方法2：Using the Object.entries() method to get an object's key by value
+  Object.entries(user).forEach(([key, value]) => {
+    console.log(key, value)
+    if (key === 'name') {
+      console.log(value)
+    }
+  })
+  //   Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ name: string; age: number; }'.
+  //   No index signature with a parameter of type 'string' was found on type '{ name: string; age: number; }'.
 }
 type Point = { x: number; y: number }
 type P = keyof Point // “x” | “y”

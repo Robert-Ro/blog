@@ -18,3 +18,10 @@
   const squared = num * num
   console.log(squared)
 }
+{
+  const arr = [
+    { name: 'name1', value: 'value1' },
+    { name: 'name2', value: 'value2' },
+  ]  
+  type K = keyof typeof arr
+}
