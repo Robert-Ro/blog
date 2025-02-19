@@ -29,6 +29,7 @@
 - [Using Arabic, Hebrew, and Other Right-To-Left Languages In Web Pages](https://thenewcode.com/88/Using-Arabic-Hebrew-and-Other-Right-To-Left-Languages-In-Web-Pages)
 - [在网页中使用阿拉伯语，希伯来语和其他从右至左的语言](https://blog.csdn.net/cungui5726/article/details/108207343)
 - [国际化 - 通用 LTR/RTL 布局解决方案](https://zhuanlan.zhihu.com/p/47864242)
+- [i18next 相关的插件等工具库](https://www.i18next.com/principles/plugins)✨✨✨
 
 ## repos
 
@@ -41,7 +42,7 @@
 
 ## 翻译接口
 
-- 本地 llm 来翻译？
+- 本地 llm 来翻译 -> 待更新 prompt
 - 喂给 gpt 的工具
 - google: @google-cloud/translate
 - azure: @azure-rest/ai-translation-text
