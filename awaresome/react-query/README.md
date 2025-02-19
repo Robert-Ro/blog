@@ -17,12 +17,23 @@ React Query is often described as the missing data-fetching library for React, b
 
 [link](./api/README.md)
 
-
 ## 待整理
 
-- https://tanstack.com/query/latest/docs/react/community/tkdodos-blog#9-placeholder-and-initial-data-in-react-query
+- https://tanstack.com/query/latest/docs/react/community/tkdodos-blog ✨✨✨✨✨
 - https://tkdodo.eu/blog/inside-react-query
 - https://tkdodo.eu/blog/using-web-sockets-with-react-query
 - https://codesandbox.io/s/react-query-websockets-ep1op?file=/src/queries.ts
 - https://tkdodo.eu/blog/dont-over-use-state
 - https://github.com/TanStack/query/blob/main/examples/react/prefetching/pages/index.js
+- [What are staleTime and cacheTime in React-Query?](https://stackoverflow.com/questions/72828361/what-are-staletime-and-cachetime-in-react-query)
+- [为什么我不推荐你用 React Query](https://zhuanlan.zhihu.com/p/591906893) 从自身需求出发
+- [react-toolroom](https://github.com/wmzy/react-toolroom)
+- [ahooks useRequest](https://ahooks.js.org/hooks/useRequest)
+
+## blogs
+
+- [what are staletime and cachetime in react-query](./what-are-staletime-and-cachetime-in-react-query.md)
+
+## how to debugger source code
+
+- [debugger demo repo](https://github.com/Robert-Ro/react-debugger-demo.git)
