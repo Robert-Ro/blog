@@ -69,3 +69,4 @@ Yeoman is language agnostic. It can generate projects in any language (Web, Java
 ### changelog
 
 ### 一键发 npm 包
+- release-it
