@@ -1,0 +1,2 @@
+- 控制job的执行
+- 避免冗余的pipelines

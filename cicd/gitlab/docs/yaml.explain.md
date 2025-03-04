@@ -48,14 +48,14 @@ A GitLab CI/CD pipeline configuration includes:
   | [`cache`](#cache)                           | List of files that should be cached between subsequent runs.                                                |
   | [`coverage`](#coverage)                     | Code coverage settings for a given job.                                                                     |
   | [`dast_configuration`](#dast_configuration) | Use configuration from DAST profiles on a job level.                                                        |
-  | [`dependencies`](#dependencies)             | Restrict which artifacts are passed to a specific job by providing a list of jobs to fetch artifacts from.  |
+  | [`dependencies`](#dependencies)✨           | Restrict which artifacts are passed to a specific job by providing a list of jobs to fetch artifacts from.  |
   | [`environment`](#environment)               | Name of an environment to which the job deploys.                                                            |
   | [`extends`](#extends)                       | Configuration entries that this job inherits from.                                                          |
   | [`identity`](#identity)                     | Authenticate with third party services using identity federation.                                           |
   | [`image`](#image)                           | Use Docker images.                                                                                          |
   | [`inherit`](#inherit)                       | Select which global defaults all jobs inherit.                                                              |
   | [`interruptible`](#interruptible)           | Defines if a job can be canceled when made redundant by a newer run.                                        |
-  | [`needs`](#needs)                           | Execute jobs earlier than the stage ordering.                                                               |
+  | [`needs`](#needs)✨                         | Execute jobs earlier than the stage ordering.                                                               |
   | [`pages`](#pages)                           | Upload the result of a job to use with GitLab Pages.                                                        |
   | [`parallel`](#parallel)                     | How many instances of a job should be run in parallel.                                                      |
   | [`release`](#release)                       | Instructs the runner to generate a [release](../../user/project/releases/index.md) object.                  |
@@ -70,7 +70,7 @@ A GitLab CI/CD pipeline configuration includes:
   | [`timeout`](#timeout)                       | Define a custom job-level timeout that takes precedence over the project-wide setting.                      |
   | [`trigger`](#trigger)                       | Defines a downstream pipeline trigger.                                                                      |
   | [`variables`](#variables)                   | Define job variables on a job level.                                                                        |
-  | [`when`](#when)                             | When to run job.                                                                                            |
+  | [`when`](#when)✨                           | When to run job.                                                                                            |
 
 ## Global keywords
 
@@ -418,14 +418,14 @@ In this example:
 
 - [Set input values when using `include`](inputs.md#set-input-values-when-using-include).
 
-### `stages` 阶段✨✨✨✨✨
+### `stages` 阶段 ✨✨✨✨✨
 
 > - Support for nested array of strings [introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/439451) in GitLab 16.9.
 
 Use `stages` to define stages that contain groups of jobs. Use [`stage`](#stage)
 in a job to configure the job to run in a specific stage.
 
-If `stages` is not defined in the `.gitlab-ci.yml` file, the default pipeline stages are(默认的pipeline阶段):
+If `stages` is not defined in the `.gitlab-ci.yml` file, the default pipeline stages are(默认的 pipeline 阶段):
 
 - [`.pre`](#stage-pre)
 - `build`
@@ -3969,30 +3969,30 @@ test_job_2:
 You can specify the number of [retry attempts for certain stages of job execution](../runners/configure_runners.md#job-stages-attempts)
 using variables.
 
-### `rules`
+### `rules` 规则 ✨✨✨
 
 > - [Introduced](https://gitlab.com/gitlab-org/gitlab/-/issues/27863) in GitLab 12.3.
 
 Use `rules` to include or exclude jobs in pipelines.
+使用`规则`在管道中包含或排除作业
 
-Rules are evaluated when the pipeline is created, and evaluated _in order_
-until the first match. When a match is found, the job is either included or excluded from the pipeline,
-depending on the configuration.
+Rules are evaluated when the pipeline is created, and evaluated _in order_ until the first match. When a match is found, the job is either included or excluded from the pipeline, depending on the configuration.
+在创建管道时评估规则，并按顺序评估规则。找到匹配项后，不会再检查更多规则，并且根据配置，将作业包含在管道中或从管道中排除。如果没有匹配的规则，则不会将作业添加到管道中。
 
 You cannot use dotenv variables created in job scripts in rules, because rules are evaluated before any jobs run.
 
-`rules` replaces [`only/except`](#only--except) and they can't be used together
-in the same job. If you configure one job to use both keywords, the GitLab returns
-a `key may not be used with rules` error.
+`rules` replaces [`only/except`](#only--except) and they can't be used together in the same job. If you configure one job to use both keywords, the GitLab returns a `key may not be used with rules` error.
 
 `rules` accepts an array of rules defined with:
 
-- `if`
-- `changes`
-- `exists`
+> ✨ 必须是其中一项
+
+- `if` ✨： 什么条件
+- `changes`✨： 文件模式变更
+- `exists`✨： 检查文件或目录是否存在
+- `when`✨： 什么时候
 - `allow_failure`
 - `variables`
-- `when`
 
 You can combine multiple keywords together for [complex rules](../jobs/job_control.md#complex-rules).
 

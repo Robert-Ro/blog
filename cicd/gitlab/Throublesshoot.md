@@ -13,9 +13,9 @@ docker executor 无法访问，但是 windows shell 没有问题
 
 ## gitlab executor 的选择
 
-### docker
+### docker✅✨
 
-### shell
+### shell✅✨
 
 ### ssh
 
