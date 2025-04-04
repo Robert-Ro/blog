@@ -40,8 +40,8 @@
 | needs ✨✨✨       | 在 stage 顺序之前执行的作业。                                      |
 | only               | 控制何时创建作业。                                                 |
 | pages              | 上传作业的结果，与 GitLab Pages 一起使用。                         |
-| parallel           | 应该并行运行多少个作业实例。                                       |
-| release            | 指示运行器生成 release 对象。                                      |
+| parallel✨         | 应该并行运行多少个作业实例。                                       |
+| release ✨         | 指示运行器生成 release 对象。                                      |
 | resource_group     | 限制作业并发。                                                     |
 | retry ✨✨✨       | 在失败的情况下可以自动重试作业的时间和次数。                       |
 | rules ✨✨✨✨✨   | 用于评估和确定作业的选定属性以及它是否已创建的条件列表。           |
@@ -233,6 +233,9 @@ include 文件：
 
 ### services
 
+> 工作期间运行的另一个 Docker 镜像，并 link 到 images 关键字定义的 Docker 镜像。这样就可以在构建期间访问服务镜像，比较常见的是数据库服务
+> **单元测试、自动化测试时需要用到数据库服务**
+
 使用 services 指定您的 job 成功运行**所需的任何其他 Docker 镜像**。services 镜像链接到 image 关键字中指定的镜像。
 例子：
 
@@ -351,14 +354,19 @@ test:
 
 `rules` 替换了 `only/except`，并且它们不能在同一个作业中一起使用
 
-rules 接受以下规则：
+`rules` accepts an array of rules. Each rules must have at least one of:
 
-- if
-- changes
-- exists
-- allow_failure
-- variables
-- when
+- `if`
+- `changes`
+- `exists`
+- `when`
+
+Rules can also optionally be combined with:
+
+- `allow_failure`
+- `needs`
+- `variables`
+- `interruptible`
 
 作业被添加到流水线中：
 
@@ -415,7 +423,7 @@ docker build:
 ```
 
 - 如果流水线是合并请求流水线，请检查 `Dockerfile` 是否有更改。
-- 如果 Dockerfile 已更改，则将作业作为手动作业 ❓ 添加到流水线中，即使作业未触发，流水线也会继续运行（allow_failure: true）。
+- 如果 Dockerfile 已更改，则将作业作为`手动作业`添加到流水线中，即使作业未触发，流水线也会继续运行（allow_failure: true）。
 - 每个 rules:changes 部分最多可以定义 50 个样式或文件路径。
 - 如果 Dockerfile 没有改变，不要将作业添加到任何流水线（与 when: never 相同）。
 - rules:changes:paths 与 rules:changes 相同，没有任何子键。
@@ -525,6 +533,18 @@ specs:
 
 可能的输入：格式为 `VARIABLE-NAME: value` 的变量哈希。
 
+#### `rules:when`
+
+在 `rules:` 中使用 `when` 来控制作业何时运行。
+可能的输入：
+
+- `on_success` (default): Run the job only when no jobs in earlier stages fail. (默认)
+- `on_failure`: Run the job only when at least one job in an earlier stage fails.
+- `never`: Don’t run the job regardless of the status of jobs in earlier stages.
+- `always`: Run the job regardless of the status of jobs in earlier stages.
+- `manual`: Add the job to the pipeline as a manual job. The default value for allow_failure changes to false.
+- `delayed`: Add the job to the pipeline as a delayed job.
+
 ### `only/except`
 
 > 不推荐使用了，使用 rules 代替
@@ -621,6 +641,10 @@ exit code 🔲
 - `delayed`：延迟作业的执行指定的持续时间。
 
 ### `environment`
+
+> 部署环境的管理
+> 可以直接访问
+> 可以回滚
 
 使用 environment 定义作业部署到的**环境**。
 
@@ -954,6 +978,8 @@ test_advanced:
 
 ### `timeout`
 
+> 跑单元测试时容器引起超时
+
 使用 `timeout` 为特定作业配置超时。**如果作业运行的时间超过超时时间，作业将失败**。
 
 作业级超时可以长于项目级超时。但不能超过 `runner` 的超时。
@@ -967,7 +993,7 @@ test_advanced:
 ### `parallel`⛏️🪵📕
 
 > https://docs.gitlab.com/ci/yaml/#parallel
-
+> 运行的次数
 > 一个 job 并行执行的数量
 
 使用 `parallel` 配置并行运行的作业实例数。
