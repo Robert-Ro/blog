@@ -4,7 +4,7 @@
 
 ## 出现原因
 
-项目中有 src、tests 两大块，通常需要都是用 ts 来支持类型定义，使用单一 tsconfig 会略显笨拙：
+项目中有 `src`、`tests` 两大块，通常需要都是用 `ts` 来支持类型定义，使用单一`tsconfig.json` 会略显笨拙：
 
 > 之前会使用指定`--project` `tsconfig.test.json` `tsconfig.build.json`等方式来处理
 
