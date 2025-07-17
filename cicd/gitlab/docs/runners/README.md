@@ -7,20 +7,23 @@
 
 按安装环境区分，可分为安装到宿主机中或安装到容器中
 
+### windows
+
+### macos
+
+### docker
+
 ### 升级
 
 runner 客户端的功能与 gitlab server 的版本是相关的
-
-## Resources
-
-- [runner advanced configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html)
-- [runner advanced configuration 译文](https://gitlab.cn/docs/runner/configuration/advanced-configuration.html)
 
 ## register
 
 ```sh
 .\gitlab-runner.exe register  --url https://gitlab.com  --token glrt-t3_adJG93ivi2SZALt32FU5
 ```
+
+runner 配置参考
 
 ```toml
 # nodejs runner
@@ -44,27 +47,57 @@ runner 客户端的功能与 gitlab server 的版本是相关的
       SecretKey = "kAaDhDzw7Co0EkOlHgVHTCwWivbbckQ4YJK1iLTe"
       BucketName = "gitlab-cache"
       Insecure = true
+  # https://docs.gitlab.com/runner/configuration/advanced-configuration/#the-runnersdocker-section
   [runners.docker]
+    # Enable or disable TLS verification of connections to the Docker daemon.
     tls_verify = false
     image = "alpine:3.20.3"
+    # Make the container run in privileged mode. Insecure.
     privileged = false
+    # Disable the image entrypoint overwriting.
     disable_entrypoint_overwrite = false
+    # If an out-of-memory (OOM) error occurs, do not terminate processes in a container✨.
     oom_kill_disable = false
     disable_cache = false
+    # TODO Additional volumes that should be mounted. Same syntax as the Docker -v flag✨.
     volumes = ["/cache"]
+    # A list of volumes to inherit from another container in the form <container name>[:<access_level>]✨ Access level defaults to read-write, but can be manually set to ro (read-only) or rw (read-write).
+    volumes_from=["storage_container:ro"]
+    # The image pull policy: never, if-not-present or always (default)
     pull_policy = ["if-not-present"]
+    # Shared memory size for images (in bytes).
     shm_size = 0
+    # 最大传输单元（Maximum Transmission Unit, MTU） FIXME 为0，默认不覆盖?
     network_mtu = 0
+    # TODO Absolute path to a directory where builds are stored in the context of the selected executor. For example, locally, Docker, or SSH.
+    builds_dir = "/builds"
+    # TODO Absolute path to a directory where build caches are stored in context of selected executor. For example, locally, Docker, or SSH. If the docker executor is used, this directory needs to be included in its volumes parameter. 构建缓存存储的绝对路径。如果docker executor被使用，这个目录需要包含在volumes参数中。
+    cache_dir = "/cache"
+    # The Docker executor has two levels of caching: a global one (like any other executor) and a **local cache based on Docker volumes**. This configuration flag acts only on the local one which disables the use of automatically created (not mapped to a host directory) cache volumes. In other words, it only prevents creating a container that holds temporary files of builds, it does not disable the cache if the runner is configured in distributed cache mode. 控制是否自动创建本地的Docker 缓存卷。换句话说，这个选项控制是否禁用本地缓存，不会禁止runner的了分布式缓存配置。NOTE
+    disable_cache = false
+    # Number of CPUs (available in Docker 1.13 or later). A string
+    cpus = "2"
+    # (Advanced) The default helper image used to clone repositories and upload artifacts✨.
+    helper_image = "alpine:3.20.3"
+    # Containers that should be linked with container that runs the job✨.
+    links=["mysql_container:mysql"]
+    # The memory limit. A string.
+    memory = "128m"
+    memory_swap = "256m"
+    memory_reservation = "64m"
+    # Ulimit values that are passed to the container. Uses the same syntax as the Docker --ulimit flag.
+    ulimit=""
+    container_labels=""
 
 ```
 
 ## docker-autoscaler
 
-```
+```sh
 .\gitlab-runner.exe fleeting install
 ```
 
-如果失败，需要升级 gitlab-runner.exe
+如果失败，需要升级 `gitlab-runner.exe`
 
 升级步骤：
 
@@ -193,3 +226,38 @@ gitlab-runner register --tag-list "backend" --executor "docker" --docker-image "
 在单机环境下，若**无需环境隔离且任务类型相似**，两者区别较小；但若**需隔离环境或优化资源分配**，注册多个 Runner 仍具优势。建议根据实际任务类型选择：  
 • **简单任务** → 单个 Runner 高并发 + 资源限制。  
 • **复杂任务** → 多 Runner + 标签路由。
+
+## Resources
+
+### [gitlab 自建的 runners](https://docs.gitlab.com/ci/runners/hosted_runners/)
+
+![gitlab-hosted_runners_architecture_v17_0](gitlab-hosted_runners_architecture_v17_0.png)
+
+[linux runner](https://docs.gitlab.com/ci/runners/hosted_runners/linux/)
+[GPU runner](https://docs.gitlab.com/ci/runners/hosted_runners/gpu_enabled/)
+[macos runner](https://docs.gitlab.com/ci/runners/hosted_runners/macos/)
+[windows runner](https://docs.gitlab.com/ci/runners/hosted_runners/windows/)
+[查看个人 runner 的使用额度](https://gitlab.com/-/profile/usage_quotas)
+
+- `gitlab-org`
+- `gitlab-org-docker`
+- `saas-linux-small-amd64`: 2cpus 8GB 30gb
+- `saas-linux-medium-amd64`: 4cpus 16GB 50gb
+- `saas-linux-large-amd64`: 8cpus 32GB 100gb
+- `saas-linux-xlarge-amd64`: 16cpus 64GB 200gb
+- `saas-linux-2xlarge-amd64`: 32cpus 128GB 200gb
+- `saas-linux-small-arm64`: 2cpus 8GB 30GB
+- `saas-linux-medium-arm64 (Premium and Ultimate only)`: 4cpus 16GB 50GB
+- `saas-linux-large-arm64 (Premium and Ultimate only)`: 8cpus 32GB 100GB
+- `saas-linux-medium-amd64-gpu-standard`: 4cpus 15GB 50GB 1 Nvidia Tesla T4 (or similar) 16GB
+- `saas-macos-medium-m1`: 4cpus 8GB 50GB
+- `saas-macos-large-m2pro`: 6cpus 16GB 50GB
+- `saas-windows-medium-amd64`: 2cpus 7.5GB 75GB
+- `e2e-runner3`
+- `e2e-runner2`
+
+### Reading List
+
+- [runner advanced configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html)
+- [runner advanced configuration 译文](https://gitlab.cn/docs/runner/configuration/advanced-configuration.html)
+- [docker executor 配置项](https://docs.gitlab.com/runner/executors/docker.html)

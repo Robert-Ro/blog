@@ -24,6 +24,20 @@
 
 例如，您的流水线可以自动启动，但**需要手动操作才能部署到生产**。
 
-## Important
+### CI/CD configuration file
+
+指定 CI/CD 配置文件，默认是 `.gitlab-ci.yml`，也可以指定为其他文件，比如公共的 template 模板(专门创建一个项目用来存储 template 文件)
+
+### git 策略
+
+- `git clone`: 对于任何一个 job，都需要 clone 整个项目
+- `git fetch`: For each job, re-use the project workspace. If the workspace doesn't exist, use git clone. 如果工作区间不存在，就会使用 git clone，后创建工作区间，否则就会复用已有的工作区间，拉取增量代码
+
+## 难点
 
 - 流水线的创建条件 ✨✨✨
+- 如何调试高效的调试“创建流水线”
+
+## Real world example
+
+- [gitlab-runner](https://gitlab.com/gitlab-org/gitlab-runner/-/pipelines/1017591182) 多子流水线，多并行 job

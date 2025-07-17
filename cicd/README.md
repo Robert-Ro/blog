@@ -1,4 +1,4 @@
-# CICD
+# CI/CD
 
 ## 概念
 
@@ -24,4 +24,5 @@
 
 ## Resources
 
-- [sonar](https://github.com/SonarSource/sonarqube)
+- [sonarqube](https://github.com/SonarSource/sonarqube)，代码分析工具
+- 第三方的 CI/CD 平台
