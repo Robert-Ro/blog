@@ -7,8 +7,8 @@
 - 控制流水线的 job 的执行顺序
 - jog 的产物和依赖的缓存
 - 提高流水线的执行效率
-- [流水线总结](./piplines/pipline-summary.md)
-
+- [流水线总结](./pipelines/pipeline-summary.md)
+ 
 ## 落地实践
 
 - [x] 合并到特定分支(主分支)后自动构建部署

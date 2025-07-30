@@ -218,3 +218,24 @@ api-check:
     shm_size = 0
     network_mtu = 0
 ```
+
+### 跳过源码的拉取
+
+> 跳过拉取源码，提高流水线的执行效率
+
+```yml
+variables:
+  GIT_STRATEGY: none
+```
+
+### 授权访问其他的git项目
+```sh
+git config --global credential.helper 'store --file=/tmp/.git-credentials'
+echo "http://$GIT_USERNAME:$GIT_ACCESS_TOKEN@192.168.110.136:8090" > /tmp/.git-credentials
+```
+
+### 使用用户定义的全局gitlab的变量
+#### 动态生成Android打包密钥
+```sh
+echo "$ECAR_JKS_BASE64" | base64 -d > android/app/ecar.jks
+```
