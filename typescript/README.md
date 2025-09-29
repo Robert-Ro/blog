@@ -78,3 +78,6 @@ react type 汇总
 
 - https://www.totaltypescript.com/tips
 - https://www.totaltypescript.com/tutorials
+
+## Reading List
+- [tsconfig file](https://www.typescriptlang.org/tsconfig)
