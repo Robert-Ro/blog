@@ -38,8 +38,12 @@ location ^~ /index.html{
 
 浏览器发送第二次请求：
 
-- **强缓存策略**：**不需要和服务端通信就决定是否使用缓存**，`cache-control` 优先级大于 `expires` 1.有 `cache-control` 且不过期，返回本地磁盘缓存，状态值 `200`；2.有 `expires` 且不过期，返回本地磁盘缓存，状态值 `200`。
-- **协商缓存策略**：**需要和服务端通信决定是否用缓存**，`Etag` 优先级大于 `last-Modified`。1.有 `Etag`，请求头添加 `If-None-Match`，值就是上次返回的 `Etag` 值，然后发送给服务端。服务端对比 `If-None-Match` 与现有的 `Etag` 值是否一样；一样的话只返回 `header`，状态码 `304`，**浏览器从本地磁盘获取缓存信息**；不一样走正常流程，返回 `header`+`body`，状态码 `200`；2.有 `last-Modified`，添加请求头 `If-Modified-Since`，值是上次返回的 `last-Modified`，然后发送给服务端。服务端对比 `If-Modified-Since` 与现有的是否一样；一样的话返回只返回 `header`，状态码 `304`，浏览器从本地磁盘获取缓存信息；不一样走正常流程，返回 `header`+`body`，状态码 `200`
+- **强缓存策略**：**不需要和服务端通信就决定是否使用缓存**，`cache-control` 优先级大于 `expires` 
+    1. 有 `cache-control` 且不过期，返回本地磁盘缓存，状态值 `200`；
+    2. 有 `expires` 且不过期，返回本地磁盘缓存，状态值 `200`。
+- **协商缓存策略**：**需要和服务端通信决定是否用缓存**，`Etag` 优先级大于 `last-Modified`。
+    1. 有 `Etag`，请求头添加 `If-None-Match`，值就是上次返回的 `Etag` 值，然后发送给服务端。服务端对比 `If-None-Match` 与现有的 `Etag` 值是否一样；一样的话只返回 `header`，状态码 `304`，**浏览器从本地磁盘获取缓存信息**；不一样走正常流程，返回 `header`+`body`，状态码 `200`；
+    2. 有 `last-Modified`，添加请求头 `If-Modified-Since`，值是上次返回的 `last-Modified`，然后发送给服务端。服务端对比 `If-Modified-Since` 与现有的是否一样；一样的话返回只返回 `header`，状态码 `304`，浏览器从本地磁盘获取缓存信息；不一样走正常流程，返回 `header`+`body`，状态码 `200`
 - 无缓存
 
 ### 空间
@@ -62,3 +66,40 @@ location ^~ /index.html{
 - 先部署静态资源再部署页面，会出现没有缓存用户加载到新资源而报错
 
 这些问题的本质是以上的部署方式是`覆盖式发布`，解决方式是`非覆盖式发布`。即用静态资源的文件摘要信息给文件命名，这样每次更新资源不会覆盖原来的资源，先将资源发布上去。**这时候存在两种资源，用户用旧页面访问旧资源，然后再更新页面，用户变成新页面访问新资源，就能做到无缝切换**。简单来说就是给静态文件名加`hash`值。
+
+## cache-control
+
+### 指令集
+- `public`：所有内容都将被缓存（客户端和代理服务器都可缓存）
+- `private`：所有内容只有客户端可以缓存，代理服务器不能缓存
+- `no-cache`：客户端缓存内容，但是是否使用缓存需要经过协商缓存验证
+- `no-store`：所有内容都不会被缓存，即不使用强制缓存，也不使用协商缓存(✨完全禁止缓存任何内容)
+- `max-age=xxx`：缓存的内容将在 xxx 秒后失效
+- `must-revalidate`：缓存的内容一旦过期，必须重新请求服务器验证
+    - 服务器端返回304: 表示资源未修改，浏览器可以使用缓存的资源
+    - 服务器端返回200: 表示资源已修改，返回新的资源
+- `proxy-revalidate`：与 must-revalidate 相同，但是仅适用于代理服务器
+
+### 指令优先级
+- `Cache-Control` 指令的优先级高于 `Expires` 指令
+- `Cache-Control` 指令中的 `must-revalidate` 指令优先级高于 `max-age` 指令
+- `Cache-Control` 指令中的 `proxy-revalidate` 指令优先级高于 `must-revalidate` 指令
+
+## 缓存策略收集
+
+### vercel
+```
+cache-control: public, max-age=0, must-revalidate
+```
+### yuanbao
+```
+cache-control: max-age=60, public
+```
+### github
+```
+cache-control: max-age=0, private, must-revalidate
+```
+### news.163.com
+```
+cache-control: no-cache,no-store,private
+```
