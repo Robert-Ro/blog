@@ -1,8 +1,10 @@
-## 强缓存，协商缓存，不缓存
+# 浏览器缓存
 
-- 强缓存：用户第一次访问后，浏览器将一些数据和资源缓存在浏览器里，在**过期时间内**，都不会请求服务器，都是会从缓存里拿资源；控制强缓存的字段分别是 `Expires` 和 `Cache-Control`，其中 `Cache-Control` 比 `Expires` 的优先级高的多，`200` `from memory cache` 和 `200` `from disk cache` 属于强制缓存；
-- 协商缓存：协商缓存就是浏览器和服务器通信的结果，第一次请求从服务器返回资源，并且返回一个缓存标识，一起存在浏览器的数据库里；在之后的请求资源中，浏览器先将缓存标识发给服务器，服务器拿到标识判断是否匹配，如果匹配到了，表示没有更新，返回 `304`，浏览器就返回缓存中的数据，如果没有匹配到，服务器就将新的标识和资源一起返回到浏览器中；与协商缓存的字段是 `Last-Modified`/`IF-Modified-Since`、`Etag`/`IF-None-Match`；
-- 不缓存：即每次请求都到服务器中请求，也就是每次都能拿到最新的资源。
+## 缓存类型
+
+- **强缓存**：用户第一次访问后，浏览器将一些数据和资源缓存在浏览器里，在**过期时间内**，都不会请求服务器，都是会从缓存里拿资源；控制强缓存的字段分别是 `Expires` 和 `Cache-Control`，其中 `Cache-Control` 比 `Expires` 的优先级高的多，`200` `from memory cache` 和 `200` `from disk cache` 属于强制缓存；
+- **协商缓存**：协商缓存就是浏览器和服务器通信的结果，第一次请求从服务器返回资源，并且返回一个缓存标识，一起存在浏览器的数据库里；在之后的请求资源中，浏览器先将缓存标识发给服务器，服务器拿到标识判断是否匹配，如果匹配到了，表示没有更新，返回 `304`，浏览器就返回缓存中的数据，如果没有匹配到，服务器就将新的标识和资源一起返回到浏览器中；与协商缓存的字段是 `Last-Modified`/`IF-Modified-Since`、`Etag`/`IF-None-Match`；
+- **不缓存**：即每次请求都到服务器中请求，也就是每次都能拿到最新的资源。
 
 用户行为对缓存的影响：
 
@@ -15,16 +17,8 @@
 | F5 刷新      | 无效                  | 有效               |
 | CTRL+F5 刷新 | 无效                  | 无效               |
 
-缓存的策略
-仅对 index.html 设置缓存策略
 
-```conf
-location ^~ /index.html{
-   add_header Cache-Control "private, must-revalidate, no-cache, no-store, max-age=0";
-}
-```
-
-## 浏览器缓存策略
+## 浏览器缓存相关术语
 
 在了解浏览器缓存前，我们需要先了解一下相关的概念：`cache-control`，`expires`，`last-Modified`，`ETag`。
 
@@ -52,6 +46,8 @@ location ^~ /index.html{
 - html 和静态资源：**通常 html 不设置缓存，因为其它资源的入口都是 html 文件**；**静态资源（`js`，`css`，图片等）会设置缓存**
 
 ### 部署时缓存的问题
+> 推荐使用**非覆盖式发布**, 适配场景：非docker部署的场景。使用资源路径添加版本号的处理方式。存在资源逐渐增大的问题。
+> 使用容器化覆盖式发布方式，需要处理chunk包的缓存问题。监听捕获`chunk`包的404返回错误，提示用户刷新页面✨✨✨。
 
 在实际应用有个严重的问题，**我们不仅要缓存代码，还需要更新代码**。如果静态资源名字不变，怎么让浏览器即能缓存又能在有新代码时更新。**最简单的解决方式就是静态资源路径添加一个版本值，版本不变就走缓存策略，版本变了就加载新资源**。如下：
 
@@ -70,12 +66,12 @@ location ^~ /index.html{
 ## cache-control
 
 ### 指令集
-- `public`：所有内容都将被缓存（客户端和代理服务器都可缓存）
-- `private`：所有内容只有客户端可以缓存，代理服务器不能缓存
+- `public`：所有内容都将被缓存(客户端和代理服务器都可缓存)(谁能存✨)
+- `private`：所有内容只有客户端可以缓存，代理服务器不能缓存(谁能存✨)
 - `no-cache`：客户端缓存内容，但是是否使用缓存需要经过协商缓存验证
 - `no-store`：所有内容都不会被缓存，即不使用强制缓存，也不使用协商缓存(✨完全禁止缓存任何内容)
-- `max-age=xxx`：缓存的内容将在 xxx 秒后失效
-- `must-revalidate`：缓存的内容一旦过期，必须重新请求服务器验证
+- `max-age=xxx`：缓存的内容将在 xxx 秒后失效 (✨存多久)
+- `must-revalidate`：缓存的内容一旦过期，必须重新请求服务器验证(✨"过期后怎么办"(强制回源 vs 可能用旧))
     - 服务器端返回304: 表示资源未修改，浏览器可以使用缓存的资源
     - 服务器端返回200: 表示资源已修改，返回新的资源
 - `proxy-revalidate`：与 must-revalidate 相同，但是仅适用于代理服务器
@@ -101,5 +97,25 @@ cache-control: max-age=0, private, must-revalidate
 ```
 ### news.163.com
 ```
-cache-control: no-cache,no-store,private
+cache-control: no-cache, no-store, private
+```
+### self
+```
+cache-control: private, must-revalidate, no-cache, no-store, max-age=0  ---> no-store
+```
+
+### 最佳实践
+```conf
+location ~* (js|css|png|jpg|jpeg|gif|svg)$ {
+    # 长期缓存 + 不可变声明
+    expires 1y;
+    add_header Cache-Control "public, immutable";
+}
+location = /index.html {
+    # 绝对禁止缓存
+    add_header Cache-Control "no-cache, private, max-age=0, must-revalidate";
+    # 适配旧版浏览器
+    add_header Pragma "no-cache";
+    add_header Expires "0";
+}
 ```

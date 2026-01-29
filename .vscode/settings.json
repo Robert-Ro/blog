@@ -1,5 +1,6 @@
 {
   "i18n-ally.localesPaths": [],
   "workbench.experimental.editor.dragAndDropIntoEditor.enabled": true,
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "markdown.validate.enabled": false
 }
