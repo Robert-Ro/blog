@@ -72,6 +72,10 @@ make
     # Ulimit values that are passed to the container. Uses the same syntax as the Docker --ulimit flag.
     ulimit=""
     container_labels=""
+    # Network mode for the container. Defaults to "bridge".
+    # 可选值："bridge"、"host"、"none"、"overlay"、"vlan"、"macvlan"、"macvtap"
+    # 详细信息：https://docs.docker.com/network/
+    network_mode="host" 
 
 ```
 
